@@ -1,0 +1,25 @@
+-lib munit
+-lib seedyrng
+-cp src
+--macro include('', true, null, ['src'])
+
+--each
+
+## JS
+# DEFINES / MACROS
+-D dce=no
+-D js-es=6
+
+# OUTPUT 
+-js dist/js/index.js 
+
+--next
+## C#
+# DEFINES / MACROS
+-D dce=no
+-D dll_import
+-D no-root
+-D dll
+
+# OUTPUT 
+-cs dist/cs/rules_engine
