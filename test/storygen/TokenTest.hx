@@ -50,7 +50,7 @@ class TokenTest {
 	public function should_not_store_key_for_memory_when_has_no_colon() {
 		var token = new Token("#test#");
 
-		Assert.areEqual(null, token.memSymbol);
+		Assert.isNull(token.memSymbol);
 	}
 
 	@Test function should_store_symbol_when_valid() {
@@ -62,7 +62,7 @@ class TokenTest {
 	@Test function should_not_store_symbol_when_invalid() {
 		var token = new Token("test");
 
-		Assert.areEqual(null, token.symbol);
+		Assert.isNull(token.symbol);
 	}
 
 	@Test function should_be_transformed_when_period_present() {

@@ -4,6 +4,8 @@
   "description": "",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/storygen",
+  "main": "dist/js/index.js",
+  "files": ["dist/js/index.js"],
   "license": "MIT",
   "devDependencies": {
     "husky": "^0.14.3",

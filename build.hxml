@@ -9,17 +9,18 @@
 # DEFINES / MACROS
 -D dce=no
 -D js-es=6
+-D source-map-content
 
 # OUTPUT 
 -js dist/js/index.js 
 
---next
+# --next
 ## C#
 # DEFINES / MACROS
--D dce=no
--D dll_import
--D no-root
--D dll
+# -D dce=no
+# -D dll_import
+# -D no-root
+# -D dll
 
 # OUTPUT 
--cs dist/cs/rules_engine
+# -cs dist/cs/rules_engine

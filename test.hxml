@@ -1,12 +1,3 @@
--main TestMain
--lib munit
--lib hamcrest
--lib seedyrng
-
--cp src
--cp test
-
---each
 ## Flash 9+
 # -swf-version 11
 # -swf build/as3_test.swf
@@ -29,8 +20,19 @@
 # -java build/java_test
 
 # CSharp
-# --next
+-main TestMain
+-lib munit
+-lib hamcrest
+-lib seedyrng
+
+-cp src
+-cp test
+
+-D dce=no
+-D dll_import
+-D no-root
 -cs build/cs_test
+--next
 
 # ## Python
 # --next
@@ -41,10 +43,18 @@
 # -D php7
 # -php build/php_test
 
-# ## JavaScript NodeJS
-# --next
-# -lib hxnodejs
-# -js build/js_test.js
+## JavaScript NodeJS
+-main TestMain
+-lib munit
+-lib hamcrest
+-lib seedyrng
+
+-cp src
+-cp test
+
+-lib hxnodejs
+-js build/js_test.js
+--next
 
 # ## HashLink
 # --next

@@ -1,21 +1,46 @@
 package dropecho.storygen;
 
+import haxe.DynamicAccess;
+import haxe.Json;
 import seedyrng.Random;
 
-typedef GeneratorConfig = {
-	var grammars:Map<String, Array<String>>;
+abstract AbsMap<T>(Map<String, T>) from Map<String, T> {
+	public function new(s:Map<String, T>) {
+		this = s;
+	}
+
+	@:from
+	public static function fromDynamic(d:Dynamic) {
+		var map = [for (f in Reflect.fields(d)) f => Reflect.field(d, f)];
+		return new AbsMap(map);
+	}
+
+	@:to
+	public function toMap() {
+		return this;
+	}
+
+	public function isMap():Bool {
+		var type = Type.getClass(this);
+		return type != null && Type.getClassName(type) == "haxe.ds.StringMap";
+	}
 }
 
+@:expose("Generator")
 class Generator {
-	public var config:GeneratorConfig;
+	public var grammars:Map<String, Array<String>>;
 	public var matcher:EReg;
 	public var random:Random;
 	public var memory:Map<String, String>;
 	public var cache:Map<String, String>;
 	public var key:String;
 
-	public function new(config:GeneratorConfig) {
-		this.config = config;
+	public function new(grammars:AbsMap<Array<String>>) {
+		// #if js
+		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
+		// #else
+		// this.grammars = grammars;
+		// #end
 		this.matcher = ~/(#[^#]*#)/;
 		this.random = new Random();
 		this.memory = new Map<String, String>();
@@ -23,28 +48,29 @@ class Generator {
 	}
 
 	public static function configFromJson(json:String) {
-		var parsed = haxe.Json.parse(json);
-		var config = {
-			grammars: [for (field in Reflect.fields(parsed)) field => Reflect.field(parsed, field)]
-		};
+		var json:DynamicAccess<Array<String>> = Json.parse(json);
+		return [for (f in Reflect.fields(json)) f => Reflect.field(json, f)];
+	}
 
-		return config;
+	private inline function inMemory(symbol) {
+		return this.memory.exists(symbol);
 	}
 
 	private function expand(token:Token):String {
-		if (token.isMemorized || memory.exists(token.symbol)) {
+		if (token.isMemorized || inMemory(token.symbol)) {
 			var sym = token.memSymbol != null ? token.memSymbol : token.symbol;
-			if (memory.exists(sym)) {
-				return memory.get(sym);
+			if (inMemory(sym)) {
+				return this.memory.get(sym);
 			}
 		}
 
 		var s = token.symbol;
-		if (config.grammars[s] == null) {
+		var grammar = grammars[s];
+		if (grammar == null) {
 			throw 'No symbol $s exists in your grammar.';
 		}
-		var pos = this.random.randomInt(0, config.grammars[s].length - 1);
-		var expanded = config.grammars[s][pos];
+		var pos = this.random.randomInt(0, grammar.length - 1);
+		var expanded = grammar[pos];
 
 		return expanded;
 	}
@@ -66,7 +92,7 @@ class Generator {
 
 			// Store in memory here so transforms are preserved.
 			if (token.isMemorized) {
-				memory.set(token.memSymbol, expanded);
+				this.memory.set(token.memSymbol, expanded);
 			}
 
 			string = matcher.replace(string, expanded);

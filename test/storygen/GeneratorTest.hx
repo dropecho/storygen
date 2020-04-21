@@ -2,21 +2,18 @@ package storygen;
 
 import massive.munit.Assert;
 import dropecho.storygen.*;
-import dropecho.storygen.Generator.GeneratorConfig;
 
 class GeneratorTest {
 	var generator:Generator;
 
 	@Before
 	public function setup() {
-		var config = {
-			grammars: [
-				"test" => ['a'],
-				"bar" => ['#test# bar'],
-				"foo" => ['#bar#'],
-				"baz" => ['#bar# #bar#']
-			]
-		};
+		var config = [
+			"test" => ['a'],
+			"bar" => ['#test# bar'],
+			"foo" => ['#bar#'],
+			"baz" => ['#bar# #bar#']
+		];
 		generator = new Generator(config);
 	}
 
@@ -24,6 +21,16 @@ class GeneratorTest {
 	public function canInstantiate() {
 		Assert.isNotNull(generator);
 	}
+
+  @Test
+  public function runDynamicConfig() {
+    var config:Dynamic = {test: ["a"]};
+    var gen = new Generator(config);
+    var out = gen.run("test", "#test#");
+    var expected = "a";
+
+    Assert.areEqual(expected, out);
+  }
 
 	@Test
 	public function run() {
@@ -59,12 +66,10 @@ class GeneratorTest {
 
 	@Test
 	public function memory() {
-		var config:GeneratorConfig = {
-			grammars: [
-				"sentence" => ["#n:name# #n:name# #n:name# #n#"],
-				"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
-			]
-		};
+		var config = [
+			"sentence" => ["#n:name# #n:name# #n:name# #n#"],
+			"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
+		];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#sentence#");
@@ -76,12 +81,10 @@ class GeneratorTest {
 
 	@Test
 	public function memory_with_transforms() {
-		var config:GeneratorConfig = {
-			grammars: [
-				"sentence" => ["#n:name.capitalize# #n:name.capitalize# #n:name.capitalize# #n#"],
-				"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
-			]
-		};
+		var config = [
+			"sentence" => ["#n:name.capitalize# #n:name.capitalize# #n:name.capitalize# #n#"],
+			"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
+		];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#sentence#");
@@ -92,9 +95,7 @@ class GeneratorTest {
 	}
 
 	@Test public function transforms() {
-		var config:GeneratorConfig = {
-			grammars: ["name" => ["bird"]]
-		};
+		var config = ["name" => ["bird"]];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#name.a#");
@@ -104,9 +105,7 @@ class GeneratorTest {
 	}
 
 	@Test public function multiple_transforms() {
-		var config:GeneratorConfig = {
-			grammars: ["name" => ["bird"]]
-		};
+		var config = ["name" => ["bird"]];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#name.capitalize.a#");
@@ -116,9 +115,7 @@ class GeneratorTest {
 	}
 
 	@Test public function multiple_transforms_other_order() {
-		var config:GeneratorConfig = {
-			grammars: ["name" => ["bird"]]
-		};
+		var config = ["name" => ["bird"]];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#name.a.capitalize#");
@@ -128,15 +125,28 @@ class GeneratorTest {
 	}
 
 	@Test public function multiple_transforms_other_transform() {
-		var config:GeneratorConfig = {
-			grammars: ["name" => ["bird"]]
-		};
+		var config = ["name" => ["bird"]];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#name.capitalize.a.capitalize#");
 		var expected = "A Bird";
 
 		Assert.areEqual(expected, generated);
+	}
+
+	@Test
+	public function jsonParse() {
+		var json = '
+		  {
+			"sentence": ["a"]
+		  }
+		';
+
+		var config = Generator.configFromJson(json);
+		var gen = new Generator(config);
+		var out = gen.run("test", "#sentence#");
+
+		Assert.areEqual("a", out);
 	}
 
 	// @Test
@@ -170,21 +180,6 @@ class GeneratorTest {
 			var out = generator.run("test", "#sentence#");
 
 			trace("TEST", out);
-		}
-
-		@Test
-		public function jsonParse() {
-			var json = '
-		  {
-			"sentence": ["a", "b", "c"]
-		  }
-		';
-
-			var config = Generator.configFromJson(json);
-			var gen = new Generator(config);
-			var out = gen.run("test", "#sentence#");
-
-			trace("json", out);
 		}
 
 		@Test
