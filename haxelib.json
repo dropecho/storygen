@@ -4,8 +4,11 @@
 	"license": "MIT",
 	"tags": ["text", "game", "story"],
 	"description": "A grammar based text expansion, based on tracery.",
-	"version": "0.0.1",
-	"classPath":"src",
+	"version": "0.0.3",
+	"classPath":"src/",
 	"releasenote": "Initial release",
-	"contributors": ["vantreeseba"]
+	"contributors": ["vantreeseba"],
+  "dependencies": {
+    "seedyrng": ""
+  }
 }
