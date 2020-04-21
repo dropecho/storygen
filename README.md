@@ -15,6 +15,9 @@ var gen = new Generator(grammar);
 var output = gen.run('test', '#origin#');
 
 console.log(output);
+
+// outputs something like 'Bob loves apples'
+
 ```
 
 ### Transforms (symbol.transform)
@@ -46,6 +49,8 @@ class Main {
     var gen = new Generator(grammar);
     var output = gen.run("test", "#origin#");
     trace(output);
+    
+    // outputs something like 'Bob loves apples'
   }
 }
 
