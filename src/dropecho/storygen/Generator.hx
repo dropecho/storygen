@@ -36,11 +36,7 @@ class Generator {
 	public var key:String;
 
 	public function new(grammars:AbsMap<Array<String>>) {
-		// #if js
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
-		// #else
-		// this.grammars = grammars;
-		// #end
 		this.matcher = ~/(#[^#]*#)/;
 		this.random = new Random();
 		this.memory = new Map<String, String>();
