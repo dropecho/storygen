@@ -1,5 +1,12 @@
+## <small>0.0.3 (2020-04-21)</small>
+
+* FIX: removed extra internal trace/log. ([8d78419](https://github.com/dropecho/storygen/commit/8d78419))
+
+
+
 ## <small>0.0.2 (2020-04-21)</small>
 
+* 0.0.2 ([ac7bc62](https://github.com/dropecho/storygen/commit/ac7bc62))
 * CHORE: Add changelog. ([9ab2002](https://github.com/dropecho/storygen/commit/9ab2002))
 * CHORE: Add haxelib.json ([d2da41c](https://github.com/dropecho/storygen/commit/d2da41c))
 * CHORE: Initial commit ([c8bfd94](https://github.com/dropecho/storygen/commit/c8bfd94))
