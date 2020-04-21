@@ -30,4 +30,12 @@ class TransformsTest {
 		var out = Transforms.a(s);
 		Assert.areEqual(expected, out);
 	}
+
+	@Test
+	public function pluralize() {
+		Assert.areEqual("owls", Transforms.pluralize("owl"));
+		Assert.areEqual("birds", Transforms.pluralize("bird"));
+		Assert.areEqual("batches", Transforms.pluralize("batch"));
+		Assert.areEqual("glories", Transforms.pluralize("glory"));
+	}
 }
