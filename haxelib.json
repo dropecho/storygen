@@ -1,0 +1,11 @@
+{
+	"name": "dropecho.storygen",
+	"url" : "https://dropecho.github.io/storygen/",
+	"license": "MIT",
+	"tags": ["text", "game", "story"],
+	"description": "A grammar based text expansion, based on tracery.",
+	"version": "0.0.1",
+	"classPath":"src",
+	"releasenote": "Initial release",
+	"contributors": ["vantreeseba"]
+}
