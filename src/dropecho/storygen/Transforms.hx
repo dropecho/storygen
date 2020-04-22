@@ -1,5 +1,6 @@
 package dropecho.storygen;
 
+@:expose("Transforms")
 class Transforms {
 	static private var userTransforms:Map<String, (String -> String)> = [];
 

@@ -1,5 +1,6 @@
 package dropecho.storygen;
 
+@:expose("Functions")
 class Functions {
 	static private var funcs:Map<String, Dynamic> = [
 		"random" => (gen:Generator, args:Array<String>) -> {

@@ -1,6 +1,13 @@
+## <small>0.2.2 (2020-04-22)</small>
+
+
+
+
 ## <small>0.2.1 (2020-04-22)</small>
 
+* Release 0.2.1 ([9e32899](https://github.com/dropecho/storygen/commit/9e32899))
 * Update Readme ([fe9e163](https://github.com/dropecho/storygen/commit/fe9e163))
+* version ([45326eb](https://github.com/dropecho/storygen/commit/45326eb))
 * version ([4c24786](https://github.com/dropecho/storygen/commit/4c24786))
 * FEAT: Add ability for user to add functions or transforms. ([b362a36](https://github.com/dropecho/storygen/commit/b362a36))
 
