@@ -1,5 +1,6 @@
 package dropecho.storygen;
 
+import haxe.Constraints.Function;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
@@ -61,6 +62,19 @@ class Generator {
 		}
 
 		var s = token.symbol;
+
+		if (token.isFunction) {
+			var field = null;
+			if ((field = Reflect.field(Functions, token.symbol)) != null) {
+				var args:Array<Dynamic> = new Array<Dynamic>();
+				args.push(this);
+				args = args.concat(token.functionArgs);
+				return Reflect.callMethod(Functions, field, args);
+			} else {
+        throw 'No function $s exists on the function object.';
+      }
+		}
+
 		var grammar = grammars[s];
 		if (grammar == null) {
 			throw 'No symbol $s exists in your grammar.';

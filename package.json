@@ -10,14 +10,12 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "husky": "^0.14.3",
     "npm-watch": "^0.3.0"
   },
   "scripts": {
     "test": "haxelib run munit t",
     "build": "haxe build.hxml",
     "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
-    "precommit": "npm run test",
     "version": "npm run build-changelog && git add CHANGELOG.md",
     "postversion": "git push && git push --tags"
   }

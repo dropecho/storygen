@@ -89,4 +89,22 @@ class TokenTest {
 
 		Assert.isFalse(token.transforms.length > 0);
   }
+
+  @Test function should_be_marked_action_function_when_wrapped_in_parens() {
+		var token = new Token("#(random, 5, 10)#");
+
+		Assert.isTrue(token.isFunction);
+		Assert.areEqual("random", token.symbol);
+		Assert.areEqual("5", token.functionArgs[0]);
+		Assert.areEqual("10", token.functionArgs[1]);
+  }
+
+  @Test function should_not_be_marked_as_function_when_no_parens() {
+		var token = new Token("#random#");
+
+		Assert.isFalse(token.isFunction);
+		Assert.areEqual("random", token.symbol);
+		Assert.areEqual(0, token.functionArgs.length);
+  }
+
 }

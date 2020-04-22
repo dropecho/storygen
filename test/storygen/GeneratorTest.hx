@@ -134,6 +134,18 @@ class GeneratorTest {
 		Assert.areEqual(expected, generated);
 	}
 
+	@Test public function function_call() {
+		var config = ["rand" => ["#(random, 0, 0)#"]];
+
+		generator = new Generator(config);
+		var generated = generator.run("test", "#rand#");
+		var expected = "0";
+
+		Assert.areEqual(expected, generated);
+	}
+
+
+
 	@Test
 	public function jsonParse() {
 		var json = '
