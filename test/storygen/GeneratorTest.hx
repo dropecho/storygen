@@ -160,6 +160,9 @@ class GeneratorTest {
 	}
 
 	@Test public function basically_everything() {
+		Functions.set("test", (gen:Generator, args:Array<String>) -> {
+			return "test";
+		});
 		var config = ["test" => ["[#t:test().capitalize.a#]#t#"]];
 
 		generator = new Generator(config);

@@ -37,7 +37,7 @@ class Generator {
 
 	public function new(grammars:AbsMap<Array<String>>) {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
-    this.matcher = ~/(\[?#.*?#\]?)/;
+		this.matcher = ~/(\[?#.*?#\]?)/;
 		this.random = new Random();
 		this.memory = new Map<String, String>();
 		this.cache = new Map<String, String>();
@@ -63,14 +63,9 @@ class Generator {
 		var s = token.symbol;
 
 		if (token.isFunction) {
-			var field = null;
-			if ((field = Reflect.field(Functions, token.symbol)) != null) {
-				var args:Array<Dynamic> = new Array<Dynamic>();
-				args.push(this);
-        if(token.functionArgs.length > 0) {
-          args = args.concat(token.functionArgs);
-        }
-				return Reflect.callMethod(Functions, field, args);
+			var func = Functions.get(token.symbol);
+			if (func != null) {
+				return func(this, token.functionArgs);
 			} else {
 				throw 'No function $s exists on the function object.';
 			}
@@ -82,7 +77,6 @@ class Generator {
 		}
 		var pos = this.random.randomInt(0, grammar.length - 1);
 		var expanded = grammar[pos];
-
 		return expanded;
 	}
 
@@ -96,7 +90,7 @@ class Generator {
 
 			if (token.isTransformed) {
 				for (transform in token.transforms) {
-					expanded = Reflect.field(Transforms, transform)(expanded);
+					expanded = Transforms.get(transform)(expanded);
 				}
 			}
 

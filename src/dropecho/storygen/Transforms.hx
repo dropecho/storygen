@@ -1,6 +1,8 @@
 package dropecho.storygen;
 
 class Transforms {
+	static private var userTransforms:Map<String, (String -> String)> = [];
+
 	static public function isVowel(s:String):Bool {
 		var vowels = 'aeiou';
 		return vowels.indexOf(s.charAt(0)) != -1;
@@ -30,5 +32,16 @@ class Transforms {
 		};
 
 		return '$s$end';
+	}
+
+	static public function get(name:String):String->String {
+		if (userTransforms.exists(name)) {
+			return userTransforms.get(name);
+		}
+		return Reflect.field(Transforms, name);
+	}
+
+	static public function set(name:String, trans:String->String) {
+		userTransforms.set(name, trans);
 	}
 }

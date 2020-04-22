@@ -7,16 +7,16 @@
 # -js build/js_test.js
 
 ## Neko
-# -main TestMain
-# -lib munit
-# -lib hamcrest
-# -lib seedyrng
-#
-# -cp src
-# -cp test
-#
-# -neko build/neko_test.n
-# --next
+-main TestMain
+-lib munit
+-lib hamcrest
+-lib seedyrng
+
+-cp src
+-cp test
+
+-neko build/neko_test.n
+--next
 
 ## CPP
 # --next

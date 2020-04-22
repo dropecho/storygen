@@ -23,6 +23,15 @@ class TransformsTest {
 	}
 
 	@Test
+	public function a_const_by_name() {
+		var s = "bird";
+		var expected = "a bird";
+
+		var out = Transforms.get("a")(s);
+		Assert.areEqual(expected, out);
+	}
+
+	@Test
 	public function a_vowel() {
 		var s = "owl";
 		var expected = "an owl";
