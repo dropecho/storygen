@@ -1,5 +1,13 @@
+## 0.2.0 (2020-04-22)
+
+* FEAT: Add ability for user to add functions or transforms. ([b362a36](https://github.com/dropecho/storygen/commit/b362a36))
+
+
+
 ## 0.1.0 (2020-04-22)
 
+* Release 0.1.0 ([d330b0e](https://github.com/dropecho/storygen/commit/d330b0e))
+* version ([de025ec](https://github.com/dropecho/storygen/commit/de025ec))
 * FEAT: Add ability to call functions. ([ba78d38](https://github.com/dropecho/storygen/commit/ba78d38))
 * FEAT: Add silent actions, and add random function. ([8dc7ae8](https://github.com/dropecho/storygen/commit/8dc7ae8))
 
