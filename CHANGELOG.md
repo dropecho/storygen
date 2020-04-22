@@ -1,5 +1,21 @@
+## 0.1.0 (2020-04-22)
+
+* FEAT: Add ability to call functions. ([ba78d38](https://github.com/dropecho/storygen/commit/ba78d38))
+* FEAT: Add silent actions, and add random function. ([8dc7ae8](https://github.com/dropecho/storygen/commit/8dc7ae8))
+
+
+
 ## <small>0.0.3 (2020-04-21)</small>
 
+* Bump haxelib version ([5b49c22](https://github.com/dropecho/storygen/commit/5b49c22))
+* Release 0.0.3 ([1ac4939](https://github.com/dropecho/storygen/commit/1ac4939))
+* Update README.md ([44da839](https://github.com/dropecho/storygen/commit/44da839))
+
+
+
+## <small>0.0.3 (2020-04-21)</small>
+
+* 0.0.3 ([d368a79](https://github.com/dropecho/storygen/commit/d368a79))
 * FIX: removed extra internal trace/log. ([8d78419](https://github.com/dropecho/storygen/commit/8d78419))
 
 
