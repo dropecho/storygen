@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.1",
-	"releasenote": "FEAT: Add ability for user to add functions or transforms.",
+	"version": "0.2.3",
+	"releasenote": "Expose non exposed static classes for extension.",
 	"tags": [
 		"text",
 		"game",
