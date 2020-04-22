@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.0.3",
-	"releasenote": "Initial release.",
+	"version": "0.1.0",
+	"releasenote": "FEAT: Add silent actions, and add random function.",
 	"tags": [
 		"text",
 		"game",
