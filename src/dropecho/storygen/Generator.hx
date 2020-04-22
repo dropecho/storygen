@@ -1,6 +1,5 @@
 package dropecho.storygen;
 
-import haxe.Constraints.Function;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
@@ -38,7 +37,7 @@ class Generator {
 
 	public function new(grammars:AbsMap<Array<String>>) {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
-		this.matcher = ~/(#[^#]*#)/;
+    this.matcher = ~/(\[?#.*?#\]?)/;
 		this.random = new Random();
 		this.memory = new Map<String, String>();
 		this.cache = new Map<String, String>();
@@ -68,11 +67,13 @@ class Generator {
 			if ((field = Reflect.field(Functions, token.symbol)) != null) {
 				var args:Array<Dynamic> = new Array<Dynamic>();
 				args.push(this);
-				args = args.concat(token.functionArgs);
+        if(token.functionArgs.length > 0) {
+          args = args.concat(token.functionArgs);
+        }
 				return Reflect.callMethod(Functions, field, args);
 			} else {
-        throw 'No function $s exists on the function object.';
-      }
+				throw 'No function $s exists on the function object.';
+			}
 		}
 
 		var grammar = grammars[s];
@@ -88,10 +89,9 @@ class Generator {
 	private function parse(string:String):String {
 		while (matcher.match(string)) {
 			var token = new Token(matcher.matched(1));
-			if (!token.isValid) {
+			if (!token.isValid || token.isSilent) {
 				string = matcher.replace(string, "");
 			}
-
 			var expanded = expand(token);
 
 			if (token.isTransformed) {

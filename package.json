@@ -9,14 +9,13 @@
     "dist/js/index.js"
   ],
   "license": "MIT",
-  "devDependencies": {
-    "npm-watch": "^0.3.0"
-  },
   "scripts": {
-    "test": "haxelib run munit t",
     "build": "haxe build.hxml",
+    "test": "haxelib run munit t",
     "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
-    "version": "npm run build-changelog && git add CHANGELOG.md",
-    "postversion": "git push && git push --tags"
+    "bump": "npm version --no-git-tag-version",
+    "haxe:submit": "haxelib run submit",
+    "version": "npm run build-changelog",
+    "postversion": "git add . && git commit -m 'version' && npm run haxe:submit && npm publish"
   }
 }

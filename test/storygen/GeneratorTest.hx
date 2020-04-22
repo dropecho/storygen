@@ -22,15 +22,15 @@ class GeneratorTest {
 		Assert.isNotNull(generator);
 	}
 
-  @Test
-  public function runDynamicConfig() {
-    var config:Dynamic = {test: ["a"]};
-    var gen = new Generator(config);
-    var out = gen.run("test", "#test#");
-    var expected = "a";
+	@Test
+	public function runDynamicConfig() {
+		var config:Dynamic = {test: ["a"]};
+		var gen = new Generator(config);
+		var out = gen.run("test", "#test#");
+		var expected = "a";
 
-    Assert.areEqual(expected, out);
-  }
+		Assert.areEqual(expected, out);
+	}
 
 	@Test
 	public function run() {
@@ -75,6 +75,21 @@ class GeneratorTest {
 		var generated = generator.run("test", "#sentence#");
 		var name = generated.split(" ")[0];
 		var expected = name + " " + name + " " + name + " " + name;
+
+		Assert.areEqual(expected, generated);
+	}
+
+	@Test
+	public function memory_with_silent_action() {
+		var config = [
+			"sentence" => ["[#n:name#]#n# #n#"],
+			"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
+		];
+
+		generator = new Generator(config);
+		var generated = generator.run("test", "#sentence#");
+		var name = generated.split(" ")[0];
+		var expected = name + " " + name;
 
 		Assert.areEqual(expected, generated);
 	}
@@ -135,7 +150,7 @@ class GeneratorTest {
 	}
 
 	@Test public function function_call() {
-		var config = ["rand" => ["#(random, 0, 0)#"]];
+		var config = ["rand" => ["#random( 0, 0)#"]];
 
 		generator = new Generator(config);
 		var generated = generator.run("test", "#rand#");
@@ -144,15 +159,23 @@ class GeneratorTest {
 		Assert.areEqual(expected, generated);
 	}
 
+	@Test public function basically_everything() {
+		var config = ["test" => ["[#t:test().capitalize.a#]#t#"]];
 
+		generator = new Generator(config);
+		var generated = generator.run("test", "#test#");
+		var expected = "a Test";
+
+		Assert.areEqual(expected, generated);
+	}
 
 	@Test
 	public function jsonParse() {
 		var json = '
-		  {
-			"sentence": ["a"]
-		  }
-		';
+      {
+      "sentence": ["a"]
+      }
+    ';
 
 		var config = Generator.configFromJson(json);
 		var gen = new Generator(config);
@@ -161,18 +184,16 @@ class GeneratorTest {
 		Assert.areEqual("a", out);
 	}
 
-	// @Test
-	// public function transform() {
-	//   var config = {
-	//     grammars: ["sentence" => ["#name.capitalize#"], "name" => ["lina"]]
-	//   };
-	//
-	//   generator = new Generator(config);
-	//   var generated = generator.run("test", "#sentence#");
-	//   var expected = "Lina";
-	//
-	//   Assert.areEqual(expected, generated);
-	// }
+	@Test
+	public function transform() {
+		var config = ["sentence" => ["#name.capitalize#"], "name" => ["lina"]];
+
+		generator = new Generator(config);
+		var generated = generator.run("test", "#sentence#");
+		var expected = "Lina";
+
+		Assert.areEqual(expected, generated);
+	}
 	/*
 		@Test
 		public function moreComplicatedGrammar() {

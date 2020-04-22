@@ -28,9 +28,8 @@ class TestMain
 
 		var runner:TestRunner = new TestRunner(client);
 		runner.addResultClient(httpClient);
-		//runner.addResultClient(new HTTPClient(new JUnitReportClient()));
 
-		runner.completionHandler = completionHandler;
+		// runner.completionHandler = completionHandler;
 
 		#if (js && !nodejs)
 		var seconds = 0; // edit here to add some startup delay
@@ -63,10 +62,10 @@ class TestMain
 		{
 			#if flash
 				flash.external.ExternalInterface.call("testResult", successful);
-			#elseif js
+      #elseif (js && !nodejs)
 				js.Lib.eval("testResult(" + successful + ");");
-			#elseif (neko || cpp || java || cs || python || php || hl || eval)
-				Sys.exit(0);
+			#elseif (neko || cpp || java || cs || python || php || hl || eval || nodejs)
+        Sys.exit(0);
 			#end
 		}
 		// if run from outside browser can get error which we can ignore
