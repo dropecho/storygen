@@ -1,5 +1,6 @@
-## <small>0.2.2 (2020-04-22)</small>
+## <small>0.2.3 (2020-04-22)</small>
 
+* version ([4ed1fe0](https://github.com/dropecho/storygen/commit/4ed1fe0))
 
 
 
