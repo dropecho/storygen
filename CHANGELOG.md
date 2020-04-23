@@ -1,5 +1,13 @@
+## <small>0.2.4 (2020-04-23)</small>
+
+* FEAT: Add more safety / null checks. ([2f837de](https://github.com/dropecho/storygen/commit/2f837de))
+
+
+
 ## <small>0.2.3 (2020-04-22)</small>
 
+* Release 0.2.3 ([1e406ff](https://github.com/dropecho/storygen/commit/1e406ff))
+* version ([ea5c6d3](https://github.com/dropecho/storygen/commit/ea5c6d3))
 * version ([4ed1fe0](https://github.com/dropecho/storygen/commit/4ed1fe0))
 
 
