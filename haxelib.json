@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.5",
-	"releasenote": "FIX: issue with new js dist not being generated",
+	"version": "0.2.6",
+	"releasenote": "FIX: issue with multiple silent actions.",
 	"tags": [
 		"text",
 		"game",
