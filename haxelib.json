@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.3",
-	"releasenote": "Expose non exposed static classes for extension.",
+	"version": "0.2.4",
+	"releasenote": "FEAT: Add more safety / null checks.",
 	"tags": [
 		"text",
 		"game",
