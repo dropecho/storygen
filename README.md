@@ -59,6 +59,62 @@ Transforms.set("myTran", str => "this is a test");
 
 #sym.myTran# // this gets replaced by "this is a test".
 ```
+
+## Memory
+
+doing 
+```
+#my_mem_sym:something#
+```
+
+Will parse the something, return the value and store it into my_mem_sym for use later in the grammar.
+
+```
+grammar = {
+  name = ["bob", "sally"]
+  origin = ["#char_name:name# went to the store. There #char_name# did some stuff. Later #char_name# saw #name# at the bowling alley."]
+};
+
+should output somethign like:
+sally went to the store. There sally did some stuff. Later sally saw bob at the bowling alley. 
+
+```
+
+## Silent Symbols
+
+If you want to just "setup" something in memory to use later, you can wrap
+the token with [].
+
+```
+#[char_name:name]#
+```
+
+This will output nothing until referenced later. For example:
+
+```
+grammar = {
+  name: ["bob", "sally"],
+  race: ["elf", "goblin"],
+  color: ["green", "blue"],
+  char: ["#name# the #color# #race#"],
+  origin: ["
+    #[char_name:name]#
+
+    #char_name# really loved eating bananas.
+    #char_name# also was not a fan of cheese.
+  "]
+};
+
+
+should output something like 
+
+bob the blue elf really loved eating bananas.
+bob the blue elf also was not a fan of cheese.
+
+```
+
+
+
 ## JS
 
 ```js
