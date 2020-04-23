@@ -28,19 +28,13 @@ abstract AbsMap<T>(Map<String, T>) from Map<String, T> {
 
 @:expose("Generator")
 class Generator {
+	public var matcher:EReg = ~/(\[?#.*?#\]?)/;
+	public var random:Random = new Random();
+	public var memory:Map<String, String> = new Map<String, String>();
 	public var grammars:Map<String, Array<String>>;
-	public var matcher:EReg;
-	public var random:Random;
-	public var memory:Map<String, String>;
-	public var cache:Map<String, String>;
-	public var key:String;
 
 	public function new(grammars:AbsMap<Array<String>>) {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
-		this.matcher = ~/(\[?#.*?#\]?)/;
-		this.random = new Random();
-		this.memory = new Map<String, String>();
-		this.cache = new Map<String, String>();
 	}
 
 	public static function configFromJson(json:String) {
@@ -67,17 +61,53 @@ class Generator {
 			if (func != null) {
 				return func(this, token.functionArgs);
 			} else {
-				throw 'No function $s exists on the function object.';
+				throw '
+          No function "$s" exists on the function object.
+          Double check spelling (#random(5,10)#) or add function to Functions.
+          example: 
+          ``` storygen.Functions.set("myFunc", (s:String) => return "hi");```
+        ';
 			}
 		}
 
 		var grammar = grammars[s];
 		if (grammar == null) {
-			throw 'No symbol $s exists in your grammar.';
+			throw '
+        No symbol "$s" exists in your grammar.
+        Ensure the object/map contains an array for this.
+        example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+      ';
 		}
+
+		if (grammar.length <= 0) {
+			throw '
+        No choices in grammar for symbol "$s", has 0 elements.
+        Try adding some.
+        example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+      ';
+		}
+
 		var pos = this.random.randomInt(0, grammar.length - 1);
 		var expanded = grammar[pos];
 		return expanded;
+	}
+
+	private function doTransforms(s:String, token:Token):String {
+		for (transform in token.transforms) {
+			var t = Transforms.get(transform);
+			if (t == null) {
+				throw '
+              No transform "$transform" exists on the transforms object.
+              Double check spelling (#sym.capitalize#) or add transform to Transforms.
+              example: 
+              ``` storygen.Transforms.set("myTransform", (s:String) => return "hi");```
+            ';
+			} else {
+				s = t(s);
+			}
+		}
+
+		return s;
 	}
 
 	private function parse(string:String):String {
@@ -89,9 +119,7 @@ class Generator {
 			var expanded = expand(token);
 
 			if (token.isTransformed) {
-				for (transform in token.transforms) {
-					expanded = Transforms.get(transform)(expanded);
-				}
+				expanded = doTransforms(expanded, token);
 			}
 
 			// Store in memory here so transforms are preserved.
@@ -104,14 +132,29 @@ class Generator {
 		return string;
 	}
 
-	public function run(key:String, from:String):String {
-		this.key = key;
-
-		if (!cache.exists(key)) {
-			cache.set(key, parse(from));
+	public function run(from:String):String {
+		var out;
+		if (from.charAt(0) != "#") {
+			out = parse("#" + from + "#");
 		}
+		out = parse(from);
+		memory.clear();
 
-		this.key = null;
-		return cache.get(key);
+		return out;
+	}
+
+	public function runAdvanced(from:String) {
+		var output = parse(from);
+		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
+		this.memory.clear();
+
+		return {
+			output: output,
+			#if js
+			memory: (cast memory).h
+			#else
+			memory: memory
+			#end
+		}
 	}
 }
