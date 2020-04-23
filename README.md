@@ -60,7 +60,7 @@ Transforms.set("myTran", str => "this is a test");
 #sym.myTran# // this gets replaced by "this is a test".
 ```
 
-## Memory
+### Memory
 
 doing 
 ```
@@ -80,7 +80,7 @@ sally went to the store. There sally did some stuff. Later sally saw bob at the 
 
 ```
 
-## Silent Symbols
+### Silent Symbols
 
 If you want to just "setup" something in memory to use later, you can wrap
 the token with [].
