@@ -1,5 +1,14 @@
+## 0.3.0 (2020-04-23)
+
+* Add memory / silent example to readme ([6e3ef22](https://github.com/dropecho/storygen/commit/6e3ef22))
+* FIX: issue with multiple silent actions. ([30374d5](https://github.com/dropecho/storygen/commit/30374d5))
+
+
+
 ## <small>0.2.5 (2020-04-23)</small>
 
+* Release 0.2.5 ([b4e31bd](https://github.com/dropecho/storygen/commit/b4e31bd))
+* version ([308e743](https://github.com/dropecho/storygen/commit/308e743))
 * FIX: issue with new js dist not being generated ([1169ba0](https://github.com/dropecho/storygen/commit/1169ba0))
 
 
