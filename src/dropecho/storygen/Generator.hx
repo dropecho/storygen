@@ -28,7 +28,7 @@ abstract AbsMap<T>(Map<String, T>) from Map<String, T> {
 
 @:expose("Generator")
 class Generator {
-	public var matcher:EReg = ~/(\[?#.*?#\]?)/;
+	public var matcher:EReg = ~/(#.*?#)/;
 	public var random:Random = new Random();
 	public var memory:Map<String, String> = new Map<String, String>();
 	public var grammars:Map<String, Array<String>>;
@@ -112,11 +112,13 @@ class Generator {
 
 	private function parse(string:String):String {
 		while (matcher.match(string)) {
-			var token = new Token(matcher.matched(1));
-			if (!token.isValid || token.isSilent) {
-				string = matcher.replace(string, "");
-			}
+			var match = matcher.matched(1);
+			var token = new Token(match);
 			var expanded = expand(token);
+
+      if(!token.isValid) {
+        continue;
+      }
 
 			if (token.isTransformed) {
 				expanded = doTransforms(expanded, token);
@@ -127,7 +129,11 @@ class Generator {
 				this.memory.set(token.memSymbol, expanded);
 			}
 
-			string = matcher.replace(string, expanded);
+			if (token.isSilent) {
+				string = matcher.replace(string, "");
+			} else {
+				string = matcher.replace(string, expanded);
+			}
 		}
 		return string;
 	}

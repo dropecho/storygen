@@ -117,7 +117,7 @@ class TokenTest {
   }
 
   @Test function should_be_marked_as_silent_when_wrapped_with_brackets() {
-		var token = new Token("[#test#]");
+		var token = new Token("#[test]#");
 
 		Assert.isTrue(token.isValid);
 		Assert.isTrue(token.isSilent);
@@ -132,7 +132,7 @@ class TokenTest {
   }
 
   @Test function silent_memory_function_with_transforms() {
-    var token = new Token("[#t:test(5).capitalize.a#]");
+    var token = new Token("#[t:test(5).capitalize.a]#");
 
 		Assert.isTrue(token.isSilent);
 		Assert.isTrue(token.isFunction);

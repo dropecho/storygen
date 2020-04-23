@@ -12,6 +12,7 @@
   "scripts": {
     "build": "haxe build.hxml",
     "test": "haxelib run munit t",
+    "test-debug": "haxelib run munit t -debug",
     "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
     "bump": "npm version --no-git-tag-version",
     "haxe:submit": "haxelib run submit",

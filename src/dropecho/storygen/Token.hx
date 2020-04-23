@@ -14,11 +14,11 @@ class Token {
 	public var isMemorized:Bool;
 	public var isTransformed:Bool;
 	public var isFunction:Bool;
-  public var isSilent:Bool;
+	public var isSilent:Bool;
 
 	private var origText:String;
-	// private var isValidToken:EReg = ~/#([^#]*)#/;
-  private var isValidToken:EReg = ~/#(.*?)#|\[#(.*?)#\]/;
+	private var isValidToken:EReg = ~/#(.*?)#/;
+	private var shouldBeSilent:EReg = ~/\[(.*?)\]/;
 	private var shouldBeMemorized:EReg = ~/(.*):(.*)/;
 	private var shouldBeTransformed:EReg = ~/(.*?)\.(.*)/;
 	private var isFunctionCall:EReg = ~/(.*)\((.*)\)/;
@@ -29,16 +29,14 @@ class Token {
 
 		if (isValid) {
 			var token = isValidToken.matched(1);
-      if(token == null || token == "") {
-        token = isValidToken.matched(2);
-        isSilent = true;
-      }
+
+			if (isSilent = shouldBeSilent.match(token)) {
+				token = shouldBeSilent.matched(1);
+			}
 
 			if (isMemorized = shouldBeMemorized.match(token)) {
 				memSymbol = shouldBeMemorized.matched(1);
 				token = shouldBeMemorized.matched(2);
-			// } else {
-			//   token = isValidToken.matched(1);
 			}
 
 			if (isTransformed = shouldBeTransformed.match(token)) {
@@ -48,10 +46,7 @@ class Token {
 
 			if (isFunction = isFunctionCall.match(token)) {
 				token = isFunctionCall.matched(1);
-				functionArgs = isFunctionCall.matched(2)
-          .split(',')
-          .map(s -> s.trim())
-          .filter(s -> s != null && s != '');
+				functionArgs = isFunctionCall.matched(2).split(',').map(s -> s.trim()).filter(s -> s != null && s != '');
 			}
 
 			symbol = token;
