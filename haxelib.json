@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.4",
-	"releasenote": "FEAT: Add more safety / null checks.",
+	"version": "0.2.5",
+	"releasenote": "FIX: issue with new js dist not being generated",
 	"tags": [
 		"text",
 		"game",
