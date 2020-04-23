@@ -1,5 +1,13 @@
+## <small>0.2.5 (2020-04-23)</small>
+
+* FIX: issue with new js dist not being generated ([1169ba0](https://github.com/dropecho/storygen/commit/1169ba0))
+
+
+
 ## <small>0.2.4 (2020-04-23)</small>
 
+* Release 0.2.4 ([f0ae8cb](https://github.com/dropecho/storygen/commit/f0ae8cb))
+* version ([56787cf](https://github.com/dropecho/storygen/commit/56787cf))
 * FEAT: Add more safety / null checks. ([2f837de](https://github.com/dropecho/storygen/commit/2f837de))
 
 
