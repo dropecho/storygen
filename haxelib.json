@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.6.0",
-	"releasenote": "FEAT: allow seeding generator.",
+	"version": "0.6.1",
+	"releasenote": "Fix url.",
 	"tags": [
 		"text",
 		"game",
