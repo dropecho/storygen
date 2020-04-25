@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.3.0",
-	"releasenote": "Add switch, remove pick",
+	"version": "0.5.0",
+	"releasenote": "FEAT: Add merge grammer function to generator.",
 	"tags": [
 		"text",
 		"game",
