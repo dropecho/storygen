@@ -20,9 +20,25 @@ There are other ways to define parts of grammer.
 
 ### Functions (#funcName(arg1, arg2, ...))
 - random(min:Int, max:Int) => Returns random between min and max.
+- switch(symbol, ['val=>symbol']) => Returns a symbol based on input val.
 
 ```
 #random(50,100)#
+```
+
+
+```
+grammar = [
+  "origin" => ["#[char_race:race]##[char_name:name]##char#"],
+  "char" => ["#char_name# the #char_race#"],
+  "race" => ["elf", "dwarf"],
+  "elfNames" => ["bob"],
+  "dwarfNames" => ["sally"],
+  "name" => ["#switch(char_race, elf=>elfNames, dwarf=>dwarfNames)#"]
+];
+
+// outputs either "bob the elf" or "sally the dwarf"
+
 ```
 
 User defined functions can be added via static class Functions.
