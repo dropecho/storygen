@@ -138,7 +138,7 @@ var grammar = {
 };
 
 var gen = new Generator(grammar);
-var output = gen.run('test', '#origin#');
+var output = gen.run('#origin#');
 
 console.log(output);
 
@@ -161,7 +161,7 @@ class Main {
     ];
 
     var gen = new Generator(grammar);
-    var output = gen.run("test", "#origin#");
+    var output = gen.run("#origin#");
     trace(output);
 
     // Outputs something like 'Mary loves bananas'.
