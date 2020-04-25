@@ -19,12 +19,12 @@ When run, this will randomly output one of "hi", "hello" or "hola".
 
 There are other ways to define parts of a Grammar.
 
-### Functions (#funcName(arg1, arg2, ...))
-`random(min:Int, max:Int)` returns a random value between `min` and `max`.
+### Functions
+`#random(min:Int, max:Int)#` returns a random value between `min` and `max`.
 
 ```
 grammar = {
-  numberOfPeople: ['#random(50,100)#'] => 69
+  numberOfPeople: ['#random(50,100)#'] // Outputs 69
 }
 ```
 
@@ -32,23 +32,26 @@ User-defined functions can be added via static class Functions.
 
 ```
 // gen is always passed as first arg.
-Functions.set("myFunc", (gen, args) => {
+Functions.set("custom", (gen, args) => {
   var firstArgument = args[0];
+  var secondArg = args[1];
+  
   // Function implementation goes here.
+  return secondArg - firstArg;
 });
 
 
 grammar = {
-  origin: ['#myFunc(5)#'] // "firstArgument" will be 5.
+  origin: ['#custom(5, 6)#'] // "firstArg" will be 5, secondArg will be 6, will be replaced with 1 (from function return above.)
 }
 ```
 
 
-### Transforms (symbol.transform)
+### Transforms
 
-- `symbol.capitalize` makes first character uppercase.
-- `symbol.pluralize` provides simple pluralization.
-- `symbol.a` prepends "a" or "an" to expanded text.
+- `#symbol.capitalize#` makes first character uppercase.
+- `#symbol.pluralize#` provides simple pluralization.
+- `#symbol.a#` prepends "a" or "an" to expanded text.
 
 
 You can apply multiple transforms.
@@ -63,10 +66,10 @@ grammar = {
 You can define custom transforms. They are always defined as function(string):string.
 
 ```
-Transforms.set("myTran", str => "this is a test");
+Transforms.set("custom", str => "this is a test");
 
 grammar = {
-  origin: ['#sym.myTran#'] // This gets replaced by "this is a test" when run.
+  origin: ['#sym.custom#'] // This gets replaced by "this is a test" when run.
 }
 ```
 
