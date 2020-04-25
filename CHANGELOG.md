@@ -1,5 +1,15 @@
+## <small>0.6.1 (2020-04-25)</small>
+
+* CHORE: Add merge grammar example to readme ([cc74d45](https://github.com/dropecho/storygen/commit/cc74d45))
+* CHORE: Fix grammar merge example ([d166f6e](https://github.com/dropecho/storygen/commit/d166f6e))
+* Add more examples to readme ([91ff835](https://github.com/dropecho/storygen/commit/91ff835))
+
+
+
 ## 0.6.0 (2020-04-25)
 
+* Release 0.6.0 ([1d9473d](https://github.com/dropecho/storygen/commit/1d9473d))
+* version ([8bd98b5](https://github.com/dropecho/storygen/commit/8bd98b5))
 * FEAT: allow seeding generator. ([7f97269](https://github.com/dropecho/storygen/commit/7f97269)), closes [#3](https://github.com/dropecho/storygen/issues/3)
 
 
