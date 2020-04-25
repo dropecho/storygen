@@ -1,6 +1,17 @@
-## 0.3.0 (2020-04-23)
+## 0.4.0 (2020-04-25)
+
+* Add switch example ([dc3081c](https://github.com/dropecho/storygen/commit/dc3081c))
+* Add switch, remove pick ([fa844b0](https://github.com/dropecho/storygen/commit/fa844b0))
+* Update README.md ([da994a3](https://github.com/dropecho/storygen/commit/da994a3))
+* Work on adding pick/switch functions ([154d72c](https://github.com/dropecho/storygen/commit/154d72c))
+
+
+
+## <small>0.2.6 (2020-04-23)</small>
 
 * Add memory / silent example to readme ([6e3ef22](https://github.com/dropecho/storygen/commit/6e3ef22))
+* Release 0.2.6 ([556129c](https://github.com/dropecho/storygen/commit/556129c))
+* version ([710d9c3](https://github.com/dropecho/storygen/commit/710d9c3))
 * FIX: issue with multiple silent actions. ([30374d5](https://github.com/dropecho/storygen/commit/30374d5))
 
 
