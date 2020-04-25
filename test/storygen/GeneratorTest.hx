@@ -103,10 +103,10 @@ class GeneratorTest {
 
 		generator = new Generator(config);
 		var generated = generator.run("#sentence#");
-    var split = generated.split(" ");
+		var split = generated.split(" ");
 
-    Assert.areEqual(split[0], split[1]);
-    Assert.areEqual(split[2], split[3]);
+		Assert.areEqual(split[0], split[1]);
+		Assert.areEqual(split[2], split[3]);
 	}
 
 	@Test
@@ -225,7 +225,7 @@ class GeneratorTest {
 	}
 
 	@Test
-  @Ignore
+	@Ignore
 	public function missing_symbol_exception() {
 		var config = ["origin" => ["#someFunc()"]];
 
@@ -238,7 +238,7 @@ class GeneratorTest {
 	}
 
 	@Test
-  @Ignore
+	@Ignore
 	public function missing_choices_exception() {
 		var config = ["origin" => []];
 
@@ -251,7 +251,7 @@ class GeneratorTest {
 	}
 
 	@Test
-  @Ignore
+	@Ignore
 	public function missing_function_exception() {
 		var config = ["origin" => ["#myFunc()#"]];
 
@@ -264,7 +264,7 @@ class GeneratorTest {
 	}
 
 	@Test
-  @Ignore
+	@Ignore
 	public function missing_transform_exception() {
 		var config = ["origin" => ["#foo.bar#"], "foo" => ["hi"]];
 
