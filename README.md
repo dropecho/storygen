@@ -163,6 +163,39 @@ When runAdvanced is called, it does the same as run but returns an object like:
 }
 ```
 
+## multiple grammar definitions
+You can merge multiple grammars to simplify definitions.
+
+
+```
+
+grammar = [
+  "origin" => ["#[char_race:race]##[char_name:name]##char#"],
+  "char" => ["#char_name# the #char_race#"],
+  "race" => ["elf", "dwarf"],
+  "name" => ["#switch(char_race, elf=>elfNames, dwarf=>dwarfNames)#"]
+];
+
+elf_names =  {
+  "elfNames" => ["bob"],
+}
+
+dwarf_names = {
+  "dwarfNames" => ["sally"],
+}
+
+gen = new generator(grammar);
+gen.mergeGrammar(elf_names);
+gen.mergeGrammar(dwarf_names);
+
+gen.run("#origin#");
+// outputs either "bob the elf" or "sally the dwarf"
+
+```
+
+
+```
+
 
 ## JS
 
