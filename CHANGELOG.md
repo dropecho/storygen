@@ -1,6 +1,13 @@
+## <small>0.6.3 (2020-04-25)</small>
+
+
+
+
 ## <small>0.6.2 (2020-04-25)</small>
 
 * Release 0.6.1 ([faf8b08](https://github.com/dropecho/storygen/commit/faf8b08))
+* Release 0.6.2 ([14e209e](https://github.com/dropecho/storygen/commit/14e209e))
+* version ([b72ae6f](https://github.com/dropecho/storygen/commit/b72ae6f))
 
 
 
