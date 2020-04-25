@@ -1,5 +1,13 @@
+## 0.6.0 (2020-04-25)
+
+* FEAT: allow seeding generator. ([7f97269](https://github.com/dropecho/storygen/commit/7f97269)), closes [#3](https://github.com/dropecho/storygen/issues/3)
+
+
+
 ## 0.5.0 (2020-04-25)
 
+* Release 0.5.0 ([f73c0e3](https://github.com/dropecho/storygen/commit/f73c0e3))
+* version ([c64fbb9](https://github.com/dropecho/storygen/commit/c64fbb9))
 * FEAT: Add merge grammer function to generator. ([42240bc](https://github.com/dropecho/storygen/commit/42240bc)), closes [#6](https://github.com/dropecho/storygen/issues/6)
 
 
