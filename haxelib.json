@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.5.0",
-	"releasenote": "FEAT: Add merge grammer function to generator.",
+	"version": "0.6.0",
+	"releasenote": "FEAT: allow seeding generator.",
 	"tags": [
 		"text",
 		"game",
