@@ -163,7 +163,7 @@ When runAdvanced is called, it does the same as run but returns an object like:
 }
 ```
 
-## multiple grammar definitions
+### multiple grammar definitions
 You can merge multiple grammars to simplify definitions.
 
 
@@ -192,10 +192,6 @@ gen.run("#origin#");
 // outputs either "bob the elf" or "sally the dwarf"
 
 ```
-
-
-```
-
 
 ## JS
 
