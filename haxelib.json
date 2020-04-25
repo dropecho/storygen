@@ -9,8 +9,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.6",
-	"releasenote": "FIX: issue with multiple silent actions.",
+	"version": "0.3.0",
+	"releasenote": "Add switch, remove pick",
 	"tags": [
 		"text",
 		"game",
