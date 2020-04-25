@@ -139,6 +139,29 @@ grammar = {
 
 ```
 
+### Running generator
+
+There are two run methods on the generator.
+  - run(startSymbol, ?seed) => string
+  - runAdvanced(startSymbol, ?seed) => outputObject
+
+When run is called, it expands all tokens and returns the output string.
+If you want to repeat the run with the exact output, you can provide a string
+seed.  The seed MUST be parseable to an INT.
+
+If you want to get the current seed, the generator provids a getSeed method.
+
+When runAdvanced is called, it does the same as run but returns an object like:
+```
+{
+  seed: "23498093", 
+  output: "bob the elf", 
+  memory: {
+    char_name: "bob",
+    char_race: "elf"
+  }, 
+}
+```
 
 
 ## JS
