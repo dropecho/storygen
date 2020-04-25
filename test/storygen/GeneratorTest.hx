@@ -41,6 +41,22 @@ class GeneratorTest {
 	}
 
 	@Test
+	public function run_merged() {
+    var c = ["origin" => ["#c2_name# met #c3_name#"]];
+    var c2 = ["c2_name" => ["bob"]];
+    var c3 = ["c3_name" => ["sally"]];
+
+    var gen = new Generator(c);
+    gen.mergeGrammar(c2);
+    gen.mergeGrammar(c3);
+
+		var out = gen.run("#origin#");
+		var expected = "bob met sally";
+
+		Assert.areEqual(expected, out);
+	}
+
+	@Test
 	public function recurse() {
 		var out = generator.run("#bar#");
 		var expected = "a bar";

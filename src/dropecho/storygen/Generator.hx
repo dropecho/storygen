@@ -37,6 +37,13 @@ class Generator {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
 	}
 
+	public function mergeGrammar(grammars:AbsMap<Array<String>>) {
+		var g = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
+		for (e in g.toMap().keyValueIterator()) {
+			this.grammars.set(e.key, e.value);
+		}
+	}
+
 	public static function configFromJson(json:String) {
 		var json:DynamicAccess<Array<String>> = Json.parse(json);
 		return [for (f in Reflect.fields(json)) f => Reflect.field(json, f)];
@@ -116,9 +123,9 @@ class Generator {
 			var token = new Token(match);
 			var expanded = expand(token);
 
-      if(!token.isValid) {
-        continue;
-      }
+			if (!token.isValid) {
+				continue;
+			}
 
 			if (token.isTransformed) {
 				expanded = doTransforms(expanded, token);
