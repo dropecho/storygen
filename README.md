@@ -1,49 +1,50 @@
-## A grammar based text expander in the vein of tracery.
+## Storygen
+### Grammar-based text expander in the vein of [tracery](https://www.tracery.io).
 
-It works by defining a Grammar and running the generator.
+Use Storygen by defining a Grammar and running the generator.
 
-A grammer is a string to string array map (or an obj with string arrays in js).
+A Grammar is a string-to-string array map (or an object with string arrays in JavaScript).
 
-example grammer is
+Let's take a look at an example.
 ```
 
 {
-origin: ["#test#"],
-test: ["hi", "hello", "hola"]
+  origin: ["#test#"],
+  test: ["hi", "hello", "hola"]
 }
 
 ```
 
-when run will output randomly "hi", "hello" or "hola".
+When run, this will randomly output one of "hi", "hello" or "hola".
 
-There are other ways to define parts of grammer.
+There are other ways to define parts of a Grammar.
 
 ### Functions (#funcName(arg1, arg2, ...))
-- random(min:Int, max:Int) => Returns random between min and max.
+`random(min:Int, max:Int)` returns a random value between `min` and `max`.
 
 ```
-#random(50,100)#
+#random(50,100)# => 69
 ```
 
-User defined functions can be added via static class Functions.
+User-defined functions can be added via static class Functions.
 
 ```
 // gen is always passed as first arg.
 Functions.set("myFunc", (gen, args) => {
-  var thing = args[0]; // this is 5.
-  // do stuff.
+  var firstArgument = args[0];
+  // Function implementation goes here.
 });
 
 
-#myFunc(5);
+#myFunc(5)#; // "firstArgument" will be 5.
 ```
 
 
 ### Transforms (symbol.transform)
 
-- symbol.capitalize => turns first char to uppercase
-- symbol.pluralize => simple pluralization 
-- symbol.a => Adds a or an to beginning of expanded text. 
+- `symbol.capitalize` makes first character uppercase.
+- `symbol.pluralize` provides simple pluralization.
+- `symbol.a` prepends "a" or "an" to expanded text.
 
 
 You can apply multiple transforms.
@@ -52,22 +53,19 @@ You can apply multiple transforms.
 #animal.capitalize.pluralize#
 ```
 
-You can define custom transforms, they are always function(string):string.
+You can define custom transforms. They are always defined as function(string):string.
 
 ```
 Transforms.set("myTran", str => "this is a test");
 
-#sym.myTran# // this gets replaced by "this is a test".
+#sym.myTran# // This gets replaced by "this is a test".
 ```
 
 ### Memory
 
-doing 
-```
-#my_mem_sym:something#
-```
+`#my_mem_sym:something#`
 
-Will parse the something, return the value and store it into my_mem_sym for use later in the grammar.
+Will parse the "something", return the value, and store it into `my_mem_sym` for use later in the Grammar.
 
 ```
 grammar = {
@@ -75,14 +73,15 @@ grammar = {
   origin = ["#char_name:name# went to the store. There #char_name# did some stuff. Later #char_name# saw #name# at the bowling alley."]
 };
 
-should output somethign like:
-sally went to the store. There sally did some stuff. Later sally saw bob at the bowling alley. 
+// => "sally went to the store. There sally did some stuff. Later sally saw bob at the bowling alley."
+// OR
+// => "bob went to the store. There bob did some stuff. Later bob saw sally at the bowling alley."
 
 ```
 
 ### Silent Symbols
 
-If you want to just "setup" something in memory to use later, you can wrap
+If you want to prepare a Grammar in memory for later use, you can wrap
 the token with [].
 
 ```
@@ -105,11 +104,11 @@ grammar = {
   "]
 };
 
-
-should output something like 
-
-bob the blue elf really loved eating bananas.
-bob the blue elf also was not a fan of cheese.
+/**
+ * Example output:
+ * bob the blue elf really loved eating bananas.
+ * bob the blue elf also was not a fan of cheese.
+ */
 
 ```
 
@@ -131,7 +130,7 @@ var output = gen.run('test', '#origin#');
 
 console.log(output);
 
-// outputs something like 'Bob loves apples'
+// Outputs something like 'Bob loves apples'.
 
 ```
 
@@ -152,8 +151,8 @@ class Main {
     var gen = new Generator(grammar);
     var output = gen.run("test", "#origin#");
     trace(output);
-    
-    // outputs something like 'Bob loves apples'
+
+    // Outputs something like 'Mary loves bananas'.
   }
 }
 
