@@ -1,31 +1,33 @@
-## A grammar based text expander in the vein of tracery.
+## Storygen
+### Grammar-based text expander in the vein of [tracery](https://www.tracery.io).
 
-It works by defining a Grammar and running the generator.
+Use Storygen by defining a Grammar and running the generator.
 
-A grammer is a string to string array map (or an obj with string arrays in js).
+A Grammar is a string-to-string array map (or an object with string arrays in JavaScript).
 
-example grammer is
+Let's take a look at an example.
 ```
 
 {
-origin: ["#test#"],
-test: ["hi", "hello", "hola"]
+  origin: ["#test#"],
+  test: ["hi", "hello", "hola"]
 }
 
 ```
 
-when run will output randomly "hi", "hello" or "hola".
+When run, this will randomly output one of "hi", "hello" or "hola".
 
-There are other ways to define parts of grammer.
+There are other ways to define parts of a Grammar.
 
 ### Functions (#funcName(arg1, arg2, ...))
 - random(min:Int, max:Int) => Returns random between min and max.
 - switch(symbol, ['val=>symbol']) => Returns a symbol based on input val.
 
 ```
-#random(50,100)#
+grammar = {
+  numberOfPeople: ['#random(50,100)#'] // Outputs 69
+}
 ```
-
 
 ```
 grammar = [
@@ -41,49 +43,56 @@ grammar = [
 
 ```
 
-User defined functions can be added via static class Functions.
+User-defined functions can be added via static class Functions.
 
 ```
 // gen is always passed as first arg.
-Functions.set("myFunc", (gen, args) => {
-  var thing = args[0]; // this is 5.
-  // do stuff.
+Functions.set("custom", (gen, args) => {
+  var firstArgument = args[0];
+  var secondArg = args[1];
+  
+  // Function implementation goes here.
+  return secondArg - firstArg;
 });
 
 
-#myFunc(5);
+grammar = {
+  origin: ['#custom(5, 6)#'] // "firstArg" will be 5, secondArg will be 6, will be replaced with 1 (from function return above.)
+}
 ```
 
 
-### Transforms (symbol.transform)
+### Transforms
 
-- symbol.capitalize => turns first char to uppercase
-- symbol.pluralize => simple pluralization 
-- symbol.a => Adds a or an to beginning of expanded text. 
+- `#symbol.capitalize#` makes first character uppercase.
+- `#symbol.pluralize#` provides simple pluralization.
+- `#symbol.a#` prepends "a" or "an" to expanded text.
 
 
 You can apply multiple transforms.
 
 ```
-#animal.capitalize.pluralize#
+grammar = {
+  origin: ['#animal.capitalize.pluralize#'],
+  animal: ['horse', 'lion']
+}
 ```
 
-You can define custom transforms, they are always function(string):string.
+You can define custom transforms. They are always defined as function(string):string.
 
 ```
-Transforms.set("myTran", str => "this is a test");
+Transforms.set("custom", str => "this is a test");
 
-#sym.myTran# // this gets replaced by "this is a test".
+grammar = {
+  origin: ['#sym.custom#'] // This gets replaced by "this is a test" when run.
+}
 ```
 
 ### Memory
 
-doing 
-```
-#my_mem_sym:something#
-```
+`#my_mem_sym:something#`
 
-Will parse the something, return the value and store it into my_mem_sym for use later in the grammar.
+Will parse the "something", return the value, and store it into `my_mem_sym` for use later in the Grammar.
 
 ```
 grammar = {
@@ -91,14 +100,15 @@ grammar = {
   origin = ["#char_name:name# went to the store. There #char_name# did some stuff. Later #char_name# saw #name# at the bowling alley."]
 };
 
-should output somethign like:
-sally went to the store. There sally did some stuff. Later sally saw bob at the bowling alley. 
+// => "sally went to the store. There sally did some stuff. Later sally saw bob at the bowling alley."
+// OR
+// => "bob went to the store. There bob did some stuff. Later bob saw sally at the bowling alley."
 
 ```
 
 ### Silent Symbols
 
-If you want to just "setup" something in memory to use later, you can wrap
+If you want to prepare a Grammar in memory for later use, you can wrap
 the token with [].
 
 ```
@@ -121,11 +131,11 @@ grammar = {
   "]
 };
 
-
-should output something like 
-
-bob the blue elf really loved eating bananas.
-bob the blue elf also was not a fan of cheese.
+/**
+ * Example output:
+ * bob the blue elf really loved eating bananas.
+ * bob the blue elf also was not a fan of cheese.
+ */
 
 ```
 
@@ -143,11 +153,11 @@ var grammar = {
 };
 
 var gen = new Generator(grammar);
-var output = gen.run('test', '#origin#');
+var output = gen.run('#origin#');
 
 console.log(output);
 
-// outputs something like 'Bob loves apples'
+// Outputs something like 'Bob loves apples'.
 
 ```
 
@@ -166,10 +176,10 @@ class Main {
     ];
 
     var gen = new Generator(grammar);
-    var output = gen.run("test", "#origin#");
+    var output = gen.run("#origin#");
     trace(output);
-    
-    // outputs something like 'Bob loves apples'
+
+    // Outputs something like 'Mary loves bananas'.
   }
 }
 
