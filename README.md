@@ -23,7 +23,9 @@ There are other ways to define parts of a Grammar.
 `random(min:Int, max:Int)` returns a random value between `min` and `max`.
 
 ```
-#random(50,100)# => 69
+grammar = {
+  numberOfPeople: ['#random(50,100)#'] => 69
+}
 ```
 
 User-defined functions can be added via static class Functions.
@@ -36,7 +38,9 @@ Functions.set("myFunc", (gen, args) => {
 });
 
 
-#myFunc(5)#; // "firstArgument" will be 5.
+grammar = {
+  origin: ['#myFunc(5)#'] // "firstArgument" will be 5.
+}
 ```
 
 
@@ -50,7 +54,10 @@ Functions.set("myFunc", (gen, args) => {
 You can apply multiple transforms.
 
 ```
-#animal.capitalize.pluralize#
+grammar = {
+  origin: ['#animal.capitalize.pluralize#'],
+  animal: ['horse', 'lion']
+}
 ```
 
 You can define custom transforms. They are always defined as function(string):string.
@@ -58,7 +65,9 @@ You can define custom transforms. They are always defined as function(string):st
 ```
 Transforms.set("myTran", str => "this is a test");
 
-#sym.myTran# // This gets replaced by "this is a test".
+grammar = {
+  origin: ['#sym.myTran#'] // This gets replaced by "this is a test" when run.
+}
 ```
 
 ### Memory
