@@ -1,8 +1,16 @@
+## <small>0.6.2 (2020-04-25)</small>
+
+* Release 0.6.1 ([faf8b08](https://github.com/dropecho/storygen/commit/faf8b08))
+
+
+
 ## <small>0.6.1 (2020-04-25)</small>
 
+* Add more examples to readme ([91ff835](https://github.com/dropecho/storygen/commit/91ff835))
+* Release 0.6.1 ([ccc48e7](https://github.com/dropecho/storygen/commit/ccc48e7))
+* version ([de8831c](https://github.com/dropecho/storygen/commit/de8831c))
 * CHORE: Add merge grammar example to readme ([cc74d45](https://github.com/dropecho/storygen/commit/cc74d45))
 * CHORE: Fix grammar merge example ([d166f6e](https://github.com/dropecho/storygen/commit/d166f6e))
-* Add more examples to readme ([91ff835](https://github.com/dropecho/storygen/commit/91ff835))
 
 
 
