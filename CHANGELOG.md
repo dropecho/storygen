@@ -1,5 +1,13 @@
+## <small>0.6.4 (2020-04-25)</small>
+
+* FIX: fix url again in haxelib.json ([9e75047](https://github.com/dropecho/storygen/commit/9e75047))
+
+
+
 ## <small>0.6.3 (2020-04-25)</small>
 
+* Release 0.6.3 ([797b78b](https://github.com/dropecho/storygen/commit/797b78b))
+* version ([63ea74f](https://github.com/dropecho/storygen/commit/63ea74f))
 
 
 
