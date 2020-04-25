@@ -1,5 +1,6 @@
 package storygen;
 
+import haxe.Int64Helper;
 import massive.munit.Assert;
 import dropecho.storygen.*;
 
@@ -42,13 +43,13 @@ class GeneratorTest {
 
 	@Test
 	public function run_merged() {
-    var c = ["origin" => ["#c2_name# met #c3_name#"]];
-    var c2 = ["c2_name" => ["bob"]];
-    var c3 = ["c3_name" => ["sally"]];
+		var c = ["origin" => ["#c2_name# met #c3_name#"]];
+		var c2 = ["c2_name" => ["bob"]];
+		var c3 = ["c3_name" => ["sally"]];
 
-    var gen = new Generator(c);
-    gen.mergeGrammar(c2);
-    gen.mergeGrammar(c3);
+		var gen = new Generator(c);
+		gen.mergeGrammar(c2);
+		gen.mergeGrammar(c3);
 
 		var out = gen.run("#origin#");
 		var expected = "bob met sally";
@@ -255,6 +256,25 @@ class GeneratorTest {
 		var expected = "Lina";
 
 		Assert.areEqual(expected, generated.output);
+	}
+
+	@Test
+	public function advanced_with_Seed() {
+		var config = ["origin" => ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"]];
+
+		generator = new Generator(config);
+		var generated = generator.runAdvanced("#origin#");
+
+		var seed = Std.string(generated.seed);
+		var out1 = generated.output;
+
+		var out2 = generator.runAdvanced("#origin#", seed).output;
+		var out3 = generator.runAdvanced("#origin#", seed).output;
+		var out4 = generator.runAdvanced("#origin#", seed).output;
+
+		Assert.areEqual(out1, out2);
+		Assert.areEqual(out1, out3);
+		Assert.areEqual(out1, out4);
 	}
 
 	@Test

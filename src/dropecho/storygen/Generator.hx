@@ -1,5 +1,7 @@
 package dropecho.storygen;
 
+import haxe.Int64Helper;
+import haxe.Int64;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
@@ -36,6 +38,10 @@ class Generator {
 	public function new(grammars:AbsMap<Array<String>>) {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
 	}
+
+  public function getSeed() {
+    return Std.string(random.seed);
+  }
 
 	public function mergeGrammar(grammars:AbsMap<Array<String>>) {
 		var g = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
@@ -145,7 +151,10 @@ class Generator {
 		return string;
 	}
 
-	public function run(from:String):String {
+	public function run(from:String, ?seed:String):String {
+		if (seed != null) {
+			random.seed = Int64Helper.parseString(seed);
+		}
 		var out;
 		if (from.charAt(0) != "#") {
 			out = parse("#" + from + "#");
@@ -156,12 +165,16 @@ class Generator {
 		return out;
 	}
 
-	public function runAdvanced(from:String) {
+	public function runAdvanced(from:String, ?seed:String) {
+		if (seed != null) {
+			random.seed = Int64Helper.parseString(seed);
+		}
 		var output = parse(from);
 		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
 		this.memory.clear();
 
 		return {
+			seed: getSeed(),
 			output: output,
 			#if js
 			memory: (cast memory).h
