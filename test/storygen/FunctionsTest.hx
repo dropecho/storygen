@@ -22,15 +22,6 @@ class FunctionsTest {
 	}
 
 	@Test
-	public function pick() {
-		var pick = Functions.get("pick");
-		Assert.isNotNull(pick);
-
-		var out = pick(generator, ["test", "test"]);
-		Assert.areEqual("#test#", out);
-	}
-
-	@Test
 	public function swit() {
 		generator.memory.set("bar", "test2");
 		var sw = Functions.get("switch");
@@ -38,5 +29,15 @@ class FunctionsTest {
 
 		var out = sw(generator, ["bar", "test=>test", "test2=>test2"]);
 		Assert.areEqual("#test2#", out);
+	}
+
+	@Test
+	public function swit_to_null() {
+		generator.memory.set("bar", "test2");
+		var sw = Functions.get("switch");
+		Assert.isNotNull(sw);
+
+		var out = sw(generator, ["bar", "test=>test"]);
+		Assert.areEqual("", out);
 	}
 }

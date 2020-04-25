@@ -9,10 +9,6 @@ class Functions {
 			var int = gen.random.randomInt(min, max);
 			return Std.string(int);
 		},
-		"pick" => (gen:Generator, args:Array<String>) -> {
-			var pick = args[gen.random.randomInt(0, args.length - 1)];
-			return "#" + pick + "#";
-		},
 		"switch" => (gen:Generator, args:Array<String>) -> {
 			var symbol = args.shift();
 			var parsed = gen.memory[symbol];

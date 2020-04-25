@@ -174,6 +174,23 @@ class GeneratorTest {
 		Assert.areEqual(expected, generated);
 	}
 
+	@Test
+	public function function_call_sw() {
+		var config = [
+			"origin" => ["#[char_race:race]##[char_name:name]##char#"],
+			"char" => ["#char_name# the #char_race#"],
+			"race" => ["elf", "dwarf"],
+			"elfNames" => ["bob"],
+			"dwarfNames" => ["sally"],
+			"name" => ["#switch(char_race, elf=>elfNames, dwarf=>dwarfNames)#"]
+		];
+
+		generator = new Generator(config);
+		var generated = generator.run("#origin#");
+
+		Assert.isTrue(generated == "bob the elf" || generated == "sally the dwarf", generated);
+	}
+
 	@Test public function basically_everything() {
 		Functions.set("test", (gen:Generator, args:Array<String>) -> {
 			return "test";
