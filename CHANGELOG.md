@@ -1,8 +1,20 @@
-## 0.4.0 (2020-04-25)
+## 0.5.0 (2020-04-25)
+
+* FEAT: Add merge grammer function to generator. ([42240bc](https://github.com/dropecho/storygen/commit/42240bc)), closes [#6](https://github.com/dropecho/storygen/issues/6)
+
+
+
+## 0.3.0 (2020-04-25)
 
 * Add switch example ([dc3081c](https://github.com/dropecho/storygen/commit/dc3081c))
 * Add switch, remove pick ([fa844b0](https://github.com/dropecho/storygen/commit/fa844b0))
+* Release 0.3.0 ([150cb8b](https://github.com/dropecho/storygen/commit/150cb8b))
+* Update README.md ([3851aa7](https://github.com/dropecho/storygen/commit/3851aa7))
+* Update README.md ([0e655a8](https://github.com/dropecho/storygen/commit/0e655a8))
+* Update README.md ([1134643](https://github.com/dropecho/storygen/commit/1134643))
+* Update README.md ([af6cc87](https://github.com/dropecho/storygen/commit/af6cc87))
 * Update README.md ([da994a3](https://github.com/dropecho/storygen/commit/da994a3))
+* version ([41717ec](https://github.com/dropecho/storygen/commit/41717ec))
 * Work on adding pick/switch functions ([154d72c](https://github.com/dropecho/storygen/commit/154d72c))
 
 
