@@ -1,20 +1,20 @@
 {
-	"name": "dropecho.storygen",
-	"description": "A grammar based text expansion, based on tracery.",
-	"classPath": "src/",
-	"dependencies": {
-		"seedyrng": ""
-	},
-	"url": "https://github.com/dropecho/storygen",
-	"contributors": [
-		"vantreeseba"
-	],
-	"version": "0.6.4",
-	"releasenote": "FIX: fix url again in haxelib.json",
-	"tags": [
-		"text",
-		"game",
-		"story"
-	],
-	"license": "MIT"
+  "name": "dropecho.storygen",
+  "description": "A grammar based text expansion, based on tracery.",
+  "classPath": "src/",
+  "dependencies": {
+    "seedyrng": ""
+  },
+  "url": "https://github.com/dropecho/storygen",
+  "contributors": [
+    "vantreeseba"
+  ],
+  "version": "0.7.0",
+  "releasenote": "FIX: fix url again in haxelib.json",
+  "tags": [
+    "text",
+    "game",
+    "story"
+  ],
+  "license": "MIT"
 }
