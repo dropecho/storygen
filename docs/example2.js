@@ -1,24 +1,5 @@
 addExample('random function', () => {
-  var grammar = {
-    numberOfPeople: ['#random(50,100)#'],
-    origin: ['There are #numberOfPeople# people in the village.']
-  };
-
-  var gen = new Generator(grammar);
-  var output = gen.runAdvanced('#origin#');
-
-  console.log(output);
-
-  const rootEl = document.createElement('div');
-  const textEl = document.createElement('pre');
-  const codeEl = document.createElement('pre');
-  const outputEl = document.createElement('div');
-
-  textEl.classList.add('output-text');
-  codeEl.classList.add('output-code');
-  outputEl.classList.add('output-json');
-
-  codeEl.innerText =`${'```js'}
+  function run() {
     var grammar = {
       numberOfPeople: ['#random(50,100)#'],
       origin: ['There are #numberOfPeople# people in the village.']
@@ -28,15 +9,16 @@ addExample('random function', () => {
     var output = gen.runAdvanced('#origin#');
 
     console.log(output);
-  ${'```'}
-  `;
 
-  outputEl.innerHTML = `<pre>${JSON.stringify(output, null, 2)}</pre>`;
-  textEl.innerText = output.output;
+    return output;
+  }
 
-  rootEl.appendChild(textEl);
-  rootEl.appendChild(codeEl);
-  rootEl.appendChild(outputEl);
+  const output = run();
+  const code = funcToString(run);
 
-  return rootEl;
+  return {
+    text: output.output,
+    output,
+    code
+  };
 });

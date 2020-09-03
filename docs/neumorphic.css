@@ -1,0 +1,95 @@
+:root {
+  --bg-color-light: #eee;
+  --bg-color-dark: #333;
+
+  --fg-color-dark: #ccc;
+  --fg-color-light: #333;
+
+  --filter-hover: brightness(101%);
+  --filter-active: brightness(80%);
+
+  --padding: 15px 25px;
+  --margin: 15px;
+}
+
+.light {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color-light);
+  padding: var(--padding);
+  color: var(--bg-color-dark);
+}
+
+.dark {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+  background-color: var(--bg-color-dark);
+  color: var(--fg-color-dark);
+}
+
+.button:hover {
+  filter: var(--filter-hover);
+}
+
+.raised {
+  display: flex;
+  margin: var(--margin);
+  padding: var(--padding);
+
+  background-color: var(--bg-color-light);
+  border-radius: 10px;
+  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 1),
+    7px 7px 15px 0 rgba(0, 0, 0, 0.2),
+    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.8),
+    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.button {
+  display: flex;
+  margin: var(--margin);
+  padding: var(--padding);
+
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color-light);
+  border-radius: 10px;
+  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 1),
+    7px 7px 15px 0 rgba(0, 0, 0, 0.2),
+    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.8),
+    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.button:active {
+  box-shadow: inset -1px -1px 4px 0 rgba(255, 255, 255, 0.8),
+    inset 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+  filter: none; 
+}
+
+.dark .button:active {
+   box-shadow: inset -1px -1px 4px 0 rgba(255, 255, 255, 0.15),
+    inset 1px 1px 4px 0 rgba(0, 0, 0, 0.8);
+}
+
+.dark .button {
+  background-color: var(--bg-color-dark);
+  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 0.2),
+    7px 7px 15px 0 rgba(0, 0, 0, 1),
+    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.8);
+} 
+.dark .raised {
+  background-color: var(--bg-color-dark);
+  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 0.2),
+    7px 7px 15px 0 rgba(0, 0, 0, 1),
+    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.button .text {
+  flex: 1;
+  text-align: center;
+}
+
