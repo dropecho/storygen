@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/dropecho/storygen/compare/0.6.4...0.7.0) (2020-09-03)
+
+
+### Features
+
+* Add semantic versioning, add better demo. ([c12ca8e](https://github.com/dropecho/storygen/commit/c12ca8e437c717bc3795d21349f2aef1a04a39b5))
+
 ## <small>0.6.4 (2020-04-25)</small>
 
 * FIX: fix url again in haxelib.json ([9e75047](https://github.com/dropecho/storygen/commit/9e75047))
@@ -141,5 +148,3 @@
 ### BREAKING CHANGE
 
 * changed repo name.
-
-
