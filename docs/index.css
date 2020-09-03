@@ -4,6 +4,18 @@
   --filter-active: brightness(80%);
 }
 
+.github {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.title {
+  font-size: 2em;
+  text-align: center;
+  border-bottom: dotted grey thin;
+}
+
 .container {
   height: 100%;
   width: 100%;
