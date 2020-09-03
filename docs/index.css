@@ -1,0 +1,54 @@
+:root {
+  --bg-color-primary: #ccc;
+  --filter-hover: brightness(85%);
+  --filter-active: brightness(80%);
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.left-panel {
+  flex: 0.3;
+  flex-direction: column;
+}
+
+.example-option {
+  margin: 5px;
+  padding: 5px;
+  background-color: var(--bg-color-primary);
+  text-align: center;
+}
+
+.example-option:hover {
+  filter: var(--filter-hover);
+}
+
+.example-option:active {
+  filter: var(--filter-active);
+}
+
+.right-panel {
+  flex: 1;
+}
+
+.output-text {
+  font-size: 1.5em;
+  padding: 1em;
+}
+
+.output-code {
+  padding: 10px;
+  border: thin black solid;
+}
+
+.output-json {
+  padding: 10px;
+  border: thin black solid;
+}

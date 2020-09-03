@@ -5,31 +5,31 @@ Use Storygen by defining a Grammar and running the generator.
 
 A Grammar is a string-to-string array map (or an object with string arrays in JavaScript).
 
-Let's take a look at an example.
-```
+For more resources look at [Resources](#Resources)
 
+Let's take a look at an example.
+```js
 {
   origin: ["#test#"],
   test: ["hi", "hello", "hola"]
 }
-
 ```
 
 When run, this will randomly output one of "hi", "hello" or "hola".
-
+ 
 There are other ways to define parts of a Grammar.
 
 ### Functions (#funcName(arg1, arg2, ...))
 - random(min:Int, max:Int) => Returns random between min and max.
 - switch(symbol, ['val=>symbol']) => Returns a symbol based on input val.
 
-```
+```js
 grammar = {
   numberOfPeople: ['#random(50,100)#'] // Outputs 69
 }
 ```
 
-```
+```haxe
 grammar = [
   "origin" => ["#[char_race:race]##[char_name:name]##char#"],
   "char" => ["#char_name# the #char_race#"],
@@ -40,12 +40,11 @@ grammar = [
 ];
 
 // outputs either "bob the elf" or "sally the dwarf"
-
 ```
 
 User-defined functions can be added via static class Functions.
 
-```
+```js
 // gen is always passed as first arg.
 Functions.set("custom", (gen, args) => {
   var firstArgument = args[0];
@@ -71,7 +70,7 @@ grammar = {
 
 You can apply multiple transforms.
 
-```
+```js
 grammar = {
   origin: ['#animal.capitalize.pluralize#'],
   animal: ['horse', 'lion']
@@ -80,7 +79,7 @@ grammar = {
 
 You can define custom transforms. They are always defined as function(string):string.
 
-```
+```js
 Transforms.set("custom", str => "this is a test");
 
 grammar = {
@@ -94,7 +93,7 @@ grammar = {
 
 Will parse the "something", return the value, and store it into `my_mem_sym` for use later in the Grammar.
 
-```
+```js
 grammar = {
   name = ["bob", "sally"]
   origin = ["#char_name:name# went to the store. There #char_name# did some stuff. Later #char_name# saw #name# at the bowling alley."]
@@ -111,13 +110,13 @@ grammar = {
 If you want to prepare a Grammar in memory for later use, you can wrap
 the token with [].
 
-```
+```js
 #[char_name:name]#
 ```
 
 This will output nothing until referenced later. For example:
 
-```
+```js
 grammar = {
   name: ["bob", "sally"],
   race: ["elf", "goblin"],
@@ -136,7 +135,6 @@ grammar = {
  * bob the blue elf really loved eating bananas.
  * bob the blue elf also was not a fan of cheese.
  */
-
 ```
 
 ### Running generator
@@ -152,7 +150,7 @@ seed.  The seed MUST be parseable to an INT.
 If you want to get the current seed, the generator provids a getSeed method.
 
 When runAdvanced is called, it does the same as run but returns an object like:
-```
+```js
 {
   seed: "23498093", 
   output: "bob the elf", 
@@ -167,8 +165,7 @@ When runAdvanced is called, it does the same as run but returns an object like:
 You can merge multiple grammars to simplify definitions.
 
 
-```
-
+```haxe
 grammar = [
   "origin" => ["#[char_race:race]##[char_name:name]##char#"],
   "char" => ["#char_name# the #char_race#"],
@@ -190,7 +187,6 @@ gen.mergeGrammar(dwarf_names);
 
 gen.run("#origin#");
 // outputs either "bob the elf" or "sally the dwarf"
-
 ```
 
 ## JS
@@ -210,7 +206,6 @@ var output = gen.run('#origin#');
 console.log(output);
 
 // Outputs something like 'Bob loves apples'.
-
 ```
 
 
@@ -234,5 +229,9 @@ class Main {
     // Outputs something like 'Mary loves bananas'.
   }
 }
-
 ```
+
+## Resources
+
+[Tracery](https://www.tracery.io)
+
