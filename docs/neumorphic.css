@@ -10,6 +10,9 @@
 
   --padding: 15px 25px;
   --margin: 15px;
+
+  --upper-shadow-opacity: 0.075;
+  --lower-shadow-opacity: 0.3;
 }
 
 .light {
@@ -34,20 +37,7 @@
   filter: var(--filter-hover);
 }
 
-.raised {
-  display: flex;
-  margin: var(--margin);
-  padding: var(--padding);
-
-  background-color: var(--bg-color-light);
-  border-radius: 10px;
-  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 1),
-    7px 7px 15px 0 rgba(0, 0, 0, 0.2),
-    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.8),
-    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-.button {
+.button, .raised {
   display: flex;
   margin: var(--margin);
   padding: var(--padding);
@@ -62,31 +52,31 @@
     inset -1px -1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
+.raised {
+  justify-content: left;
+}
+
+
 .button:active {
   box-shadow: inset -1px -1px 4px 0 rgba(255, 255, 255, 0.8),
     inset 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
-  filter: none; 
 }
 
 .dark .button:active {
-   box-shadow: inset -1px -1px 4px 0 rgba(255, 255, 255, 0.15),
-    inset 1px 1px 4px 0 rgba(0, 0, 0, 0.8);
+   box-shadow: inset -1px -1px 4px 0 rgba(255, 255, 255, var(--upper-shadow-opacity)),
+    inset 1px 1px 4px 0 rgba(0, 0, 0, var(--lower-shadow-opacity));
 }
 
-.dark .button {
+.dark .button, .dark .raised {
+  /* font-weight: bold; */
+  /* text-shadow:2px 2px 7px rgba(255,255,255, var(--lower-shadow-opacity)); */
+
   background-color: var(--bg-color-dark);
-  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 0.2),
-    7px 7px 15px 0 rgba(0, 0, 0, 1),
-    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, var(--upper-shadow-opacity)),
+    7px 7px 15px 0 rgba(0, 0, 0, var(--lower-shadow-opacity)),
+    inset 1px 1px 4px 0px rgba(255, 255, 255, calc(var(--upper-shadow-opacity)*1.5)),
+    inset -1px -1px 4px 0px rgba(0, 0, 0, calc(var(--lower-shadow-opacity)*1.5));
 } 
-.dark .raised {
-  background-color: var(--bg-color-dark);
-  box-shadow: -7px -7px 15px 0 rgba(255, 255, 255, 0.2),
-    7px 7px 15px 0 rgba(0, 0, 0, 1),
-    inset 1px 1px 2px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 2px 0 rgba(0, 0, 0, 0.8);
-}
 
 .button .text {
   flex: 1;

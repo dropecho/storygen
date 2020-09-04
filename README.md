@@ -93,6 +93,7 @@ grammar = {
 
 Will parse the "something", return the value, and store it into `my_mem_sym` for use later in the Grammar.
 
+
 ```js
 grammar = {
   name = ["bob", "sally"]
@@ -103,6 +104,30 @@ grammar = {
 // OR
 // => "bob went to the store. There bob did some stuff. Later bob saw sally at the bowling alley."
 
+```
+
+Any memory value that starts with an underscore is temporary for that "chain" of parsing.
+
+In each of the follow "char" chains, the "_h" is stored and used for the 
+switch function in the char_name, but is discarded after the token is fully resolved.
+
+```js
+var grammer = {
+  'char': ['#[_h:char_heritage]##char_name.capitalize# the #_h#'],
+  'char_heritage': ['elf', 'dwarf'],
+  'elfNames': ['legolas', 'eldrin', 'lilli', 'folmon', 'untir', 'cesrith'],
+  'dwarfNames': ['gak', 'bar', 'norn', 'brun', 'esrith', 'gand', 'gil'],
+  'char_name': ['#switch(_h, elf=>elfNames, dwarf=>dwarfNames)#'],
+
+  'origin': [
+    [
+    'the leader is #char#.',
+    '#char# has been working with #leader#.',
+    '#char# is the quarter master.',
+    '#char# is the liason.'
+    ].join('\n')
+  ]
+};
 ```
 
 ### Silent Symbols

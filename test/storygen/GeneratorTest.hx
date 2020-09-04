@@ -83,7 +83,7 @@ class GeneratorTest {
 	@Test
 	public function memory() {
 		var config = [
-			"sentence" => ["#n:name# #n:name# #n:name# #n#"],
+			"sentence" => ["#n:name# #n:name# #n# #n#"],
 			"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
 		];
 
@@ -134,6 +134,51 @@ class GeneratorTest {
 
 		generator = new Generator(config);
 		var generated = generator.run("#sentence#");
+		var name = generated.split(" ")[0];
+		var expected = name + " " + name + " " + name + " " + name;
+
+		Assert.areEqual(expected, generated);
+	}
+
+	@Test
+	public function memory_sub_token() {
+		var config = ["sentence" => ["#n:name#"], "name" => ["#othername#"], "othername" => ["Arjun"]];
+
+		generator = new Generator(config);
+		var generated = generator.run("#sentence#");
+		var expected = "Arjun";
+
+		Assert.areEqual(expected, generated);
+	}
+
+	@Test
+	public function memory_nested() {
+		var config = [
+			"sentence" => ["#[n:char]##n# #n#"],
+			"char" => ["[#[on:othername]##[h:heritage]##on##h#"],
+			"othername" => ["Arjun", "Fred"],
+			"heritage" => ["-elf", "-dwarf"]
+		];
+
+		generator = new Generator(config);
+		var generated = generator.run("#sentence#");
+		var name = generated.split(" ")[0];
+		var expected = name + " " + name;
+
+		Assert.areEqual(expected, generated);
+	}
+
+	@Test
+	public function memory_first_last_name() {
+		var grammar = [
+			"origin" => ["#n:full_name# #n# #n# #n#"],
+			"full_name" => ["#first_name#-#last_name#"],
+			"first_name" => ["Fred", "Sally", "Barb", "Lance", "Francine"],
+			"last_name" => ["Smith", "Jones", "Barker", "White", "Snodgrass"]
+		];
+
+		generator = new Generator(grammar);
+		var generated = generator.run("#origin#");
 		var name = generated.split(" ")[0];
 		var expected = name + " " + name + " " + name + " " + name;
 

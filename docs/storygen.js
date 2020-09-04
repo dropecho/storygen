@@ -1297,6 +1297,7 @@ class dropecho_storygen_Generator {
 		return s;
 	}
 	parse(string) {
+		let tempMemory = [];
 		while(this.matcher.match(string)) {
 			let match = this.matcher.matched(1);
 			let token = new dropecho_storygen_Token(match);
@@ -1304,16 +1305,29 @@ class dropecho_storygen_Generator {
 			if(!token.isValid) {
 				continue;
 			}
+			expanded = this.parse(expanded);
 			if(token.isTransformed) {
 				expanded = this.doTransforms(expanded,token);
 			}
 			if(token.isMemorized) {
 				this.memory.h[token.memSymbol] = expanded;
+				if(token.memSymbol.charAt(0) == "_") {
+					tempMemory.push(token.memSymbol);
+				}
 			}
 			if(token.isSilent) {
 				string = string.replace(this.matcher.r,"");
 			} else {
 				string = string.replace(this.matcher.r,expanded);
+			}
+		}
+		let _g = 0;
+		while(_g < tempMemory.length) {
+			let t = tempMemory[_g];
+			++_g;
+			let _this = this.memory;
+			if(Object.prototype.hasOwnProperty.call(_this.h,t)) {
+				delete(_this.h[t]);
 			}
 		}
 		return string;

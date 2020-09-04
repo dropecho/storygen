@@ -39,9 +39,9 @@ class Generator {
 		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
 	}
 
-  public function getSeed() {
-    return Std.string(random.seed);
-  }
+	public function getSeed() {
+		return Std.string(random.seed);
+	}
 
 	public function mergeGrammar(grammars:AbsMap<Array<String>>) {
 		var g = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
@@ -124,6 +124,8 @@ class Generator {
 	}
 
 	private function parse(string:String):String {
+		var tempMemory = [];
+
 		while (matcher.match(string)) {
 			var match = matcher.matched(1);
 			var token = new Token(match);
@@ -133,6 +135,9 @@ class Generator {
 				continue;
 			}
 
+			// Recurse through expansions.
+			expanded = parse(expanded);
+
 			if (token.isTransformed) {
 				expanded = doTransforms(expanded, token);
 			}
@@ -140,6 +145,9 @@ class Generator {
 			// Store in memory here so transforms are preserved.
 			if (token.isMemorized) {
 				this.memory.set(token.memSymbol, expanded);
+				if (token.memSymbol.charAt(0) == '_') {
+					tempMemory.push(token.memSymbol);
+				}
 			}
 
 			if (token.isSilent) {
@@ -147,6 +155,10 @@ class Generator {
 			} else {
 				string = matcher.replace(string, expanded);
 			}
+		}
+
+		for (t in tempMemory) {
+			memory.remove(t);
 		}
 		return string;
 	}
