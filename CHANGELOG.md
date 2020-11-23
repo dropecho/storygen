@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/dropecho/storygen/compare/0.7.0...0.8.0) (2020-09-04)
+
+
+### Features
+
+* Fix nested memory issue ([16cfa40](https://github.com/dropecho/storygen/commit/16cfa40f2eb69bb7a873b44c6510154a7e8dc36c)), closes [#9](https://github.com/dropecho/storygen/issues/9)
+
 # [0.7.0](https://github.com/dropecho/storygen/compare/0.6.4...0.7.0) (2020-09-03)
 
 
