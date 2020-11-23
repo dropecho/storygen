@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/dropecho/storygen/compare/0.8.0...0.8.1) (2020-11-23)
+
+
+### Bug Fixes
+
+* Add another example, add a better warning when symbol not found. ([fe575de](https://github.com/dropecho/storygen/commit/fe575de8301c0127c647960ea7bed4c054195268))
+
 # [0.8.0](https://github.com/dropecho/storygen/compare/0.7.0...0.8.0) (2020-09-04)
 
 
