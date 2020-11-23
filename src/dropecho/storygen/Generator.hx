@@ -87,8 +87,10 @@ class Generator {
 		if (grammar == null) {
 			throw '
         No symbol "$s" exists in your grammar.
-        Ensure the object/map contains an array for this.
+        Ensure the object/map contains an array for this or
+        that you have stored this in memory.
         example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+        example: ``` var grammar = {"example": ["#$s:some_other#"]}; ```
       ';
 		}
 

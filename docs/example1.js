@@ -3,7 +3,7 @@ addExample('example 1', () => {
     var grammar = {
       origin: ['#name.capitalize# loves #food.pluralize#'],
       name: ['bob', 'mary'],
-      food: ['banana', 'apple']
+      food: ['banana', 'apple', 'fish']
     };
 
     var gen = new Generator(grammar);
