@@ -1,3 +1,10 @@
+## [0.8.2](https://github.com/dropecho/storygen/compare/0.8.1...0.8.2) (2020-11-24)
+
+
+### Bug Fixes
+
+* Cleanup build, turn on DCE, add another example with langgen, cleanup seed. ([00321c4](https://github.com/dropecho/storygen/commit/00321c488dbf0e16475d24449e29f56da9da06d1))
+
 ## [0.8.1](https://github.com/dropecho/storygen/compare/0.8.0...0.8.1) (2020-11-23)
 
 
