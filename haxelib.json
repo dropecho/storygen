@@ -9,7 +9,7 @@
   "contributors": [
     "vantreeseba"
   ],
-  "version": "0.8.0",
+  "version": "0.8.1",
   "releasenote": "FIX: fix url again in haxelib.json",
   "tags": [
     "text",
