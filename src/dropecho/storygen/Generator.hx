@@ -167,8 +167,8 @@ class Generator {
 
 	public function run(from:String, ?seed:String):String {
 		if (seed != null) {
-			random.seed = Int64Helper.parseString(seed);
-		}
+      random.seed = Int64Helper.fromFloat(Std.parseFloat(seed));
+    }
 		var out;
 		if (from.charAt(0) != "#") {
 			out = parse("#" + from + "#");
@@ -181,8 +181,8 @@ class Generator {
 
 	public function runAdvanced(from:String, ?seed:String) {
 		if (seed != null) {
-			random.seed = Int64Helper.parseString(seed);
-		}
+      random.seed = Int64Helper.fromFloat(Std.parseFloat(seed));
+    }
 		var output = parse(from);
 		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
 		this.memory.clear();

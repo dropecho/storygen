@@ -1,15 +1,13 @@
--lib munit
--lib seedyrng
--cp src
---macro include('', true, null, ['src'])
-
---each
-
 ## JS
 # DEFINES / MACROS
--D dce=no
+-D dce=full
 -D js-es=6
--D source-map-content
+
+-lib munit
+-lib seedyrng
+
+-cp src
+--macro include('', true, null, ['src'])
 
 # OUTPUT 
 -js dist/js/storygen.js 
