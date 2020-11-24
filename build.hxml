@@ -3,7 +3,6 @@
 -D dce=full
 -D js-es=6
 
--lib munit
 -lib seedyrng
 
 -cp src
