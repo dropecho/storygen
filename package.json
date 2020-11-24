@@ -26,6 +26,6 @@
     "@semantic-release/npm": "^7.0.5",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "semantic-release": "^17.1.1",
-    "semantic-release-haxelib": "^0.3.1"
+    "semantic-release-haxelib": "^0.4.0"
   }
 }
