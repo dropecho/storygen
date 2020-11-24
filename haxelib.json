@@ -9,8 +9,8 @@
   "contributors": [
     "vantreeseba"
   ],
-  "version": "0.8.2",
-  "releasenote": "FIX: fix url again in haxelib.json",
+  "version": "0.8.3",
+  "releasenote": "Release version 0.8.3. See CHANGELOG.md for details.",
   "tags": [
     "text",
     "game",

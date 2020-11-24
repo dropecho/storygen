@@ -1,3 +1,14 @@
+## [0.8.3](https://github.com/dropecho/storygen/compare/0.8.2...0.8.3) (2020-11-24)
+
+
+### Bug Fixes
+
+* Fix ci flow to actually build and add dist to npm package. ([9122a64](https://github.com/dropecho/storygen/commit/9122a64481442117d93ac8b6565f68c0df04b879))
+* Install libs before calling build. ([e67d67f](https://github.com/dropecho/storygen/commit/e67d67f04ca9ab4ec6560987555e1d4ffd3d0d03))
+* make action install required libs before build. ([1a9fd96](https://github.com/dropecho/storygen/commit/1a9fd96bae9df053ae497d194a4fae25deb6641f))
+* remove munit from the build.hxml. ([84ee36f](https://github.com/dropecho/storygen/commit/84ee36f72b8bb5149514a3693ff39f546c2cc274))
+* upgrade semantic-release-haxelib to fix release note on haxelib. ([b925d92](https://github.com/dropecho/storygen/commit/b925d92b37e22360f9c20523f0641873b5b51f2d))
+
 ## [0.8.2](https://github.com/dropecho/storygen/compare/0.8.1...0.8.2) (2020-11-24)
 
 
