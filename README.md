@@ -1,4 +1,4 @@
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dropecho/storygen/CI) ![npm bundle size](https://img.shields.io/bundlephobia/min/@dropecho/storygen) ![NPM License](https://img.shields.io/npm/l/@dropecho/storygen) ![NPM Version](https://img.shields.io/npm/v/@dropecho/storygen)
+[![NPM Version](https://img.shields.io/npm/v/@dropecho/storygen)](https://www.npmjs.com/package/@dropecho/storygen) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dropecho/storygen/CI) ![npm bundle size](https://img.shields.io/bundlephobia/min/@dropecho/storygen) ![NPM License](https://img.shields.io/npm/l/@dropecho/storygen) 
 ## Storygen
 ### Grammar-based text expander in the vein of [tracery](https://www.tracery.io).
 
