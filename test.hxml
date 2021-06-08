@@ -1,34 +1,6 @@
-## Flash 9+
-# -swf-version 11
-# -swf build/as3_test.swf
-
-## JavaScript
-# --next
-# -js build/js_test.js
-
-## Neko
--main TestMain
--lib munit
--lib hamcrest
--lib seedyrng
-
--cp src
--cp test
-
--neko build/neko_test.n
---next
-
-## CPP
-# --next
-# #-D HXCPP_M64
-# -cpp build/cpp_test
-
-# ## Java
-# --next
-# -java build/java_test
-
 # CSharp
 -main TestMain
+-lib dropecho.interop
 -lib munit
 -lib hamcrest
 -lib seedyrng
@@ -37,22 +9,15 @@
 -cp test
 
 -D dce=no
+
 -D dll_import
 -D no-root
 -cs build/cs_test
 --next
 
-# ## Python
-# --next
-# -python build/python_test.py
-
-# ## PHP 7
-# --next
-# -D php7
-# -php build/php_test
-
 ## JavaScript NodeJS
 -main TestMain
+-lib dropecho.interop
 -lib munit
 -lib hamcrest
 -lib seedyrng
@@ -60,9 +25,11 @@
 -cp src
 -cp test
 
+-D dce=no
+
 -lib hxnodejs
 -js build/js_test.js
---next
+# --next
 
 # ## HashLink
 # --next

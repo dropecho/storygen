@@ -1,0 +1,13 @@
+# JS
+# DEFINES / MACROS
+-D dce=full
+-D js-es=6
+
+-lib seedyrng
+-lib dropecho.interop
+
+-cp src
+--macro include('', true, null, ['src'])
+
+# OUTPUT
+-js dist/js/storygen.js

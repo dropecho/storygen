@@ -2,6 +2,7 @@ package storygen;
 
 import massive.munit.Assert;
 import dropecho.storygen.*;
+import dropecho.storygen.Generator.GrammarType;
 
 class GeneratorTest {
 	var generator:Generator;
@@ -14,6 +15,7 @@ class GeneratorTest {
 			"foo" => ['#bar#'],
 			"baz" => ['#bar# #bar#']
 		];
+
 		generator = new Generator(config);
 	}
 
@@ -22,6 +24,7 @@ class GeneratorTest {
 		Assert.isNotNull(generator);
 	}
 
+	#if js
 	@Test
 	public function runDynamicConfig() {
 		var config:Dynamic = {test: ["a"]};
@@ -31,6 +34,7 @@ class GeneratorTest {
 
 		Assert.areEqual(expected, out);
 	}
+	#end
 
 	@Test
 	public function run() {
@@ -78,6 +82,22 @@ class GeneratorTest {
 		var expected = "a bar a bar";
 
 		Assert.areEqual(expected, out);
+	}
+
+	@Test
+	public function memory_advanced() {
+		var config = [
+			"sentence" => ["#n:name# #n:name# #n# #n#"],
+			"name" => ["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"]
+		];
+
+		generator = new Generator(config);
+		var generated = generator.runAdvanced("#sentence#");
+		var name = generated.output.split(" ")[0];
+		var expected = name + " " + name + " " + name + " " + name;
+
+		Assert.areEqual(expected, generated.output);
+		Assert.areEqual(name, generated.memory["n"]);
 	}
 
 	@Test
@@ -316,9 +336,9 @@ class GeneratorTest {
 		var out3 = generator.runAdvanced("#origin#", seed).output;
 		var out4 = generator.runAdvanced("#origin#", seed).output;
 
-		Assert.areEqual(out1, out2);
-		Assert.areEqual(out1, out3);
-		Assert.areEqual(out1, out4);
+		Assert.areEqual(out1, out2, "first run should be same");
+		Assert.areEqual(out1, out3, "second run should be same");
+		Assert.areEqual(out1, out4, "third run should be same");
 	}
 
 	@Test

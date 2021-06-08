@@ -1,31 +1,27 @@
 package dropecho.storygen;
 
 import haxe.Int64Helper;
-import haxe.Int64;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
+import dropecho.interop.AbstractMap;
+// import dropecho.interop.AbstractArray;
 
-abstract AbsMap<T>(Map<String, T>) from Map<String, T> {
-	public function new(s:Map<String, T>) {
-		this = s;
-	}
+#if cs
+// typedef GrammarType = AbstractMap<String, AbstractArray<String>>;
+typedef GrammarType = AbstractMap<String, Array<String>>;
+#else
+typedef GrammarType = AbstractMap<String, Array<String>>;
+#end
 
-	@:from
-	public static function fromDynamic(d:Dynamic) {
-		var map = [for (f in Reflect.fields(d)) f => Reflect.field(d, f)];
-		return new AbsMap(map);
-	}
+@:struct
+@:nativeGen
+class GeneratorOutput {
+	public var seed:String;
+	public var output:String;
+	public var memory:AbstractMap<String, String>;
 
-	@:to
-	public function toMap() {
-		return this;
-	}
-
-	public function isMap():Bool {
-		var type = Type.getClass(this);
-		return type != null && Type.getClassName(type) == "haxe.ds.StringMap";
-	}
+	public function new() {}
 }
 
 @:expose("Generator")
@@ -33,20 +29,19 @@ class Generator {
 	public var matcher:EReg = ~/(#.*?#)/;
 	public var random:Random = new Random();
 	public var memory:Map<String, String> = new Map<String, String>();
-	public var grammars:Map<String, Array<String>>;
+	public var grammars:GrammarType;
 
-	public function new(grammars:AbsMap<Array<String>>) {
-		this.grammars = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
+	public function new(grammars:GrammarType) {
+		this.grammars = grammars;
 	}
 
 	public function getSeed() {
 		return Std.string(random.seed);
 	}
 
-	public function mergeGrammar(grammars:AbsMap<Array<String>>) {
-		var g = grammars.isMap() ? grammars : AbsMap.fromDynamic(grammars);
-		for (e in g.toMap().keyValueIterator()) {
-			this.grammars.set(e.key, e.value);
+	public function mergeGrammar(grammars:GrammarType) {
+		for (key => value in grammars) {
+			this.grammars.set(key, cast(value));
 		}
 	}
 
@@ -67,7 +62,7 @@ class Generator {
 			}
 		}
 
-		var s = token.symbol;
+		var s:String = token.symbol;
 
 		if (token.isFunction) {
 			var func = Functions.get(token.symbol);
@@ -75,31 +70,32 @@ class Generator {
 				return func(this, token.functionArgs);
 			} else {
 				throw '
-          No function "$s" exists on the function object.
-          Double check spelling (#random(5,10)#) or add function to Functions.
-          example: 
-          ``` storygen.Functions.set("myFunc", (s:String) => return "hi");```
-        ';
+					No function "$s" exists on the function object.
+					Double check spelling (#random(5,10)#) or add function to Functions.
+					example:
+					``` storygen.Functions.set("myFunc", (s:String) => return "hi");```
+				';
 			}
 		}
 
 		var grammar = grammars[s];
+
 		if (grammar == null) {
 			throw '
-        No symbol "$s" exists in your grammar.
-        Ensure the object/map contains an array for this or
-        that you have stored this in memory.
-        example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
-        example: ``` var grammar = {"example": ["#$s:some_other#"]}; ```
-      ';
+				No symbol "$s" exists in your grammar.
+				Ensure the object/map contains an array for this or
+				that you have stored this in memory.
+				example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+				example: ``` var grammar = {"example": ["#$s:some_other#"]}; ```
+			';
 		}
 
 		if (grammar.length <= 0) {
 			throw '
-        No choices in grammar for symbol "$s", has 0 elements.
-        Try adding some.
-        example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
-      ';
+				No choices in grammar for symbol "$s", has 0 elements.
+				Try adding some.
+				example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+			';
 		}
 
 		var pos = this.random.randomInt(0, grammar.length - 1);
@@ -165,10 +161,10 @@ class Generator {
 		return string;
 	}
 
-	public function run(from:String, ?seed:String):String {
-		if (seed != null) {
-      random.seed = Int64Helper.fromFloat(Std.parseFloat(seed));
-    }
+	public function run(from:String, ?seed:String = null):String {
+		if (seed != null && seed != "") {
+			random.seed = Int64Helper.parseString(seed);
+		}
 		var out;
 		if (from.charAt(0) != "#") {
 			out = parse("#" + from + "#");
@@ -179,22 +175,20 @@ class Generator {
 		return out;
 	}
 
-	public function runAdvanced(from:String, ?seed:String) {
-		if (seed != null) {
-      random.seed = Int64Helper.fromFloat(Std.parseFloat(seed));
-    }
+	public function runAdvanced(from:String, ?seed:String = null):GeneratorOutput {
+		if (seed != null && seed != "") {
+			random.seed = Int64Helper.parseString(seed);
+		}
 		var output = parse(from);
 		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
 		this.memory.clear();
 
-		return {
-			seed: getSeed(),
-			output: output,
-			#if js
-			memory: (cast memory).h
-			#else
-			memory: memory
-			#end
-		}
+		var genOutput = new GeneratorOutput();
+
+		genOutput.seed = getSeed();
+		genOutput.output = output;
+		genOutput.memory = memory;
+
+		return genOutput;
 	}
 }

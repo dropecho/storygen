@@ -1,12 +1,3 @@
-## JS
-# DEFINES / MACROS
--D dce=full
--D js-es=6
-
--lib seedyrng
-
--cp src
---macro include('', true, null, ['src'])
-
-# OUTPUT 
--js dist/js/storygen.js 
+targets/js.hxml
+--next
+targets/cs.hxml
