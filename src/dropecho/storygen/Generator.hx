@@ -1,18 +1,14 @@
 package dropecho.storygen;
 
+import dropecho.interop.AbstractArray;
 import haxe.Int64Helper;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
 import dropecho.interop.AbstractMap;
-// import dropecho.interop.AbstractArray;
 
-#if cs
-// typedef GrammarType = AbstractMap<String, AbstractArray<String>>;
-typedef GrammarType = AbstractMap<String, Array<String>>;
-#else
-typedef GrammarType = AbstractMap<String, Array<String>>;
-#end
+typedef AAS = AbstractArray<String>;
+typedef GrammarType = AbstractMap<String, AAS>;
 
 @:struct
 @:nativeGen
@@ -28,7 +24,7 @@ class GeneratorOutput {
 class Generator {
 	public var matcher:EReg = ~/(#.*?#)/;
 	public var random:Random = new Random();
-	public var memory:Map<String, String> = new Map<String, String>();
+	public var memory:AbstractMap<String, String> = new Map<String, String>();
 	public var grammars:GrammarType;
 
 	public function new(grammars:GrammarType) {
@@ -161,7 +157,7 @@ class Generator {
 		return string;
 	}
 
-	public function run(from:String, ?seed:String = null):String {
+	public function run(from:String, ?seed:String = ""):String {
 		if (seed != null && seed != "") {
 			random.seed = Int64Helper.parseString(seed);
 		}
@@ -175,7 +171,7 @@ class Generator {
 		return out;
 	}
 
-	public function runAdvanced(from:String, ?seed:String = null):GeneratorOutput {
+	public function runAdvanced(from:String, seed:String = ""):GeneratorOutput {
 		if (seed != null && seed != "") {
 			random.seed = Int64Helper.parseString(seed);
 		}

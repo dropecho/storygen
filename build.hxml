@@ -1,3 +1,20 @@
+# CODE PATH
+-cp src
+--macro include('', true, null, ['src'])
+
+-D analyzer-optimize
+-D dce=no
+
+# PUT LIBS HERE.
+# -lib seedyrng
+
+# Include above in each target.
+--each
+
 targets/js.hxml
 --next
+targets/js-esm.hxml
+--next
 targets/cs.hxml
+--next
+targets/docs.hxml

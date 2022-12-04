@@ -1,5 +1,6 @@
 package storygen;
 
+import dropecho.storygen.Generator.AAS;
 import massive.munit.Assert;
 import dropecho.storygen.*;
 
@@ -8,7 +9,7 @@ class FunctionsTest {
 
 	@Before
 	public function setup() {
-		var config = ["test" => ['a'], "test2" => ['b']];
+		var config = ["test" => (['a'] : AAS), "test2" => (['b'] : AAS)];
 		generator = new Generator(config);
 	}
 
@@ -22,7 +23,7 @@ class FunctionsTest {
 	}
 
 	@Test
-	public function swit() {
+	public function switch_test() {
 		generator.memory.set("bar", "test2");
 		var sw = Functions.get("switch");
 		Assert.isNotNull(sw);

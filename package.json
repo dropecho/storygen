@@ -4,28 +4,31 @@
   "description": "",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/storygen",
-  "main": "dist/js/storygen.js",
-  "files": [
-    "dist/js/storygen.js"
-  ],
+  "main": "./dist/js/cjs/index.cjs",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "scripts": {
-    "build": "haxe build.hxml",
+    "build": "npm run clean && haxe build.hxml",
     "test": "haxelib run munit t",
-    "test-debug": "haxelib run munit t -debug"
+    "clean": "rm -rf dist && rm -rf artifacts"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/exec": "^5.0.0",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.0.7",
-    "@semantic-release/npm": "^7.0.5",
-    "@semantic-release/release-notes-generator": "^9.0.1",
-    "semantic-release": "^17.1.1",
-    "semantic-release-haxelib": "^0.4.0"
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.7",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "semantic-release": "^19.0.5",
+    "semantic-release-haxelib": "^1.1.0"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/js/cjs/index.cjs",
+      "import": "./dist/js/esm/index.js"
+    }
   }
 }

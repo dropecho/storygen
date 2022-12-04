@@ -1,5 +1,7 @@
 {
-  "branches": ["master"],
+  "branches": [
+    "main"
+  ],
   "tagFormat": "${version}",
   "plugins": [
     [
@@ -7,7 +9,11 @@
       {
         "preset": "angular",
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         }
       }
     ],
@@ -16,10 +22,17 @@
       {
         "preset": "angular",
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         },
         "writerOpts": {
-          "commitsSort": ["subject", "scope"]
+          "commitsSort": [
+            "subject",
+            "scope"
+          ]
         }
       }
     ],
@@ -32,7 +45,28 @@
         "additionalFiles": []
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/cs/dropecho.storygen/bin/dropecho.storygen.dll",
+            "name": "dropecho.storygen-${nextRelease.gitTag}.dll",
+            "label": "C# DLL"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "*.md",
+          "package.json",
+          "haxelib.json"
+        ]
+      }
+    ]
   ],
   "preset": "angular"
 }

@@ -1,19 +1,9 @@
 # C#
 
-# CODE PATH
--cp src
---macro include('', true, null, ['src'])
-
--lib seedyrng
--lib dropecho.interop
-
 # DEFINES
--D dce=no
 -D dll_import
 -D no-root
 -D dll
--D analyzer-optimize
--D real-position
 
 # OUTPUT
--cs dist/cs/storygen
+-cs dist/cs/dropecho.storygen
