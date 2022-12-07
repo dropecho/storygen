@@ -1612,6 +1612,7 @@ class dropecho_storygen_Generator {
 			seed = "";
 		}
 		if(seed != null && seed != "") {
+			seed = (seed == null ? "null" : "" + seed).split(".")[0];
 			this.random.set_seed(haxe_Int64Helper.parseString(seed));
 		}
 		let out;
@@ -1630,6 +1631,7 @@ class dropecho_storygen_Generator {
 			seed = "";
 		}
 		if(seed != null && seed != "") {
+			seed = (seed == null ? "null" : "" + seed).split(".")[0];
 			this.random.set_seed(haxe_Int64Helper.parseString(seed));
 		}
 		let output = this.parse(from);

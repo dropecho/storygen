@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "npm run clean && haxe build.hxml",
+    "build": "npm run clean && haxe build.hxml && npm run docs:cp_js",
+    "docs:cp_js": "cp dist/js/cjs/index.cjs docs/storygen.js",
     "test": "haxelib run munit t",
     "clean": "rm -rf dist && rm -rf artifacts"
   },

@@ -1,7 +1,7 @@
 addExample('spirit generator', () => {
   function run() {
     Functions.set('map', (gen, args) => {
-      var symbol = gen.memory.h[args.shift()];
+      var symbol = gen.memory[args.shift()];
       return args.find(x => x.startsWith(symbol)).split('=>')[1];
     });
 

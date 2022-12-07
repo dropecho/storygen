@@ -159,6 +159,8 @@ class Generator {
 
 	public function run(from:String, ?seed:String = ""):String {
 		if (seed != null && seed != "") {
+			// Convert to string and remove decimal for dynamic langs.
+			seed = Std.string(seed).split('.')[0];
 			random.seed = Int64Helper.parseString(seed);
 		}
 		var out;
@@ -173,6 +175,8 @@ class Generator {
 
 	public function runAdvanced(from:String, seed:String = ""):GeneratorOutput {
 		if (seed != null && seed != "") {
+			// Convert to string and remove decimal for dynamic langs.
+			seed = Std.string(seed).split('.')[0];
 			random.seed = Int64Helper.parseString(seed);
 		}
 		var output = parse(from);

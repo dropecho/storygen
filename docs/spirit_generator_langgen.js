@@ -4,8 +4,8 @@ addExample('spirit generator procedural names', () => {
     // from dropecho/langgen
     let lang_gen = new Language(null, seed.toFixed());
 
-    var lang_gen_grammar = { names: [] };
-    for(var i = 0; i < 5; i++) {
+    var lang_gen_grammar = {names: []};
+    for (var i = 0; i < 5; i++) {
       var name = lang_gen.createWord();
       console.log(name);
       lang_gen_grammar.names.push(name);
@@ -13,7 +13,7 @@ addExample('spirit generator procedural names', () => {
 
 
     Functions.set('map', (gen, args) => {
-      var symbol = gen.memory.h[args.shift()];
+      var symbol = gen.memory[args.shift()];
       console.log(symbol, args);
       return args.find(x => x.startsWith(symbol)).split('=>')[1];
     });
@@ -67,7 +67,7 @@ addExample('spirit generator procedural names', () => {
         'draws', 'gains', 'derives', 'pulls', 'siphons', 'obtains', 'snatches', 'steals', 'breathes in',
         'lavishes in', 'gorges on', 'drinks'
       ],
-      power_sources:['#power_source_verbs# power from #power_source_nouns#'],
+      power_sources: ['#power_source_verbs# power from #power_source_nouns#'],
       body_shapes: [
         'round', 'snake-like', 'fractal', 'ooze-like', 'geometric', 'fading',
         'wolf-like', 'squid-like'
@@ -110,7 +110,7 @@ addExample('spirit generator procedural names', () => {
         'horrors', 'loneliness', 'crushing weight', 'darkness',
         'hatred', 'torment', 'dread', 'awfulness', 'disquiet'
       ],
-      terror_suffix:[
+      terror_suffix: [
         'the universe', 'existence', 'death', 'life', 'sound', 'emotion', 'knowledge'
       ],
       terrors: ['the #terror_prefix# of #terror_suffix#'],
@@ -121,9 +121,9 @@ addExample('spirit generator procedural names', () => {
       people_verb: ['honors', 'placates', 'soothes', 'worships'],
 
       // requires gender stored in memory
-      sub_pronoun:['#map(gender, male=>he, female=>she, neuter=>they, none=>it, both=>they)#'],
-      pos_pronoun:['#map(gender, male=>his, female=>her, neuter=>their, none=>its, both=>their)#'],
-      possesive:['#map(gender, male=>has, female=>has, neuter=>have, none=>has, both=>have)#'],
+      sub_pronoun: ['#map(gender, male=>he, female=>she, neuter=>they, none=>it, both=>they)#'],
+      pos_pronoun: ['#map(gender, male=>his, female=>her, neuter=>their, none=>its, both=>their)#'],
+      possesive: ['#map(gender, male=>has, female=>has, neuter=>have, none=>has, both=>have)#'],
 
       origin: [`#[gender:genders]# #[name:names.capitalize]# #[spirit:spirit_types]# #[place:spirit_places]#
 #name# is the #spirit# of the #place#, and #power_sources#, while #spirit_home_verbs# in #pos_pronoun# #colors# #spirit_homes#.
@@ -136,7 +136,6 @@ The nearby #town_type# of #lang_gen()# #people_verb# #name# with gifts of #food:
 `],
 
     };
-
 
     var gen = new Generator(grammar);
     gen.mergeGrammar(lang_gen_grammar);
