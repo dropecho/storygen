@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/dropecho/storygen/compare/0.9.0...0.9.1) (2022-12-07)
+
+
+### Bug Fixes
+
+* Fix issue with parsing numbers for seeds with decimals in js. ([bea491a](https://github.com/dropecho/storygen/commit/bea491a77ce5a64c254fffb95d4f4b88431323eb))
+
 # [0.9.0](https://github.com/dropecho/storygen/compare/0.8.3...0.9.0) (2022-12-07)
 
 
