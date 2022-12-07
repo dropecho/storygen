@@ -6,7 +6,8 @@
 -D dce=no
 
 # PUT LIBS HERE.
-# -lib seedyrng
+-lib seedyrng
+-lib dropecho.interop
 
 # Include above in each target.
 --each

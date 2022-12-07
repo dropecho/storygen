@@ -3,7 +3,8 @@
   "description": "A grammar based text expansion, based on tracery.",
   "classPath": "src/",
   "dependencies": {
-    "seedyrng": ""
+    "seedyrng": "",
+    "dropecho.interop": ""
   },
   "url": "https://github.com/dropecho/storygen",
   "contributors": [
