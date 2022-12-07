@@ -1,3 +1,17 @@
+# [0.9.0](https://github.com/dropecho/storygen/compare/0.8.3...0.9.0) (2022-12-07)
+
+
+### Bug Fixes
+
+* Add required libs as deps in haxelib and build. ([eca91f8](https://github.com/dropecho/storygen/commit/eca91f880b74b6e197126f48bc1efa91a22caa9a))
+* Refactor targets, some cleanup. ([6b39dde](https://github.com/dropecho/storygen/commit/6b39dde03a97282467dc9753fe9ea19f6b43753a))
+* Update haxe version for ci. ([7cb81e8](https://github.com/dropecho/storygen/commit/7cb81e82a81f6800762c9a4c3f3bda82c34853e3))
+
+
+### Features
+
+* Update to newest template repo build stuff, get abstract interop stuff setup. ([c7d3719](https://github.com/dropecho/storygen/commit/c7d3719c86b6940fabbeaef182ccf916092b6e9e))
+
 ## [0.8.3](https://github.com/dropecho/storygen/compare/0.8.2...0.8.3) (2020-11-24)
 
 
