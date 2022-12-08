@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/dropecho/storygen/compare/0.9.1...0.9.2) (2022-12-08)
+
+
+### Bug Fixes
+
+* Cleanup seed input in js, cleanup examples/docs. ([fb9dd86](https://github.com/dropecho/storygen/commit/fb9dd86e6eb942af666ad269b114bab493f6ac2e))
+
 ## [0.9.1](https://github.com/dropecho/storygen/compare/0.9.0...0.9.1) (2022-12-07)
 
 
