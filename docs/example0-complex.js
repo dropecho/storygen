@@ -2,21 +2,24 @@ addExample('Complicated Example', () => {
   function run() {
     var grammar = {
       'origin': [
+        `#[guild:guild_name]##[leader:char]##[second:char]##guild_description#`
+      ],
+      'guild_description': [
         [
-          '#[guild:guild_name]# #[leader:char]# #[second:char]#',
-          'The #guild# is a guild.',
+          'The #guild# is a #job# guild.',
           'They have #number# members.',
           'It is run by #leader#.',
           '#leader# has been running it for #number# years.',
           '',
           '#second# has been working with #leader# for #number# years',
           '#char# is the quarter master.',
-          '#char# is the liason.',
+          '#char# is the liason.'
         ].join('\n')
       ],
       'guild_name': ['#color# #tool#'],
-      'tool': ['hammer', 'anvil', 'pot', 'clay'],
-      'color': ['white', 'grey', 'blue', 'green'],
+      'job': ['merchant', 'porter', 'blacksmith', 'baker'],
+      'tool': ['hammer', 'anvil', 'pot', 'clay', 'sickle', 'wheel', 'wagon'],
+      'color': ['white', 'grey', 'blue', 'green', 'yellow', 'orange', 'black'],
       'number': ['#random(10, 100)#'],
       'char': ['#[_h:char_heritage]##char_name.capitalize# the #_h#'],
       'char_heritage': ['elf', 'dwarf'],

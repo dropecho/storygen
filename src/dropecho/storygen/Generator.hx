@@ -161,7 +161,7 @@ class Generator {
 		if (seed != null && seed != "") {
 			// Convert to string and remove decimal for dynamic langs.
 			seed = Std.string(seed).split('.')[0];
-			random.seed = Int64Helper.parseString(seed);
+			random.setStringSeed(seed);
 		}
 		var out;
 		if (from.charAt(0) != "#") {
@@ -177,7 +177,7 @@ class Generator {
 		if (seed != null && seed != "") {
 			// Convert to string and remove decimal for dynamic langs.
 			seed = Std.string(seed).split('.')[0];
-			random.seed = Int64Helper.parseString(seed);
+			random.setStringSeed(seed);
 		}
 		var output = parse(from);
 		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];

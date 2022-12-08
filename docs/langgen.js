@@ -177,12 +177,17 @@ $hx_exports["Consts"] = dropecho_langgen_Consts;
 dropecho_langgen_Consts.__name__ = true;
 class dropecho_langgen_Language {
 	constructor(config,seed) {
+		if(seed == null) {
+			seed = "";
+		}
 		this.trans_words = new haxe_ds_StringMap();
 		this.words_ipa = new haxe_ds_StringMap();
 		this.words = new haxe_ds_StringMap();
 		this.syllables = [];
+		console.log("src/dropecho/langgen/Language.hx:51:",seedyrng_Random.randomSystemInt());
 		this.random = new seedyrng_Random();
-		if(seed != null) {
+		if(seed != null && seed != "") {
+			seed = (seed == null ? "null" : "" + seed).split(".")[0];
 			this.random.setStringSeed(seed);
 		}
 		let randommin;
@@ -202,7 +207,7 @@ class dropecho_langgen_Language {
 			tmp = { consonants : tmp1, vowels : tmp2, syllable_structure : tmp3, phrase_structure : tmp4, sibilants : tmp5, liquids : tmp6, finals : tmp7, rewriteset : tmp8, word_length_min : randommin, word_length_max : this.random.randomInt(randommin + 1,randommin + this.random.randomInt(1,4))};
 		}
 		this.config = tmp;
-		this.spell = new dropecho_langgen_Spell(null,seed);
+		this.orthography = new dropecho_langgen_Orthography(null,seed);
 		this.rewrite = new dropecho_langgen_Rewrite(this.config);
 		this.genitive = this.createWord("of",1,1);
 		this.definite = this.createWord("the",1,1);
@@ -263,7 +268,7 @@ class dropecho_langgen_Language {
 		}
 		let word = _g.join("");
 		let orig = word;
-		word = this.spell.spell(this.rewrite.rewrite(word));
+		word = this.orthography.spell(this.rewrite.rewrite(word));
 		if(key != null && !Object.prototype.hasOwnProperty.call(this.words.h,key)) {
 			this.words.h[key] = word;
 			this.trans_words.h[word] = key;
@@ -350,6 +355,40 @@ class dropecho_langgen_Language {
 }
 $hx_exports["Language"] = dropecho_langgen_Language;
 dropecho_langgen_Language.__name__ = true;
+class dropecho_langgen_Orthography {
+	constructor(ortho,seed) {
+		let random = new seedyrng_Random();
+		if(seed != null) {
+			random.setStringSeed(seed);
+		}
+		if(ortho == null) {
+			this.ortho = { consonants : dropecho_langgen_Consts.getRandomCorthSet(random), vowels : dropecho_langgen_Consts.getRandomVorthSet(random)};
+		} else {
+			this.ortho = ortho;
+		}
+	}
+	getOrthoChar(char) {
+		if(this.ortho.consonants != null && Object.prototype.hasOwnProperty.call(this.ortho.consonants.h,char)) {
+			return this.ortho.consonants.h[char];
+		}
+		if(this.ortho.vowels != null && Object.prototype.hasOwnProperty.call(this.ortho.vowels.h,char)) {
+			return this.ortho.vowels.h[char];
+		}
+		if(Object.prototype.hasOwnProperty.call(dropecho_langgen_Consts.default_ortho.h,char)) {
+			return dropecho_langgen_Consts.default_ortho.h[char];
+		}
+		return char;
+	}
+	spell(s) {
+		let _g = [];
+		let _g1 = 0;
+		let _g2 = s.split("");
+		while(_g1 < _g2.length) _g.push(this.getOrthoChar(_g2[_g1++]));
+		return _g.join("");
+	}
+}
+$hx_exports["Orthography"] = dropecho_langgen_Orthography;
+dropecho_langgen_Orthography.__name__ = true;
 class dropecho_langgen_Rewrite {
 	constructor(config) {
 		this.rules = new haxe_ds_ObjectMap();
@@ -390,40 +429,6 @@ class dropecho_langgen_Rewrite {
 	}
 }
 dropecho_langgen_Rewrite.__name__ = true;
-class dropecho_langgen_Spell {
-	constructor(ortho,seed) {
-		let random = new seedyrng_Random();
-		if(seed != null) {
-			random.setStringSeed(seed);
-		}
-		if(ortho == null) {
-			this.ortho = { consonants : dropecho_langgen_Consts.getRandomCorthSet(random), vowels : dropecho_langgen_Consts.getRandomVorthSet(random)};
-		} else {
-			this.ortho = ortho;
-		}
-	}
-	getOrthoChar(char) {
-		if(this.ortho.consonants != null && Object.prototype.hasOwnProperty.call(this.ortho.consonants.h,char)) {
-			return this.ortho.consonants.h[char];
-		}
-		if(this.ortho.vowels != null && Object.prototype.hasOwnProperty.call(this.ortho.vowels.h,char)) {
-			return this.ortho.vowels.h[char];
-		}
-		if(Object.prototype.hasOwnProperty.call(dropecho_langgen_Consts.default_ortho.h,char)) {
-			return dropecho_langgen_Consts.default_ortho.h[char];
-		}
-		return char;
-	}
-	spell(s) {
-		let _g = [];
-		let _g1 = 0;
-		let _g2 = s.split("");
-		while(_g1 < _g2.length) _g.push(this.getOrthoChar(_g2[_g1++]));
-		return _g.join("");
-	}
-}
-$hx_exports["Spell"] = dropecho_langgen_Spell;
-dropecho_langgen_Spell.__name__ = true;
 class haxe_Exception extends Error {
 	constructor(message,previous,native) {
 		super(message);

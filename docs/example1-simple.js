@@ -1,4 +1,4 @@
-addExample('example 1', () => {
+addExample('simple example', () => {
   function run() {
     var grammar = {
       origin: ['#name.capitalize# loves #food.pluralize#'],
@@ -17,6 +17,7 @@ addExample('example 1', () => {
   const code = funcToString(run);
 
   return {
+    description: `A simple example showing the basics of use.`,
     text: output.output,
     output,
     code

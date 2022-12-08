@@ -5,11 +5,11 @@ var rightPanel = document.getElementsByClassName('right-panel')[0];
 function funcToString(func) {
   let stringFunc = func.toString();
   let firstParenIndex = stringFunc.indexOf('{');
-  let body = stringFunc.substring(firstParenIndex+1, stringFunc.length - 1).replace('\n', '');
+  let body = stringFunc.substring(firstParenIndex + 1, stringFunc.length - 1).replace('\n', '');
   return body;
 }
 
-function addExample(text, callback) {
+function addExample(title, callback) {
   const el = document.createElement('div');
 
   const cb = (e) => {
@@ -17,24 +17,39 @@ function addExample(text, callback) {
     if (callback) {
       const rootEl = document.createElement('div');
       const textEl = document.createElement('div');
+      const descEl = document.createElement('div');
       const codeEl = document.createElement('pre');
       const outputEl = document.createElement('pre');
 
+      descEl.classList.add('output-desc', 'raised');
       textEl.classList.add('output-text', 'raised');
       codeEl.classList.add('output-code', 'raised');
       outputEl.classList.add('output-json', 'raised');
 
       var data = callback();
 
+      if (data.description) {
+        descEl.innerText = data.description;
+        let title = document.createElement('div');
+        title.classList.add('raised-title');
+        title.innerText = 'Description';
 
+        descEl.appendChild(title);
+        rootEl.appendChild(descEl);
+      }
       if (data.text) {
-        textEl.innerText = data.text;
 
         let title = document.createElement('div');
         title.classList.add('raised-title');
-        title.innerText = 'Generated';
+        title.innerText = 'Generated Text';
+
+        let textInner = document.createElement('div');
+        textInner.innerText = data.text;
+
+        textInner.style.maxWidth = '70%';
 
         textEl.appendChild(title);
+        textEl.appendChild(textInner);
         rootEl.appendChild(textEl);
       }
       if (data.code) {
@@ -68,7 +83,7 @@ function addExample(text, callback) {
 
   const textEl = document.createElement('div');
   textEl.classList.add('text');
-  textEl.innerText = text;
+  textEl.innerText = title;
 
   el.appendChild(textEl);
   leftPanel.appendChild(el);
@@ -78,7 +93,7 @@ function addExample(text, callback) {
 
 var home = addExample('Home', () => {
   return {
-    text: `Click on one of the options to the left to run an example.
+    description: `Click on one of the options to the left to run an example.
 Click again to run it again (with a new seed, generating a new sentence/story).
 `
   };
