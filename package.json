@@ -4,7 +4,6 @@
   "description": "",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/storygen",
-  "main": "./dist/js/cjs/index.cjs",
   "publishConfig": {
     "access": "public"
   },
@@ -26,6 +25,8 @@
     "semantic-release": "^19.0.5",
     "semantic-release-haxelib": "^1.1.0"
   },
+  "type": "module",
+  "main": "./dist/js/cjs/index.cjs",
   "exports": {
     ".": {
       "require": "./dist/js/cjs/index.cjs",

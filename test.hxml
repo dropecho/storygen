@@ -28,7 +28,7 @@
 -D dce=no
 
 -lib hxnodejs
--js build/js_test.js
+-js build/js_test.cjs
 # --next
 
 # ## HashLink
