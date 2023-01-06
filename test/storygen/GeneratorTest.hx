@@ -1,6 +1,6 @@
 package storygen;
 
-import dropecho.storygen.Generator.AAS;
+import dropecho.storygen.Generator.WordList;
 import massive.munit.Assert;
 import dropecho.storygen.*;
 
@@ -10,10 +10,10 @@ class GeneratorTest {
 	@Before
 	public function setup() {
 		var config = [
-			"test" => (['a'] : AAS),
-			"bar" => (['#test# bar'] : AAS),
-			"foo" => (['#bar#'] : AAS),
-			"baz" => (['#bar# #bar#'] : AAS)
+			"test" => (['a'] : WordList),
+			"bar" => (['#test# bar'] : WordList),
+			"foo" => (['#bar#'] : WordList),
+			"baz" => (['#bar# #bar#'] : WordList)
 		];
 
 		generator = new Generator(config);
@@ -46,9 +46,9 @@ class GeneratorTest {
 
 	@Test
 	public function run_merged() {
-		var c = ["origin" => (["#c2_name# met #c3_name#"] : AAS)];
-		var c2 = ["c2_name" => (["bob"] : AAS)];
-		var c3 = ["c3_name" => (["sally"] : AAS)];
+		var c = ["origin" => (["#c2_name# met #c3_name#"] : WordList)];
+		var c2 = ["c2_name" => (["bob"] : WordList)];
+		var c3 = ["c3_name" => (["sally"] : WordList)];
 
 		var gen = new Generator(c);
 		gen.mergeGrammar(c2);
@@ -87,8 +87,8 @@ class GeneratorTest {
 	@Test
 	public function memory_advanced() {
 		var config = [
-			"sentence" => (["#n:name# #n:name# #n# #n#"] : AAS),
-			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : AAS)
+			"sentence" => (["#n:name# #n:name# #n# #n#"] : WordList),
+			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : WordList)
 		];
 
 		generator = new Generator(config);
@@ -103,8 +103,8 @@ class GeneratorTest {
 	@Test
 	public function memory() {
 		var config = [
-			"sentence" => (["#n:name# #n:name# #n# #n#"] : AAS),
-			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : AAS)
+			"sentence" => (["#n:name# #n:name# #n# #n#"] : WordList),
+			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : WordList)
 		];
 
 		generator = new Generator(config);
@@ -118,8 +118,8 @@ class GeneratorTest {
 	@Test
 	public function memory_with_silent_action() {
 		var config = [
-			"sentence" => (["#[n:name]##n# #n#"] : AAS),
-			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : AAS)
+			"sentence" => (["#[n:name]##n# #n#"] : WordList),
+			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : WordList)
 		];
 
 		generator = new Generator(config);
@@ -133,8 +133,8 @@ class GeneratorTest {
 	@Test
 	public function memory_with_multiple_silent_action() {
 		var config = [
-			"sentence" => (["#[n:name]# #[b:name]# #n# #n# #b# #b#"] : AAS),
-			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : AAS)
+			"sentence" => (["#[n:name]# #[b:name]# #n# #n# #b# #b#"] : WordList),
+			"name" => (["Arjun", "Yuuma", "Darcy", "Mia", "Chiaki", "Izzi", "Azra", "Lina"] : WordList)
 		];
 
 		generator = new Generator(config);

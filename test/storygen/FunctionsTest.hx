@@ -1,6 +1,6 @@
 package storygen;
 
-import dropecho.storygen.Generator.AAS;
+import dropecho.storygen.Generator.WordList;
 import massive.munit.Assert;
 import dropecho.storygen.*;
 
@@ -9,7 +9,7 @@ class FunctionsTest {
 
 	@Before
 	public function setup() {
-		var config = ["test" => (['a'] : AAS), "test2" => (['b'] : AAS)];
+		var config = ["test" => (['a'] : WordList), "test2" => (['b'] : WordList)];
 		generator = new Generator(config);
 	}
 

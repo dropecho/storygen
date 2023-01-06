@@ -1,14 +1,21 @@
 package dropecho.storygen;
 
 import dropecho.interop.AbstractArray;
-import haxe.Int64Helper;
 import haxe.DynamicAccess;
 import haxe.Json;
 import seedyrng.Random;
 import dropecho.interop.AbstractMap;
 
-typedef AAS = AbstractArray<String>;
-typedef GrammarType = AbstractMap<String, AAS>;
+/** 
+ * An array of strings, representing words or tokens as part of a grammer. 
+ */
+typedef WordList = AbstractArray<String>;
+
+/** 
+ * A map of strings to array of strings (WordList). 
+ * This represents "types" of words/tokens in a grammar.
+ */
+typedef Grammar = AbstractMap<String, WordList>;
 
 @:struct
 @:nativeGen
@@ -25,9 +32,12 @@ class Generator {
 	public var matcher:EReg = ~/(#.*?#)/;
 	public var random:Random = new Random();
 	public var memory:AbstractMap<String, String> = new Map<String, String>();
-	public var grammars:GrammarType;
+	public var grammars:Grammar;
 
-	public function new(grammars:GrammarType) {
+	/**
+	 * @param grammars The String to Array<string> map representing the available tokens in a grammar. 
+	 */
+	public function new(grammars:Grammar) {
 		this.grammars = grammars;
 	}
 
@@ -35,7 +45,7 @@ class Generator {
 		return Std.string(random.seed);
 	}
 
-	public function mergeGrammar(grammars:GrammarType) {
+	public function mergeGrammar(grammars:Grammar) {
 		for (key => value in grammars) {
 			this.grammars.set(key, cast(value));
 		}
