@@ -1,3 +1,10 @@
+## [0.9.4](https://github.com/dropecho/storygen/compare/0.9.3...0.9.4) (2023-01-06)
+
+
+### Bug Fixes
+
+* Fix issue with extra files included in npm publish. ([a476b69](https://github.com/dropecho/storygen/commit/a476b69e60a8d4a5bf8d7b6843e9b00cd60414f8))
+
 ## [0.9.3](https://github.com/dropecho/storygen/compare/0.9.2...0.9.3) (2022-12-08)
 
 
