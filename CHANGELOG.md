@@ -1,3 +1,10 @@
+## [0.9.5](https://github.com/dropecho/storygen/compare/0.9.4...0.9.5) (2023-01-06)
+
+
+### Bug Fixes
+
+* Add types to package.json and export them via genes lib for js. ([e98fdd8](https://github.com/dropecho/storygen/commit/e98fdd818636ae38612e815ebc0ade8d561d8e53))
+
 ## [0.9.4](https://github.com/dropecho/storygen/compare/0.9.3...0.9.4) (2023-01-06)
 
 
