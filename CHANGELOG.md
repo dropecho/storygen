@@ -1,3 +1,10 @@
+## [0.9.3](https://github.com/dropecho/storygen/compare/0.9.2...0.9.3) (2022-12-08)
+
+
+### Bug Fixes
+
+* Set type in package as module, fix test. ([61613ae](https://github.com/dropecho/storygen/commit/61613ae85918f4628b12413ddf27efe102e60bf3))
+
 ## [0.9.2](https://github.com/dropecho/storygen/compare/0.9.1...0.9.2) (2022-12-08)
 
 
