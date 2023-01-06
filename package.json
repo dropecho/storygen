@@ -26,6 +26,9 @@
     "semantic-release-haxelib": "^1.1.0"
   },
   "type": "module",
+  "files": [
+    "dist/js/**"
+  ],
   "main": "./dist/js/cjs/index.cjs",
   "exports": {
     ".": {

@@ -1157,6 +1157,26 @@ class dropecho_interop_AbstractArray {
 		return dropecho_interop_AbstractArray._new(_g);
 	}
 }
+class dropecho_interop_JSAbstractMapKeyValueIterator {
+	constructor(map) {
+		this._iter = new haxe_iterators_DynamicAccessKeyValueIterator(map);
+	}
+	hasNext() {
+		let _this = this._iter;
+		return _this.index < _this.keys.length;
+	}
+	next() {
+		let _this = this._iter;
+		let key = _this.keys[_this.index++];
+		return { value : _this.access[key], key : key};
+	}
+}
+$hxClasses["dropecho.interop.JSAbstractMapKeyValueIterator"] = dropecho_interop_JSAbstractMapKeyValueIterator;
+dropecho_interop_JSAbstractMapKeyValueIterator.__name__ = "dropecho.interop.JSAbstractMapKeyValueIterator";
+Object.assign(dropecho_interop_JSAbstractMapKeyValueIterator.prototype, {
+	__class__: dropecho_interop_JSAbstractMapKeyValueIterator
+	,_iter: null
+});
 class dropecho_interop_AbstractMap {
 	static _new(s) {
 		let this1;
@@ -1167,11 +1187,8 @@ class dropecho_interop_AbstractMap {
 		}
 		return this1;
 	}
-	static fromDynamic(map) {
-		return dropecho_interop_AbstractMap._new(map);
-	}
-	static fromDynamicAccess(map) {
-		return dropecho_interop_AbstractMap._new(map);
+	static keyValueIterator(this1) {
+		return new dropecho_interop_JSAbstractMapKeyValueIterator(this1);
 	}
 	static fromMap(map) {
 		let abs = dropecho_interop_AbstractMap._new();
@@ -1190,6 +1207,9 @@ class dropecho_interop_AbstractMap {
 			abs[Std.string(_g1.key)] = _g1.value;
 		}
 		return abs;
+	}
+	static exists(this1,key) {
+		return Object.prototype.hasOwnProperty.call(this1,Std.string(key));
 	}
 	static get(this1,key) {
 		return this1[Std.string(key)];
@@ -1528,21 +1548,20 @@ class dropecho_storygen_Generator {
 		return haxe_Int64.toString(this.random.get_seed());
 	}
 	mergeGrammar(grammars) {
-		let access = grammars;
-		let _g_keys = Reflect.fields(access);
-		let _g_index = 0;
-		while(_g_index < _g_keys.length) {
-			let key = _g_keys[_g_index++];
-			this.grammars[key == null ? "null" : "" + key] = access[key];
+		let _g = new dropecho_interop_JSAbstractMapKeyValueIterator(grammars);
+		while(_g.hasNext()) {
+			let _g1 = _g.next();
+			let key = _g1.key;
+			this.grammars[key == null ? "null" : "" + key] = _g1.value;
 		}
 	}
 	inMemory(symbol) {
-		return Object.prototype.hasOwnProperty.call(this.memory,symbol);
+		return Object.prototype.hasOwnProperty.call(this.memory,symbol == null ? "null" : "" + symbol);
 	}
 	expand(token) {
-		if(token.isMemorized || Object.prototype.hasOwnProperty.call(this.memory,token.symbol)) {
+		if(token.isMemorized || Object.prototype.hasOwnProperty.call(this.memory,Std.string(token.symbol))) {
 			let sym = token.memSymbol != null ? token.memSymbol : token.symbol;
-			if(Object.prototype.hasOwnProperty.call(this.memory,sym)) {
+			if(Object.prototype.hasOwnProperty.call(this.memory,sym == null ? "null" : "" + sym)) {
 				return this.memory[sym == null ? "null" : "" + sym];
 			}
 		}
@@ -1636,17 +1655,15 @@ class dropecho_storygen_Generator {
 		}
 		let output = this.parse(from);
 		let memory_h = Object.create(null);
-		let access = this.memory;
-		let _g1_keys = Reflect.fields(access);
-		let _g1_index = 0;
-		while(_g1_index < _g1_keys.length) {
-			let key = _g1_keys[_g1_index++];
-			memory_h[key] = access[key];
+		let _g = new dropecho_interop_JSAbstractMapKeyValueIterator(this.memory);
+		while(_g.hasNext()) {
+			let _g1 = _g.next();
+			memory_h[_g1.key] = _g1.value;
 		}
 		let this1 = this.memory;
-		let _g = 0;
-		let _g1 = Reflect.fields(this1);
-		while(_g < _g1.length) Reflect.deleteField(this1,_g1[_g++]);
+		let _g1 = 0;
+		let _g2 = Reflect.fields(this1);
+		while(_g1 < _g2.length) Reflect.deleteField(this1,_g2[_g1++]);
 		let genOutput = new dropecho_storygen_GeneratorOutput();
 		genOutput.seed = this.getSeed();
 		genOutput.output = output;
