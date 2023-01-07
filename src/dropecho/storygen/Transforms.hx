@@ -2,28 +2,44 @@ package dropecho.storygen;
 
 @:expose("Transforms")
 class Transforms {
-	static private var userTransforms:Map<String, (String -> String)> = [];
+	static private var transforms:Map<String, (String -> String)> = [
+		"toUpperCase" => (s:String) -> s.toUpperCase(),
+		"toLowerCase" => (s:String) -> s.toLowerCase(),
+		"capitalize" => capitalize,
+		"pluralize" => pluralize,
+		"titlize" => titlize,
+		"a" => a,
+	];
 
-	static public function isVowel(s:String):Bool {
-		var vowels = 'aeiou';
+	static function isVowel(s:String):Bool {
+		var vowels = 'aeiouAEIOU';
 		return vowels.indexOf(s.charAt(0)) != -1;
 	}
 
-	static public function capitalize(s:String):String {
+	static function capitalize(s:String):String {
 		var chars = s.split("");
 		var f = chars.shift();
 
 		return f.toUpperCase() + chars.join("");
 	}
 
-	static public function a(s:String):String {
+	static function titlize(s:String):String {
+		var words = s.split(" ");
+		for (i in 0...words.length) {
+			words[i] = capitalize(words[i]);
+		}
+
+		return words.join(" ");
+	}
+
+	static function a(s:String):String {
 		return switch (isVowel(s.charAt(0))) {
 			case true: 'an $s';
 			case false: 'a $s';
 		}
 	}
 
-	static public function pluralize(s:String):String {
+	static function pluralize(s:String):String {
 		var end = switch (s.charAt(s.length - 1)) {
 			case "h": "es";
 			case "y":
@@ -36,13 +52,14 @@ class Transforms {
 	}
 
 	static public function get(name:String):String->String {
-		if (userTransforms.exists(name)) {
-			return userTransforms.get(name);
+		if (transforms.exists(name)) {
+			return transforms.get(name);
 		}
-		return Reflect.field(Transforms, name);
+
+		throw "There is no transform named '${name}', please ensure you registered it.";
 	}
 
 	static public function set(name:String, trans:String->String) {
-		userTransforms.set(name, trans);
+		transforms.set(name, trans);
 	}
 }
