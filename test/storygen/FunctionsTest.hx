@@ -14,6 +14,15 @@ class FunctionsTest {
 	}
 
 	@Test
+	public function repeat() {
+		var repeat = Functions.get("repeat");
+		Assert.isNotNull(random);
+
+		var out = repeat(generator, ["#test2#", "4", "4"]);
+		Assert.areEqual("b b b b", out);
+	}
+
+	@Test
 	public function random() {
 		var random = Functions.get("random");
 		Assert.isNotNull(random);
