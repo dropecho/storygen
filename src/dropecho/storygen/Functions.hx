@@ -19,7 +19,7 @@ class Functions {
 
 		var str = "";
 		for (_ in 0...int) {
-			str += " " + gen.run(symbol);
+			str += " " + gen.run('#${symbol}#');
 		}
 		return str.ltrim().rtrim();
 	}

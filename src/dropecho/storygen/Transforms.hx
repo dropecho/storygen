@@ -56,7 +56,7 @@ class Transforms {
 			return transforms.get(name);
 		}
 
-		throw "There is no transform named '${name}', please ensure you registered it.";
+		throw 'There is no transform named "${name}", please ensure you registered it.';
 	}
 
 	static public function set(name:String, trans:String->String) {

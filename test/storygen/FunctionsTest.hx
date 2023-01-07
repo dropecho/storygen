@@ -18,7 +18,7 @@ class FunctionsTest {
 		var repeat = Functions.get("repeat");
 		Assert.isNotNull(random);
 
-		var out = repeat(generator, ["#test2#", "4", "4"]);
+		var out = repeat(generator, ["test2", "4", "4"]);
 		Assert.areEqual("b b b b", out);
 	}
 
