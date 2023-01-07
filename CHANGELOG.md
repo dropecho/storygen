@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/dropecho/storygen/compare/0.11.0...0.12.0) (2023-01-07)
+
+
+### Features
+
+* Add repeat function. ([8dee1ba](https://github.com/dropecho/storygen/commit/8dee1ba4974a8db2d3828ad1d7956741f75d1eec))
+
 # [0.11.0](https://github.com/dropecho/storygen/compare/0.10.0...0.11.0) (2023-01-07)
 
 
