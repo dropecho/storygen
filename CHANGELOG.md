@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/dropecho/storygen/compare/0.10.0...0.11.0) (2023-01-07)
+
+
+### Features
+
+* Add titlize, to uppercase, to lowercase transforms. ([3b8f81c](https://github.com/dropecho/storygen/commit/3b8f81c7db9a24990418204b6c3da8a96a24d385))
+
 # [0.10.0](https://github.com/dropecho/storygen/compare/0.9.5...0.10.0) (2023-01-07)
 
 
