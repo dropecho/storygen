@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/dropecho/storygen/compare/0.9.5...0.10.0) (2023-01-07)
+
+
+### Features
+
+* Improve docs a bit more ([b0da3e8](https://github.com/dropecho/storygen/commit/b0da3e87c6f86a1b8128c38be9c65dfa435411fd))
+
 ## [0.9.5](https://github.com/dropecho/storygen/compare/0.9.4...0.9.5) (2023-01-06)
 
 
