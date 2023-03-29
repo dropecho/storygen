@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/dropecho/storygen/compare/0.12.0...0.12.1) (2023-01-07)
+
+
+### Bug Fixes
+
+* Fix issue with repeat, fix error to show actual name. ([147ddb6](https://github.com/dropecho/storygen/commit/147ddb62cab2b0e0dd05309ebec484cdd737911f))
+
 # [0.12.0](https://github.com/dropecho/storygen/compare/0.11.0...0.12.0) (2023-01-07)
 
 
