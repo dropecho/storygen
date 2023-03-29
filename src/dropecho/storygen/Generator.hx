@@ -29,7 +29,7 @@ class GeneratorOutput {
 
 @:expose("Generator")
 class Generator {
-	public var matcher:EReg = ~/(#.*?#)/;
+	public var tokenRegex:EReg = ~/(#.*?#)/;
 	public var random:Random = new Random();
 	public var memory:AbstractMap<String, String> = new Map<String, String>();
 	public var grammars:Grammar;
@@ -68,80 +68,82 @@ class Generator {
 			}
 		}
 
-		var s:String = token.symbol;
-
 		if (token.isFunction) {
-			var func = Functions.get(token.symbol);
-			if (func != null) {
-				return func(this, token.functionArgs);
-			} else {
-				throw '
-					No function "$s" exists on the function object.
-					Double check spelling (#random(5,10)#) or add function to Functions.
-					example:
-					``` storygen.Functions.set("myFunc", (s:String) => return "hi");```
-				';
-			}
+			return callFunction(token);
 		}
 
-		var grammar = grammars[s];
+		var grammar = grammars[token.symbol];
 
 		if (grammar == null) {
 			throw '
-				No symbol "$s" exists in your grammar.
+				No symbol "${token.symbol}" exists in your grammar.
 				Ensure the object/map contains an array for this or
 				that you have stored this in memory.
-				example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
-				example: ``` var grammar = {"example": ["#$s:some_other#"]}; ```
+				example: ``` var grammar = {${token.symbol}: ["choice1", "choice2"]}; ```
+				example: ``` var grammar = {"example": ["#${token.symbol}:some_other#"]}; ```
 			';
 		}
 
 		if (grammar.length <= 0) {
 			throw '
-				No choices in grammar for symbol "$s", has 0 elements.
+				No choices in grammar for symbol "${token.symbol}", has 0 elements.
 				Try adding some.
-				example: ``` var grammar = {$s: ["choice1", "choice2"]}; ```
+				example: ``` var grammar = {${token.symbol}: ["choice1", "choice2"]}; ```
 			';
 		}
 
 		var pos = this.random.randomInt(0, grammar.length - 1);
-		var expanded = grammar[pos];
-		return expanded;
+		return grammar[pos];
 	}
 
-	private function doTransforms(s:String, token:Token):String {
-		for (transform in token.transforms) {
-			var t = Transforms.get(transform);
-			if (t == null) {
+	private function callFunction(token:Token) {
+		var func = Functions.get(token.symbol);
+		if (func != null) {
+			return func(this, token.functionArgs);
+		} else {
+			throw '
+					No function "${token.symbol}" exists on the function object.
+					Double check spelling (#random(5,10)#) or add function to Functions.
+					example:
+					``` storygen.Functions.set("${token.symbol}", (s:String) => return "hi");```
+				';
+		}
+	}
+
+	private function doTransforms(text:String, token:Token):String {
+		for (transformName in token.transforms) {
+			var transform = Transforms.get(transformName);
+			if (transform == null) {
 				throw '
-              No transform "$transform" exists on the transforms object.
+              No transform "$transformName" exists on the transforms object.
               Double check spelling (#sym.capitalize#) or add transform to Transforms.
               example: 
-              ``` storygen.Transforms.set("myTransform", (s:String) => return "hi");```
+              ``` storygen.Transforms.set("$transformName", (s:String) => return "hi");```
             ';
 			} else {
-				s = t(s);
+				text = transform(text);
 			}
 		}
 
-		return s;
+		return text;
 	}
 
 	private function parse(string:String):String {
 		var tempMemory = [];
 
-		while (matcher.match(string)) {
-			var match = matcher.matched(1);
-			var token = new Token(match);
-			var expanded = expand(token);
+		while (tokenRegex.match(string)) {
+			var token = new Token(tokenRegex.matched(1));
 
-			if (!token.isValid) {
+			if (!token.isExpandable) {
 				continue;
 			}
+
+			var expanded = expand(token);
 
 			// Recurse through expansions.
 			expanded = parse(expanded);
 
+			// Do transforms after expansion.
 			if (token.isTransformed) {
 				expanded = doTransforms(expanded, token);
 			}
@@ -155,9 +157,9 @@ class Generator {
 			}
 
 			if (token.isSilent) {
-				string = matcher.replace(string, "");
+				string = tokenRegex.replace(string, "");
 			} else {
-				string = matcher.replace(string, expanded);
+				string = tokenRegex.replace(string, expanded);
 			}
 		}
 
@@ -170,7 +172,9 @@ class Generator {
 	public function run(from:String, ?seed:String = ""):String {
 		if (seed != null && seed != "") {
 			// Convert to string and remove decimal for dynamic langs.
-			seed = Std.string(seed).split('.')[0];
+			seed = Std
+				.string(seed)
+				.split('.')[0];
 			random.setStringSeed(seed);
 		}
 		var out;
@@ -178,7 +182,7 @@ class Generator {
 			out = parse("#" + from + "#");
 		}
 		out = parse(from);
-		memory.clear();
+		//     memory.clear();
 
 		return out;
 	}
@@ -186,12 +190,14 @@ class Generator {
 	public function runAdvanced(from:String, seed:String = ""):GeneratorOutput {
 		if (seed != null && seed != "") {
 			// Convert to string and remove decimal for dynamic langs.
-			seed = Std.string(seed).split('.')[0];
+			seed = Std
+				.string(seed)
+				.split('.')[0];
 			random.setStringSeed(seed);
 		}
 		var output = parse(from);
 		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
-		this.memory.clear();
+		//     this.memory.clear();
 
 		var genOutput = new GeneratorOutput();
 

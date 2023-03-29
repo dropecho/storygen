@@ -50,4 +50,14 @@ class FunctionsTest {
 		var out = sw(generator, ["bar", "test=>test"]);
 		Assert.areEqual("", out);
 	}
+
+	@Test
+	public function switch_test_default() {
+		generator.memory.set("bar", "test2");
+		var sw = Functions.get("switch");
+		Assert.isNotNull(sw);
+
+		var out = sw(generator, ["bar", "test=>test", "_=>default"]);
+		Assert.areEqual("default", out);
+	}
 }

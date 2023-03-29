@@ -232,6 +232,165 @@ Object.assign(IntIterator.prototype, {
 	,min: null
 	,max: null
 });
+class Lambda {
+	static array(it) {
+		let a = [];
+		let i = $getIterator(it);
+		while(i.hasNext()) a.push(i.next());
+		return a;
+	}
+	static list(it) {
+		let l = new haxe_ds_List();
+		let i = $getIterator(it);
+		while(i.hasNext()) l.add(i.next());
+		return l;
+	}
+	static map(it,f) {
+		let _g = [];
+		let x = $getIterator(it);
+		while(x.hasNext()) _g.push(f(x.next()));
+		return _g;
+	}
+	static mapi(it,f) {
+		let i = 0;
+		let _g = [];
+		let x = $getIterator(it);
+		while(x.hasNext()) _g.push(f(i++,x.next()));
+		return _g;
+	}
+	static flatten(it) {
+		let _g = [];
+		let e = $getIterator(it);
+		while(e.hasNext()) {
+			let x = $getIterator(e.next());
+			while(x.hasNext()) _g.push(x.next());
+		}
+		return _g;
+	}
+	static flatMap(it,f) {
+		let _g = [];
+		let x = $getIterator(it);
+		while(x.hasNext()) _g.push(f(x.next()));
+		let _g1 = [];
+		let e = $getIterator(_g);
+		while(e.hasNext()) {
+			let x = $getIterator(e.next());
+			while(x.hasNext()) _g1.push(x.next());
+		}
+		return _g1;
+	}
+	static has(it,elt) {
+		let x = $getIterator(it);
+		while(x.hasNext()) if(x.next() == elt) {
+			return true;
+		}
+		return false;
+	}
+	static exists(it,f) {
+		let x = $getIterator(it);
+		while(x.hasNext()) if(f(x.next())) {
+			return true;
+		}
+		return false;
+	}
+	static foreach(it,f) {
+		let x = $getIterator(it);
+		while(x.hasNext()) if(!f(x.next())) {
+			return false;
+		}
+		return true;
+	}
+	static iter(it,f) {
+		let x = $getIterator(it);
+		while(x.hasNext()) f(x.next());
+	}
+	static filter(it,f) {
+		let _g = [];
+		let x = $getIterator(it);
+		while(x.hasNext()) {
+			let x1 = x.next();
+			if(f(x1)) {
+				_g.push(x1);
+			}
+		}
+		return _g;
+	}
+	static fold(it,f,first) {
+		let x = $getIterator(it);
+		while(x.hasNext()) first = f(x.next(),first);
+		return first;
+	}
+	static foldi(it,f,first) {
+		let i = 0;
+		let x = $getIterator(it);
+		while(x.hasNext()) {
+			first = f(x.next(),first,i);
+			++i;
+		}
+		return first;
+	}
+	static count(it,pred) {
+		let n = 0;
+		if(pred == null) {
+			let _ = $getIterator(it);
+			while(_.hasNext()) {
+				_.next();
+				++n;
+			}
+		} else {
+			let x = $getIterator(it);
+			while(x.hasNext()) if(pred(x.next())) {
+				++n;
+			}
+		}
+		return n;
+	}
+	static empty(it) {
+		return !$getIterator(it).hasNext();
+	}
+	static indexOf(it,v) {
+		let i = 0;
+		let v2 = $getIterator(it);
+		while(v2.hasNext()) {
+			if(v == v2.next()) {
+				return i;
+			}
+			++i;
+		}
+		return -1;
+	}
+	static find(it,f) {
+		let v = $getIterator(it);
+		while(v.hasNext()) {
+			let v1 = v.next();
+			if(f(v1)) {
+				return v1;
+			}
+		}
+		return null;
+	}
+	static findIndex(it,f) {
+		let i = 0;
+		let v = $getIterator(it);
+		while(v.hasNext()) {
+			if(f(v.next())) {
+				return i;
+			}
+			++i;
+		}
+		return -1;
+	}
+	static concat(a,b) {
+		let l = [];
+		let x = $getIterator(a);
+		while(x.hasNext()) l.push(x.next());
+		let x1 = $getIterator(b);
+		while(x1.hasNext()) l.push(x1.next());
+		return l;
+	}
+}
+$hxClasses["Lambda"] = Lambda;
+Lambda.__name__ = "Lambda";
 Math.__name__ = "Math";
 class Reflect {
 	static hasField(o,field) {
@@ -1506,7 +1665,147 @@ class js_Boot {
 js_Boot.__toStr = null;
 $hxClasses["js.Boot"] = js_Boot;
 js_Boot.__name__ = "js.Boot";
+class haxe_IMap {
+}
+$hxClasses["haxe.IMap"] = haxe_IMap;
+haxe_IMap.__name__ = "haxe.IMap";
+haxe_IMap.__isInterface__ = true;
+Object.assign(haxe_IMap.prototype, {
+	__class__: haxe_IMap
+	,get: null
+	,set: null
+	,exists: null
+	,remove: null
+	,keys: null
+	,iterator: null
+	,keyValueIterator: null
+	,copy: null
+	,toString: null
+	,clear: null
+});
+class haxe_ds_StringMap {
+	constructor() {
+		this.h = Object.create(null);
+	}
+	exists(key) {
+		return Object.prototype.hasOwnProperty.call(this.h,key);
+	}
+	get(key) {
+		return this.h[key];
+	}
+	set(key,value) {
+		this.h[key] = value;
+	}
+	remove(key) {
+		if(Object.prototype.hasOwnProperty.call(this.h,key)) {
+			delete(this.h[key]);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	keys() {
+		return new haxe_ds__$StringMap_StringMapKeyIterator(this.h);
+	}
+	iterator() {
+		return new haxe_ds__$StringMap_StringMapValueIterator(this.h);
+	}
+	keyValueIterator() {
+		return new haxe_ds__$StringMap_StringMapKeyValueIterator(this.h);
+	}
+	copy() {
+		return haxe_ds_StringMap.createCopy(this.h);
+	}
+	clear() {
+		this.h = Object.create(null);
+	}
+	toString() {
+		return haxe_ds_StringMap.stringify(this.h);
+	}
+	static createCopy(h) {
+		let copy = new haxe_ds_StringMap();
+		for (var key in h) copy.h[key] = h[key];
+		return copy;
+	}
+	static stringify(h) {
+		let s = "{";
+		let first = true;
+		for (var key in h) {
+			if (first) first = false; else s += ',';
+			s += key + ' => ' + Std.string(h[key]);
+		}
+		return s + "}";
+	}
+}
+$hxClasses["haxe.ds.StringMap"] = haxe_ds_StringMap;
+haxe_ds_StringMap.__name__ = "haxe.ds.StringMap";
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+Object.assign(haxe_ds_StringMap.prototype, {
+	__class__: haxe_ds_StringMap
+	,h: null
+});
 class dropecho_storygen_Functions {
+	static repeat(gen,args) {
+		return dropecho_storygen_Functions.repeatDelim(gen,args);
+	}
+	static repeatDelim(gen,args) {
+		let symbol = args[0];
+		let int = gen.random.randomInt(Std.parseInt(args[1]),Std.parseInt(args[2]));
+		let delim = args[3];
+		if(delim == null) {
+			delim = " ";
+		}
+		delim = Object.prototype.hasOwnProperty.call(dropecho_storygen_Functions.delims.h,delim) ? dropecho_storygen_Functions.delims.h[delim] : " ";
+		let str = "";
+		let _g = 0;
+		while(_g < int) {
+			++_g;
+			str += gen.run("#" + symbol + "#") + delim;
+		}
+		return StringTools.rtrim(StringTools.ltrim(str));
+	}
+	static random(gen,args) {
+		let int = gen.random.randomInt(Std.parseInt(args[0]),Std.parseInt(args[1]));
+		if(int == null) {
+			return "null";
+		} else {
+			return "" + int;
+		}
+	}
+	static mapFunc(gen,args) {
+		let symbol = gen.memory[Std.string(args.shift())];
+		return Lambda.find(args,function(x) {
+			return x.startsWith(symbol);
+		}).split("=>")[1];
+	}
+	static switchFunc(gen,args) {
+		let symbol = args.shift();
+		let parsed = gen.memory[Std.string(symbol)];
+		if(parsed == null) {
+			parsed = "_";
+		}
+		let map_h = Object.create(null);
+		let _g = 0;
+		while(_g < args.length) {
+			let parts = args[_g++].split("=>");
+			map_h[StringTools.trim(parts[0])] = StringTools.trim(parts[1]);
+		}
+		if(Object.prototype.hasOwnProperty.call(map_h,parsed)) {
+			let token = map_h[parsed];
+			if(Object.prototype.hasOwnProperty.call(gen.grammars,Std.string(token))) {
+				return "#" + token + "#";
+			}
+			return "" + token;
+		}
+		if(Object.prototype.hasOwnProperty.call(map_h,"_")) {
+			let token = map_h["_"];
+			if(Object.prototype.hasOwnProperty.call(gen.grammars,Std.string(token))) {
+				return "#" + token + "#";
+			}
+			return "" + token;
+		}
+		return "";
+	}
 	static set(name,func) {
 		dropecho_storygen_Functions.funcs.h[name] = func;
 	}
@@ -1541,7 +1840,7 @@ class dropecho_storygen_Generator {
 		}
 		this.memory = abs;
 		this.random = new seedyrng_Random();
-		this.matcher = new EReg("(#.*?#)","");
+		this.tokenRegex = new EReg("(#.*?#)","");
 		this.grammars = grammars;
 	}
 	getSeed() {
@@ -1565,47 +1864,49 @@ class dropecho_storygen_Generator {
 				return this.memory[sym == null ? "null" : "" + sym];
 			}
 		}
-		let s = token.symbol;
 		if(token.isFunction) {
-			let func = dropecho_storygen_Functions.get(token.symbol);
-			if(func != null) {
-				return func(this,token.functionArgs);
-			} else {
-				throw haxe_Exception.thrown("\n\t\t\t\t\tNo function \"" + s + "\" exists on the function object.\n\t\t\t\t\tDouble check spelling (#random(5,10)#) or add function to Functions.\n\t\t\t\t\texample:\n\t\t\t\t\t``` storygen.Functions.set(\"myFunc\", (s:String) => return \"hi\");```\n\t\t\t\t");
-			}
+			return this.callFunction(token);
 		}
-		let grammar = this.grammars[s == null ? "null" : "" + s];
+		let grammar = this.grammars[Std.string(token.symbol)];
 		if(grammar == null) {
-			throw haxe_Exception.thrown("\n\t\t\t\tNo symbol \"" + s + "\" exists in your grammar.\n\t\t\t\tEnsure the object/map contains an array for this or\n\t\t\t\tthat you have stored this in memory.\n\t\t\t\texample: ``` var grammar = {" + s + ": [\"choice1\", \"choice2\"]}; ```\n\t\t\t\texample: ``` var grammar = {\"example\": [\"#" + s + ":some_other#\"]}; ```\n\t\t\t");
+			throw haxe_Exception.thrown("\n\t\t\t\tNo symbol \"" + token.symbol + "\" exists in your grammar.\n\t\t\t\tEnsure the object/map contains an array for this or\n\t\t\t\tthat you have stored this in memory.\n\t\t\t\texample: ``` var grammar = {" + token.symbol + ": [\"choice1\", \"choice2\"]}; ```\n\t\t\t\texample: ``` var grammar = {\"example\": [\"#" + token.symbol + ":some_other#\"]}; ```\n\t\t\t");
 		}
 		if(grammar.length <= 0) {
-			throw haxe_Exception.thrown("\n\t\t\t\tNo choices in grammar for symbol \"" + s + "\", has 0 elements.\n\t\t\t\tTry adding some.\n\t\t\t\texample: ``` var grammar = {" + s + ": [\"choice1\", \"choice2\"]}; ```\n\t\t\t");
+			throw haxe_Exception.thrown("\n\t\t\t\tNo choices in grammar for symbol \"" + token.symbol + "\", has 0 elements.\n\t\t\t\tTry adding some.\n\t\t\t\texample: ``` var grammar = {" + token.symbol + ": [\"choice1\", \"choice2\"]}; ```\n\t\t\t");
 		}
 		return grammar[this.random.randomInt(0,grammar.length - 1)];
 	}
-	doTransforms(s,token) {
+	callFunction(token) {
+		let func = dropecho_storygen_Functions.get(token.symbol);
+		if(func != null) {
+			return func(this,token.functionArgs);
+		} else {
+			throw haxe_Exception.thrown("\n\t\t\t\t\tNo function \"" + token.symbol + "\" exists on the function object.\n\t\t\t\t\tDouble check spelling (#random(5,10)#) or add function to Functions.\n\t\t\t\t\texample:\n\t\t\t\t\t``` storygen.Functions.set(\"" + token.symbol + "\", (s:String) => return \"hi\");```\n\t\t\t\t");
+		}
+	}
+	doTransforms(text,token) {
 		let _g = 0;
 		let _g1 = token.transforms;
 		while(_g < _g1.length) {
-			let transform = _g1[_g];
+			let transformName = _g1[_g];
 			++_g;
-			let t = dropecho_storygen_Transforms.get(transform);
-			if(t == null) {
-				throw haxe_Exception.thrown("\n              No transform \"" + transform + "\" exists on the transforms object.\n              Double check spelling (#sym.capitalize#) or add transform to Transforms.\n              example: \n              ``` storygen.Transforms.set(\"myTransform\", (s:String) => return \"hi\");```\n            ");
+			let transform = dropecho_storygen_Transforms.get(transformName);
+			if(transform == null) {
+				throw haxe_Exception.thrown("\n              No transform \"" + transformName + "\" exists on the transforms object.\n              Double check spelling (#sym.capitalize#) or add transform to Transforms.\n              example: \n              ``` storygen.Transforms.set(\"" + transformName + "\", (s:String) => return \"hi\");```\n            ");
 			} else {
-				s = t(s);
+				text = transform(text);
 			}
 		}
-		return s;
+		return text;
 	}
 	parse(string) {
 		let tempMemory = [];
-		while(this.matcher.match(string)) {
-			let token = new dropecho_storygen_Token(this.matcher.matched(1));
-			let expanded = this.expand(token);
-			if(!token.isValid) {
+		while(this.tokenRegex.match(string)) {
+			let token = new dropecho_storygen_Token(this.tokenRegex.matched(1));
+			if(!token.isExpandable) {
 				continue;
 			}
+			let expanded = this.expand(token);
 			expanded = this.parse(expanded);
 			if(token.isTransformed) {
 				expanded = this.doTransforms(expanded,token);
@@ -1617,9 +1918,9 @@ class dropecho_storygen_Generator {
 				}
 			}
 			if(token.isSilent) {
-				string = string.replace(this.matcher.r,"");
+				string = string.replace(this.tokenRegex.r,"");
 			} else {
-				string = string.replace(this.matcher.r,expanded);
+				string = string.replace(this.tokenRegex.r,expanded);
 			}
 		}
 		let _g = 0;
@@ -1639,10 +1940,6 @@ class dropecho_storygen_Generator {
 			out = this.parse("#" + from + "#");
 		}
 		out = this.parse(from);
-		let this1 = this.memory;
-		let _g = 0;
-		let _g1 = Reflect.fields(this1);
-		while(_g < _g1.length) Reflect.deleteField(this1,_g1[_g++]);
 		return out;
 	}
 	runAdvanced(from,seed) {
@@ -1660,10 +1957,6 @@ class dropecho_storygen_Generator {
 			let _g1 = _g.next();
 			memory_h[_g1.key] = _g1.value;
 		}
-		let this1 = this.memory;
-		let _g1 = 0;
-		let _g2 = Reflect.fields(this1);
-		while(_g1 < _g2.length) Reflect.deleteField(this1,_g2[_g1++]);
 		let genOutput = new dropecho_storygen_GeneratorOutput();
 		genOutput.seed = this.getSeed();
 		genOutput.output = output;
@@ -1695,89 +1988,115 @@ $hxClasses["dropecho.storygen.Generator"] = $hx_exports["Generator"] = dropecho_
 dropecho_storygen_Generator.__name__ = "dropecho.storygen.Generator";
 Object.assign(dropecho_storygen_Generator.prototype, {
 	__class__: dropecho_storygen_Generator
-	,matcher: null
+	,tokenRegex: null
 	,random: null
 	,memory: null
 	,grammars: null
 });
 class dropecho_storygen_Token {
 	constructor(text) {
-		this.isFunctionCall = new EReg("(.*)\\((.*)\\)","");
-		this.shouldBeTransformed = new EReg("(.*?)\\.(.*)","");
-		this.shouldBeMemorized = new EReg("(.*):(.*)","");
-		this.shouldBeSilent = new EReg("\\[(.*?)\\]","");
-		this.isValidToken = new EReg("#(.*?)#","");
 		this.transforms = [];
 		this.functionArgs = [];
+		this.functionRegex = new EReg("(.*)\\((.*)\\)","");
+		this.transformRegex = new EReg("(.*?)\\.(.*)","");
+		this.memoryRegex = new EReg("(.*):(.*)","");
+		this.silentRegex = new EReg("\\[(.*?)\\]","");
+		this.expandableRegex = new EReg("#(.*?)#","");
 		this.origText = text;
-		this.isValid = this.isValidToken.match(text);
-		if(this.isValid) {
-			let token = this.isValidToken.matched(1);
-			if(this.isSilent = this.shouldBeSilent.match(token)) {
-				token = this.shouldBeSilent.matched(1);
-			}
-			if(this.isMemorized = this.shouldBeMemorized.match(token)) {
-				this.memSymbol = this.shouldBeMemorized.matched(1);
-				token = this.shouldBeMemorized.matched(2);
-			}
-			if(this.isTransformed = this.shouldBeTransformed.match(token)) {
-				token = this.shouldBeTransformed.matched(1);
-				this.transforms = this.shouldBeTransformed.matched(2).split(".");
-			}
-			if(this.isFunction = this.isFunctionCall.match(token)) {
-				token = this.isFunctionCall.matched(1);
-				let _this = this.isFunctionCall.matched(2).split(",");
-				let result = new Array(_this.length);
-				let _g = 0;
-				let _g1 = _this.length;
-				while(_g < _g1) {
-					let i = _g++;
-					result[i] = StringTools.trim(_this[i]);
-				}
-				let _g2 = [];
-				let _g3 = 0;
-				while(_g3 < result.length) {
-					let v = result[_g3];
-					++_g3;
-					if(v != null && v != "") {
-						_g2.push(v);
-					}
-				}
-				this.functionArgs = _g2;
-			}
-			this.symbol = token;
+		if(!this.checkExpandable(text)) {
+			return;
 		}
+		this.symbol = this.expandableRegex.matched(1);
+		if(this.checkSilent(this.symbol)) {
+			this.symbol = this.silentRegex.matched(1);
+		}
+		if(this.checkMemorized(this.symbol)) {
+			this.memSymbol = this.memoryRegex.matched(1);
+			this.symbol = this.memoryRegex.matched(2);
+		}
+		if(this.checkTransformed(this.symbol)) {
+			this.symbol = this.transformRegex.matched(1);
+			this.transforms = this.transformRegex.matched(2).split(".");
+		}
+		if(this.checkFunction(this.symbol)) {
+			this.symbol = this.functionRegex.matched(1);
+			let _this = this.functionRegex.matched(2).split(",");
+			let result = new Array(_this.length);
+			let _g = 0;
+			let _g1 = _this.length;
+			while(_g < _g1) {
+				let i = _g++;
+				result[i] = StringTools.trim(_this[i]);
+			}
+			let _g2 = [];
+			let _g3 = 0;
+			while(_g3 < result.length) {
+				let v = result[_g3];
+				++_g3;
+				if(v != null && v != "") {
+					_g2.push(v);
+				}
+			}
+			this.functionArgs = _g2;
+		}
+	}
+	checkExpandable(text) {
+		return this.isExpandable = this.expandableRegex.match(text);
+	}
+	checkSilent(text) {
+		return this.isSilent = this.silentRegex.match(text);
+	}
+	checkMemorized(text) {
+		return this.isMemorized = this.memoryRegex.match(text);
+	}
+	checkTransformed(text) {
+		return this.isTransformed = this.transformRegex.match(text);
+	}
+	checkFunction(text) {
+		return this.isFunction = this.functionRegex.match(text);
 	}
 }
 $hxClasses["dropecho.storygen.Token"] = dropecho_storygen_Token;
 dropecho_storygen_Token.__name__ = "dropecho.storygen.Token";
 Object.assign(dropecho_storygen_Token.prototype, {
 	__class__: dropecho_storygen_Token
-	,willWriteToMemory: null
-	,silent: null
+	,expandableRegex: null
+	,silentRegex: null
+	,memoryRegex: null
+	,transformRegex: null
+	,functionRegex: null
 	,symbol: null
 	,memSymbol: null
 	,functionArgs: null
 	,transforms: null
-	,isValid: null
+	,isExpandable: null
 	,isMemorized: null
 	,isTransformed: null
 	,isFunction: null
 	,isSilent: null
 	,origText: null
-	,isValidToken: null
-	,shouldBeSilent: null
-	,shouldBeMemorized: null
-	,shouldBeTransformed: null
-	,isFunctionCall: null
 });
 class dropecho_storygen_Transforms {
 	static isVowel(s) {
-		return "aeiou".indexOf(s.charAt(0)) != -1;
+		return "aeiouAEIOU".indexOf(s.charAt(0)) != -1;
 	}
 	static capitalize(s) {
+		if(s == null || s.length == 0) {
+			return "";
+		}
 		let chars = s.split("");
-		return chars.shift().toUpperCase() + chars.join("");
+		chars[0] = chars[0].toUpperCase();
+		return chars.join("");
+	}
+	static titlize(s) {
+		let words = s.split(" ");
+		let _g = 0;
+		let _g1 = words.length;
+		while(_g < _g1) {
+			let i = _g++;
+			words[i] = dropecho_storygen_Transforms.capitalize(words[i]);
+		}
+		return words.join(" ");
 	}
 	static a(s) {
 		if(dropecho_storygen_Transforms.isVowel(s.charAt(0))) {
@@ -1788,27 +2107,42 @@ class dropecho_storygen_Transforms {
 	}
 	static pluralize(s) {
 		let end;
-		switch(s.charAt(s.length - 1)) {
-		case "h":
-			end = "es";
+		switch(HxOverrides.substr(s,s.length - 2,2)) {
+		case "ey":
+			end = "s";
 			break;
-		case "y":
-			s = HxOverrides.substr(s,0,s.length - 1);
-			end = "ies";
+		case "th":
+			end = "s";
 			break;
 		default:
-			end = "s";
+			end = "";
+		}
+		if(end == "") {
+			switch(s.charAt(s.length - 1)) {
+			case "h":
+				end = "es";
+				break;
+			case "x":
+				end = "es";
+				break;
+			case "y":
+				s = HxOverrides.substr(s,0,s.length - 1);
+				end = "ies";
+				break;
+			default:
+				end = "s";
+			}
 		}
 		return "" + s + end;
 	}
 	static get(name) {
-		if(Object.prototype.hasOwnProperty.call(dropecho_storygen_Transforms.userTransforms.h,name)) {
-			return dropecho_storygen_Transforms.userTransforms.h[name];
+		if(Object.prototype.hasOwnProperty.call(dropecho_storygen_Transforms.transforms.h,name)) {
+			return dropecho_storygen_Transforms.transforms.h[name];
 		}
-		return Reflect.field(dropecho_storygen_Transforms,name);
+		throw haxe_Exception.thrown("There is no transform named \"" + name + "\", please ensure you registered it.");
 	}
 	static set(name,trans) {
-		dropecho_storygen_Transforms.userTransforms.h[name] = trans;
+		dropecho_storygen_Transforms.transforms.h[name] = trans;
 	}
 }
 $hxClasses["dropecho.storygen.Transforms"] = $hx_exports["Transforms"] = dropecho_storygen_Transforms;
@@ -2012,24 +2346,6 @@ class haxe_CallStack {
 	}
 }
 haxe_CallStack.__properties__ = {get_length: "get_length"};
-class haxe_IMap {
-}
-$hxClasses["haxe.IMap"] = haxe_IMap;
-haxe_IMap.__name__ = "haxe.IMap";
-haxe_IMap.__isInterface__ = true;
-Object.assign(haxe_IMap.prototype, {
-	__class__: haxe_IMap
-	,get: null
-	,set: null
-	,exists: null
-	,remove: null
-	,keys: null
-	,iterator: null
-	,keyValueIterator: null
-	,copy: null
-	,toString: null
-	,clear: null
-});
 class haxe_DynamicAccess {
 	static _new() {
 		return { };
@@ -3733,6 +4049,205 @@ Object.assign(haxe_ds_IntMap.prototype, {
 	__class__: haxe_ds_IntMap
 	,h: null
 });
+class haxe_ds_List {
+	constructor() {
+		this.length = 0;
+	}
+	add(item) {
+		let x = new haxe_ds__$List_ListNode(item,null);
+		if(this.h == null) {
+			this.h = x;
+		} else {
+			this.q.next = x;
+		}
+		this.q = x;
+		this.length++;
+	}
+	push(item) {
+		let x = new haxe_ds__$List_ListNode(item,this.h);
+		this.h = x;
+		if(this.q == null) {
+			this.q = x;
+		}
+		this.length++;
+	}
+	first() {
+		if(this.h == null) {
+			return null;
+		} else {
+			return this.h.item;
+		}
+	}
+	last() {
+		if(this.q == null) {
+			return null;
+		} else {
+			return this.q.item;
+		}
+	}
+	pop() {
+		if(this.h == null) {
+			return null;
+		}
+		let x = this.h.item;
+		this.h = this.h.next;
+		if(this.h == null) {
+			this.q = null;
+		}
+		this.length--;
+		return x;
+	}
+	isEmpty() {
+		return this.h == null;
+	}
+	clear() {
+		this.h = null;
+		this.q = null;
+		this.length = 0;
+	}
+	remove(v) {
+		let prev = null;
+		let l = this.h;
+		while(l != null) {
+			if(l.item == v) {
+				if(prev == null) {
+					this.h = l.next;
+				} else {
+					prev.next = l.next;
+				}
+				if(this.q == l) {
+					this.q = prev;
+				}
+				this.length--;
+				return true;
+			}
+			prev = l;
+			l = l.next;
+		}
+		return false;
+	}
+	iterator() {
+		return new haxe_ds__$List_ListIterator(this.h);
+	}
+	keyValueIterator() {
+		return new haxe_ds__$List_ListKeyValueIterator(this.h);
+	}
+	toString() {
+		let s_b = "";
+		let first = true;
+		let l = this.h;
+		s_b = "{";
+		while(l != null) {
+			if(first) {
+				first = false;
+			} else {
+				s_b += ", ";
+			}
+			s_b += Std.string(Std.string(l.item));
+			l = l.next;
+		}
+		s_b += "}";
+		return s_b;
+	}
+	join(sep) {
+		let s_b = "";
+		let first = true;
+		let l = this.h;
+		while(l != null) {
+			if(first) {
+				first = false;
+			} else {
+				s_b += sep == null ? "null" : "" + sep;
+			}
+			s_b += Std.string(l.item);
+			l = l.next;
+		}
+		return s_b;
+	}
+	filter(f) {
+		let l2 = new haxe_ds_List();
+		let l = this.h;
+		while(l != null) {
+			let v = l.item;
+			l = l.next;
+			if(f(v)) {
+				l2.add(v);
+			}
+		}
+		return l2;
+	}
+	map(f) {
+		let b = new haxe_ds_List();
+		let l = this.h;
+		while(l != null) {
+			let v = l.item;
+			l = l.next;
+			b.add(f(v));
+		}
+		return b;
+	}
+}
+$hxClasses["haxe.ds.List"] = haxe_ds_List;
+haxe_ds_List.__name__ = "haxe.ds.List";
+Object.assign(haxe_ds_List.prototype, {
+	__class__: haxe_ds_List
+	,h: null
+	,q: null
+	,length: null
+});
+class haxe_ds__$List_ListNode {
+	constructor(item,next) {
+		this.item = item;
+		this.next = next;
+	}
+}
+$hxClasses["haxe.ds._List.ListNode"] = haxe_ds__$List_ListNode;
+haxe_ds__$List_ListNode.__name__ = "haxe.ds._List.ListNode";
+Object.assign(haxe_ds__$List_ListNode.prototype, {
+	__class__: haxe_ds__$List_ListNode
+	,item: null
+	,next: null
+});
+class haxe_ds__$List_ListIterator {
+	constructor(head) {
+		this.head = head;
+	}
+	hasNext() {
+		return this.head != null;
+	}
+	next() {
+		let val = this.head.item;
+		this.head = this.head.next;
+		return val;
+	}
+}
+$hxClasses["haxe.ds._List.ListIterator"] = haxe_ds__$List_ListIterator;
+haxe_ds__$List_ListIterator.__name__ = "haxe.ds._List.ListIterator";
+Object.assign(haxe_ds__$List_ListIterator.prototype, {
+	__class__: haxe_ds__$List_ListIterator
+	,head: null
+});
+class haxe_ds__$List_ListKeyValueIterator {
+	constructor(head) {
+		this.head = head;
+		this.idx = 0;
+	}
+	hasNext() {
+		return this.head != null;
+	}
+	next() {
+		let val = this.head.item;
+		this.head = this.head.next;
+		return { value : val, key : this.idx++};
+	}
+}
+$hxClasses["haxe.ds._List.ListKeyValueIterator"] = haxe_ds__$List_ListKeyValueIterator;
+haxe_ds__$List_ListKeyValueIterator.__name__ = "haxe.ds._List.ListKeyValueIterator";
+Object.assign(haxe_ds__$List_ListKeyValueIterator.prototype, {
+	__class__: haxe_ds__$List_ListKeyValueIterator
+	,idx: null
+	,head: null
+});
 class haxe_ds_ObjectMap {
 	constructor() {
 		this.h = { __keys__ : { }};
@@ -3835,67 +4350,6 @@ class haxe_ds_ReadOnlyArray {
 	}
 }
 haxe_ds_ReadOnlyArray.__properties__ = {get_length: "get_length"};
-class haxe_ds_StringMap {
-	constructor() {
-		this.h = Object.create(null);
-	}
-	exists(key) {
-		return Object.prototype.hasOwnProperty.call(this.h,key);
-	}
-	get(key) {
-		return this.h[key];
-	}
-	set(key,value) {
-		this.h[key] = value;
-	}
-	remove(key) {
-		if(Object.prototype.hasOwnProperty.call(this.h,key)) {
-			delete(this.h[key]);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	keys() {
-		return new haxe_ds__$StringMap_StringMapKeyIterator(this.h);
-	}
-	iterator() {
-		return new haxe_ds__$StringMap_StringMapValueIterator(this.h);
-	}
-	keyValueIterator() {
-		return new haxe_ds__$StringMap_StringMapKeyValueIterator(this.h);
-	}
-	copy() {
-		return haxe_ds_StringMap.createCopy(this.h);
-	}
-	clear() {
-		this.h = Object.create(null);
-	}
-	toString() {
-		return haxe_ds_StringMap.stringify(this.h);
-	}
-	static createCopy(h) {
-		let copy = new haxe_ds_StringMap();
-		for (var key in h) copy.h[key] = h[key];
-		return copy;
-	}
-	static stringify(h) {
-		let s = "{";
-		let first = true;
-		for (var key in h) {
-			if (first) first = false; else s += ',';
-			s += key + ' => ' + Std.string(h[key]);
-		}
-		return s + "}";
-	}
-}
-$hxClasses["haxe.ds.StringMap"] = haxe_ds_StringMap;
-haxe_ds_StringMap.__name__ = "haxe.ds.StringMap";
-haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
-Object.assign(haxe_ds_StringMap.prototype, {
-	__class__: haxe_ds_StringMap
-	,h: null
-});
 class haxe_ds__$StringMap_StringMapKeyIterator {
 	constructor(h) {
 		this.h = h;
@@ -4867,6 +5321,7 @@ Object.assign(seedyrng_Xorshift128Plus.prototype, {
 	,_currentAvailable: null
 	,__properties__: {get_usesAllBits: "get_usesAllBits",set_state: "set_state",get_state: "get_state",set_seed: "set_seed",get_seed: "get_seed"}
 });
+function $getIterator(o) { if( o instanceof Array ) return new haxe_iterators_ArrayIterator(o); else return o.iterator(); }
 if(typeof(performance) != "undefined" ? typeof(performance.now) == "function" : false) {
 	HxOverrides.now = performance.now.bind(performance);
 }
@@ -4895,32 +5350,42 @@ StringTools.MIN_SURROGATE_CODE_POINT = 65536;
 dropecho_storygen_Functions.funcs = (function($this) {
 	var $r;
 	let _g = new haxe_ds_StringMap();
-	_g.h["random"] = function(gen,args) {
-		let int = gen.random.randomInt(Std.parseInt(args[0]),Std.parseInt(args[1]));
-		if(int == null) {
-			return "null";
-		} else {
-			return "" + int;
-		}
+	_g.h["random"] = dropecho_storygen_Functions.random;
+	_g.h["repeat"] = dropecho_storygen_Functions.repeat;
+	_g.h["repeatDelim"] = dropecho_storygen_Functions.repeatDelim;
+	_g.h["switch"] = dropecho_storygen_Functions.switchFunc;
+	_g.h["map"] = dropecho_storygen_Functions.mapFunc;
+	$r = _g;
+	return $r;
+}(this));
+dropecho_storygen_Functions.delims = (function($this) {
+	var $r;
+	let _g = new haxe_ds_StringMap();
+	_g.h["s"] = " ";
+	_g.h["n"] = "\n";
+	_g.h["nn"] = "\n\n";
+	$r = _g;
+	return $r;
+}(this));
+dropecho_storygen_Transforms.transforms = (function($this) {
+	var $r;
+	let _g = new haxe_ds_StringMap();
+	_g.h["toUpperCase"] = function(s) {
+		return s.toUpperCase();
 	};
-	_g.h["switch"] = function(gen,args) {
-		let symbol = args.shift();
-		let parsed = gen.memory[Std.string(symbol)];
-		if(parsed != null) {
-			let _g = 0;
-			while(_g < args.length) {
-				let split = args[_g++].split("=>");
-				if(split[0] == parsed) {
-					return "#" + split[1] + "#";
-				}
-			}
-		}
-		return "";
+	_g.h["toLowerCase"] = function(s) {
+		return s.toLowerCase();
+	};
+	_g.h["capitalize"] = dropecho_storygen_Transforms.capitalize;
+	_g.h["pluralize"] = dropecho_storygen_Transforms.pluralize;
+	_g.h["titlize"] = dropecho_storygen_Transforms.titlize;
+	_g.h["a"] = dropecho_storygen_Transforms.a;
+	_g.h["trim"] = function(s) {
+		return StringTools.trim(s);
 	};
 	$r = _g;
 	return $r;
 }(this));
-dropecho_storygen_Transforms.userTransforms = new haxe_ds_StringMap();
 haxe_Int32._mul = Math.imul != null ? Math.imul : function(a,b) {
 	return a * (b & 65535) + (a * (b >>> 16) << 16 | 0) | 0;
 };

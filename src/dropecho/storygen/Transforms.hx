@@ -1,5 +1,7 @@
 package dropecho.storygen;
 
+using StringTools;
+
 @:expose("Transforms")
 class Transforms {
 	static private var transforms:Map<String, (String -> String)> = [
@@ -9,6 +11,7 @@ class Transforms {
 		"pluralize" => pluralize,
 		"titlize" => titlize,
 		"a" => a,
+		"trim" => (s:String) -> s.trim(),
 	];
 
 	static function isVowel(s:String):Bool {
@@ -17,10 +20,13 @@ class Transforms {
 	}
 
 	static function capitalize(s:String):String {
+		if (s == null || s.length == 0) {
+			return "";
+		}
 		var chars = s.split("");
-		var f = chars.shift();
+		chars[0] = chars[0].toUpperCase();
 
-		return f.toUpperCase() + chars.join("");
+		return chars.join("");
 	}
 
 	static function titlize(s:String):String {
@@ -40,13 +46,22 @@ class Transforms {
 	}
 
 	static function pluralize(s:String):String {
-		var end = switch (s.charAt(s.length - 1)) {
-			case "h": "es";
-			case "y":
-				s = s.substr(0, s.length - 1);
-				"ies";
-			case _: "s";
-		};
+		var end = switch (s.substr(s.length - 2, 2)) {
+			case "th": "s";
+			case "ey": "s";
+			case _: "";
+		}
+
+		if (end == "") {
+			end = switch (s.charAt(s.length - 1)) {
+				case "x": "es";
+				case "h": "es";
+				case "y":
+					s = s.substr(0, s.length - 1);
+					"ies";
+				case _: "s";
+			};
+		}
 
 		return '$s$end';
 	}

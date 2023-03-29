@@ -13,21 +13,21 @@ class TokenTest {
   public function tokenValidationPositive() {
     var token = new Token("#test#");
 
-    Assert.isTrue(token.isValid);
+    Assert.isTrue(token.isExpandable);
   }
 
   @Test
   public function tokenValidationNegative() {
     var token = new Token("test");
 
-    Assert.isFalse(token.isValid);
+    Assert.isFalse(token.isExpandable);
   }
 
   @Test
   public function should_be_memorized_when_has_colon() {
     var token = new Token("#t:test#");
 
-    Assert.isTrue(token.isValid);
+    Assert.isTrue(token.isExpandable);
     Assert.isTrue(token.isMemorized);
   }
 
@@ -35,7 +35,7 @@ class TokenTest {
   public function should_not_be_memorized_when_no_colon_present() {
     var token = new Token("#test#");
 
-    Assert.isTrue(token.isValid);
+    Assert.isTrue(token.isExpandable);
     Assert.isFalse(token.isMemorized);
   }
 
@@ -119,7 +119,7 @@ class TokenTest {
   @Test function should_be_marked_as_silent_when_wrapped_with_brackets() {
 		var token = new Token("#[test]#");
 
-		Assert.isTrue(token.isValid);
+		Assert.isTrue(token.isExpandable);
 		Assert.isTrue(token.isSilent);
 		Assert.areEqual("test", token.symbol);
   }
