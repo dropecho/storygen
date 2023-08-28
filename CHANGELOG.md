@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/dropecho/storygen/compare/0.12.1...0.13.0) (2023-03-29)
+
+
+### Features
+
+* Add map function, misc cleanup. ([ee56f60](https://github.com/dropecho/storygen/commit/ee56f604ad6eca641492d059b3bf76c7a456e3ba))
+
 ## [0.12.1](https://github.com/dropecho/storygen/compare/0.12.0...0.12.1) (2023-01-07)
 
 
