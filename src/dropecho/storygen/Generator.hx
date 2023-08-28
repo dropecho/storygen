@@ -14,6 +14,9 @@ typedef WordList = AbstractArray<String>;
 /** 
  * A map of strings to array of strings (WordList). 
  * This represents "types" of words/tokens in a grammar.
+ * 
+ * @example <caption>As 'JSON'</caption> 
+ * var grammar = { 'color' : ['red', 'blue', 'green'] };
  */
 typedef Grammar = AbstractMap<String, WordList>;
 
@@ -45,6 +48,12 @@ class Generator {
 		return Std.string(random.seed);
 	}
 
+	/**
+	 * Merge another grammar into the generator. 
+	 * This is mostly for convience to ease grammar data creation/storage as json or etc.
+	 *
+	 * @param grammars The String to Array<string> map representing the available tokens in a grammar. 
+	 */
 	public function mergeGrammar(grammars:Grammar) {
 		for (key => value in grammars) {
 			this.grammars.set(key, cast(value));
@@ -169,8 +178,8 @@ class Generator {
 		return string;
 	}
 
-	public function run(from:String, ?seed:String = ""):String {
-		if (seed != null && seed != "") {
+	public function run(from:String, seed:String = ""):String {
+		if (seed != "") {
 			// Convert to string and remove decimal for dynamic langs.
 			seed = Std
 				.string(seed)
