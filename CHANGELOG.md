@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/dropecho/storygen/compare/0.13.0...0.13.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* Fix issue with genes/es6 conflict. ([0eae074](https://github.com/dropecho/storygen/commit/0eae0746667667b7fc0b754a8b0912d5a72e6e8a))
+
 # [0.13.0](https://github.com/dropecho/storygen/compare/0.12.1...0.13.0) (2023-03-29)
 
 
