@@ -1,36 +1,29 @@
-# CSharp
--main TestMain
--lib dropecho.interop
--lib munit
--lib hamcrest
--lib seedyrng
-
 -cp src
 -cp test
 
--D dce=no
-
--D dll_import
--D no-root
--cs build/cs_test
---next
-
-## JavaScript NodeJS
--main TestMain
--lib dropecho.interop
--lib munit
--lib hamcrest
 -lib seedyrng
+-lib dropecho.interop 
+-lib dropecho.testing 
+-lib utest
 
--cp src
--cp test
+--each
 
--D dce=no
-
+# --next
 -lib hxnodejs
--js build/js_test.cjs
-# --next
+-D js-es=6
+-js artifacts/js_test.cjs
 
-# ## HashLink
 # --next
-# -hl build/hl_test.hl
+# -lib hxnodejs
+# -lib genes
+# -js artifacts/js_esm_test/test.js
+#
+# --next
+# -D net-ver=40
+# -cs artifacts/cs_test
+
+# --next
+# -python artifacts/python_test
+
+# --next
+# -neko artifacts/neko_test.n

@@ -1,63 +1,57 @@
 package storygen;
 
 import dropecho.storygen.Generator.WordList;
-import massive.munit.Assert;
 import dropecho.storygen.*;
+import utest.Assert;
 
-class FunctionsTest {
+class Functions_Tests extends utest.Test {
 	var generator:Generator;
 
-	@Before
 	public function setup() {
 		var config = ["test" => (['a'] : WordList), "test2" => (['b'] : WordList)];
 		generator = new Generator(config);
 	}
 
-	@Test
-	public function repeat() {
+	public function test_repeat() {
 		var repeat = Functions.get("repeat");
-		Assert.isNotNull(random);
+		Assert.notNull(repeat);
 
 		var out = repeat(generator, ["test2", "4", "4"]);
-		Assert.areEqual("b b b b", out);
+		Assert.equals("b b b b", out);
 	}
 
-	@Test
-	public function random() {
+	public function test_random() {
 		var random = Functions.get("random");
-		Assert.isNotNull(random);
+		Assert.notNull(random);
 
 		var out = random(generator, ["1", "1"]);
-		Assert.areEqual("1", out);
+		Assert.equals("1", out);
 	}
 
-	@Test
-	public function switch_test() {
+	public function test_switch_test() {
 		generator.memory.set("bar", "test2");
 		var sw = Functions.get("switch");
-		Assert.isNotNull(sw);
+		Assert.notNull(sw);
 
 		var out = sw(generator, ["bar", "test=>test", "test2=>test2"]);
-		Assert.areEqual("#test2#", out);
+		Assert.equals("#test2#", out);
 	}
 
-	@Test
-	public function swit_to_null() {
+	public function test_switch_to_null() {
 		generator.memory.set("bar", "test2");
 		var sw = Functions.get("switch");
-		Assert.isNotNull(sw);
+		Assert.notNull(sw);
 
 		var out = sw(generator, ["bar", "test=>test"]);
-		Assert.areEqual("", out);
+		Assert.equals("", out);
 	}
 
-	@Test
-	public function switch_test_default() {
+	public function test_switch_test_default() {
 		generator.memory.set("bar", "test2");
 		var sw = Functions.get("switch");
-		Assert.isNotNull(sw);
+		Assert.notNull(sw);
 
 		var out = sw(generator, ["bar", "test=>test", "_=>default"]);
-		Assert.areEqual("default", out);
+		Assert.equals("default", out);
 	}
 }

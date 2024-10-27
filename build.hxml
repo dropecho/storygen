@@ -18,4 +18,6 @@ targets/js-esm.hxml
 --next
 targets/cs.hxml
 --next
+targets/python.hxml
+--next
 targets/docs.hxml

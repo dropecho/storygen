@@ -1,6 +1,6 @@
 This code is licensed under the MIT License:
 
-> Copyright (c) 2016: Martin O'Leary
+> Copyright (c) 2016: Benjamin Van Treese 
 > 
 > Permission is hereby granted, free of charge, to any person obtaining
 > a copy of this software and associated documentation files (the
