@@ -428,13 +428,11 @@ class Generator_Tests extends utest.Test {
 	public function test_seeded_run_is_deterministic() {
 		var config = ["origin" => (["a", "b", "c", "d", "e", "f", "g", "h"] : WordList)];
 		var gen = new Generator(config);
+		var seed = "storygen-test-seed";
 
-		var first = gen.runAdvanced("#origin#");
-		var seed = first.seed;
-		var out1 = first.output;
-
-		var out2 = gen.runAdvanced("#origin#", seed).output;
-		var out3 = gen.runAdvanced("#origin#", seed).output;
+		var out1 = gen.run("#origin#", seed);
+		var out2 = gen.run("#origin#", seed);
+		var out3 = gen.run("#origin#", seed);
 
 		Assert.equals(out1, out2, "second seeded run should match first");
 		Assert.equals(out1, out3, "third seeded run should match first");

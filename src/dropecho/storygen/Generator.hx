@@ -201,8 +201,9 @@ class Generator {
 				.split('.')[0];
 			random.setStringSeed(seed);
 		}
+		var initialSeed = getSeed();
 		var output = parse(from);
 		var mem = [for (k => v in this.memory.keyValueIterator()) k => v];
-		return new GeneratorOutput(getSeed(), output, mem);
+		return new GeneratorOutput(initialSeed, output, mem);
 	}
 }
