@@ -14,66 +14,51 @@ class Token {
 	public var functionArgs:Array<String> = new Array<String>();
 	public var transforms:Array<String> = new Array<String>();
 
-	public var isExpandable:Bool;
-	public var isMemorized:Bool;
-	public var isTransformed:Bool;
-	public var isFunction:Bool;
-	public var isSilent:Bool;
+	public var isExpandable:Bool = false;
+	public var isMemorized:Bool = false;
+	public var isTransformed:Bool = false;
+	public var isFunction:Bool = false;
+	public var isSilent:Bool = false;
 
 	private var origText:String;
 
 	public function new(text:String) {
 		origText = text;
 
-		if (!checkExpandable(text)) {
+		if (!expandableRegex.match(text)) {
+			isExpandable = false;
 			return;
 		}
+		isExpandable = true;
 
-		symbol = expandableRegex.matched(1);
+		var inner = expandableRegex.matched(1);
 
-		if (checkSilent(symbol)) {
-			symbol = silentRegex.matched(1);
+		if (silentRegex.match(inner)) {
+			isSilent = true;
+			inner = silentRegex.matched(1);
 		}
 
-		if (checkMemorized(symbol)) {
+		if (memoryRegex.match(inner)) {
+			isMemorized = true;
 			memSymbol = memoryRegex.matched(1);
-			symbol = memoryRegex.matched(2);
+			inner = memoryRegex.matched(2);
 		}
 
-		if (checkTransformed(symbol)) {
-			symbol = transformRegex.matched(1);
-			transforms = transformRegex
-				.matched(2)
-				.split('.');
+		if (transformRegex.match(inner)) {
+			isTransformed = true;
+			transforms = transformRegex.matched(2).split('.');
+			inner = transformRegex.matched(1);
 		}
 
-		if (checkFunction(symbol)) {
-			symbol = functionRegex.matched(1);
-			functionArgs = functionRegex
-				.matched(2)
+		if (functionRegex.match(inner)) {
+			isFunction = true;
+			functionArgs = functionRegex.matched(2)
 				.split(',')
 				.map(s -> s.trim())
 				.filter(s -> s != null && s != '');
+			inner = functionRegex.matched(1);
 		}
-	}
 
-	private function checkExpandable(text:String) {
-		return isExpandable = expandableRegex.match(text);
-	}
-
-	private function checkSilent(text:String) {
-		return isSilent = silentRegex.match(text);
-	}
-
-	private function checkMemorized(text:String) {
-		return isMemorized = memoryRegex.match(text);
-	}
-
-	private function checkTransformed(text:String) {
-		return isTransformed = transformRegex.match(text);
-	}
-
-	private function checkFunction(text:String) {
-		return isFunction = functionRegex.match(text);
+		symbol = inner;
 	}
 }
