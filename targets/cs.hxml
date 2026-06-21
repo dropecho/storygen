@@ -1,9 +1,7 @@
-# C#
+# C# (.dll)
 
-# DEFINES
 -D dll_import
 -D no-root
 -D dll
 
-# OUTPUT
 -cs dist/cs/dropecho.storygen

@@ -1,7 +1,10 @@
 node_modules
 .nyc_output
-artifacts
 build
 report
 dist
+artifacts
+lcov.info
+*.swp
 .temp
+.vim/

@@ -1,0 +1,5 @@
+# Godot GDScript (via reflaxe.gdscript)
+
+-lib gdscript
+
+-D gdscript-output=dist/gdscript/
