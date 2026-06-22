@@ -14,8 +14,9 @@ class Transforms {
 		"trim" => (s:String) -> s.trim(),
 	];
 
+	static final vowels:String = 'aeiouAEIOU';
+
 	static function isVowel(s:String):Bool {
-		var vowels = 'aeiouAEIOU';
 		return vowels.indexOf(s.charAt(0)) != -1;
 	}
 
@@ -23,10 +24,7 @@ class Transforms {
 		if (s == null || s.length == 0) {
 			return "";
 		}
-		var chars = s.split("");
-		chars[0] = chars[0].toUpperCase();
-
-		return chars.join("");
+		return s.charAt(0).toUpperCase() + s.substr(1);
 	}
 
 	static function titlize(s:String):String {
@@ -66,12 +64,8 @@ class Transforms {
 		return '$s$end';
 	}
 
-	static public function get(name:String):String->String {
-		if (transforms.exists(name)) {
-			return transforms.get(name);
-		}
-
-		throw 'There is no transform named "${name}", please ensure you registered it.';
+	static public function get(name:String):Null<String->String> {
+		return transforms.get(name);
 	}
 
 	static public function set(name:String, trans:String->String) {

@@ -28,17 +28,15 @@ class Functions {
 		var max = Std.parseInt(args[2]);
 		var int = gen.random.randomInt(min, max);
 
-		var delim = args[3];
-		delim = delim != null ? delim : " ";
-		delim = delims.exists(delim) ? delims.get(delim) : " ";
+		var delim = args.length > 3 ? args[3] : "s";
+		delim = delims.exists(delim) ? delims.get(delim) : delim;
 
-		var str = "";
-		for (_ in 0...int) {
-			str += gen.run('#${symbol}#') + delim;
+		var buf = new StringBuf();
+		for (i in 0...int) {
+			if (i > 0) buf.add(delim);
+			buf.add(gen.run('#${symbol}#'));
 		}
-		return str
-			.ltrim()
-			.rtrim();
+		return buf.toString();
 	}
 
 	static function random(gen:Generator, args:Array<String>) {
@@ -50,9 +48,17 @@ class Functions {
 
 	static function mapFunc(gen:Generator, args:Array<String>) {
 		var symbol = gen.memory[args.shift()];
-		return args
-			.find(x -> x.startsWith(symbol))
-			.split('=>')[1];
+		if (symbol == null) symbol = "_";
+
+		var map = new StringMap<String>();
+		for (a in args) {
+			var parts = a.split("=>");
+			map.set(parts[0].trim(), parts[1].trim());
+		}
+
+		if (map.exists(symbol)) return map.get(symbol);
+		if (map.exists("_")) return map.get("_");
+		return "";
 	}
 
 	static function switchFunc(gen:Generator, args:Array<String>) {

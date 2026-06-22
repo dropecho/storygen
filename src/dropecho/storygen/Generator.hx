@@ -27,7 +27,11 @@ class GeneratorOutput {
 	public var output:String;
 	public var memory:AbstractMap<String, String>;
 
-	public function new() {}
+	public function new(seed:String, output:String, memory:AbstractMap<String, String>) {
+		this.seed = seed;
+		this.output = output;
+		this.memory = memory;
+	}
 }
 
 @:expose("Generator")
@@ -46,6 +50,10 @@ class Generator {
 
 	public function getSeed() {
 		return Std.string(random.seed);
+	}
+
+	public function clearMemory() {
+		memory = new Map<String, String>();
 	}
 
 	/**
@@ -139,25 +147,22 @@ class Generator {
 
 	private function parse(string:String):String {
 		var tempMemory = [];
+		var re = ~/(#.*?#)/g;
 
-		while (tokenRegex.match(string)) {
-			var token = new Token(tokenRegex.matched(1));
+		string = re.map(string, function(r) {
+			var token = new Token(r.matched(0));
 
 			if (!token.isExpandable) {
-				continue;
+				return r.matched(0);
 			}
 
 			var expanded = expand(token);
-
-			// Recurse through expansions.
 			expanded = parse(expanded);
 
-			// Do transforms after expansion.
 			if (token.isTransformed) {
 				expanded = doTransforms(expanded, token);
 			}
 
-			// Store in memory here so transforms are preserved.
 			if (token.isMemorized) {
 				this.memory.set(token.memSymbol, expanded);
 				if (token.memSymbol.charAt(0) == '_') {
@@ -165,12 +170,8 @@ class Generator {
 				}
 			}
 
-			if (token.isSilent) {
-				string = tokenRegex.replace(string, "");
-			} else {
-				string = tokenRegex.replace(string, expanded);
-			}
-		}
+			return token.isSilent ? "" : expanded;
+		});
 
 		for (t in tempMemory) {
 			memory.remove(t);
@@ -186,14 +187,10 @@ class Generator {
 				.split('.')[0];
 			random.setStringSeed(seed);
 		}
-		var out;
 		if (from.charAt(0) != "#") {
-			out = parse("#" + from + "#");
+			from = "#" + from + "#";
 		}
-		out = parse(from);
-		//     memory.clear();
-
-		return out;
+		return parse(from);
 	}
 
 	public function runAdvanced(from:String, seed:String = ""):GeneratorOutput {
@@ -204,16 +201,9 @@ class Generator {
 				.split('.')[0];
 			random.setStringSeed(seed);
 		}
+		var initialSeed = getSeed();
 		var output = parse(from);
-		var memory = [for (k => v in this.memory.keyValueIterator()) k => v];
-		//     this.memory.clear();
-
-		var genOutput = new GeneratorOutput();
-
-		genOutput.seed = getSeed();
-		genOutput.output = output;
-		genOutput.memory = memory;
-
-		return genOutput;
+		var mem = [for (k => v in this.memory.keyValueIterator()) k => v];
+		return new GeneratorOutput(initialSeed, output, mem);
 	}
 }

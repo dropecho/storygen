@@ -40,6 +40,12 @@ class Generator_Tests extends utest.Test {
 		Assert.equals(expected, out);
 	}
 
+	public function test_run_bare_symbol() {
+		var out = generator.run("test");
+		var expected = "a";
+		Assert.equals(expected, out);
+	}
+
 	public function test_run_merged() {
 		var c = ["origin" => (["#c2_name# met #c3_name#"] : WordList)];
 		var c2 = ["c2_name" => (["bob"] : WordList)];
@@ -418,4 +424,17 @@ class Generator_Tests extends utest.Test {
 			trace("GUILD:", generated);
 		}
 	 */
+
+	public function test_seeded_run_is_deterministic() {
+		var config = ["origin" => (["a", "b", "c", "d", "e", "f", "g", "h"] : WordList)];
+		var gen = new Generator(config);
+		var seed = "storygen-test-seed";
+
+		var out1 = gen.run("#origin#", seed);
+		var out2 = gen.run("#origin#", seed);
+		var out3 = gen.run("#origin#", seed);
+
+		Assert.equals(out1, out2, "second seeded run should match first");
+		Assert.equals(out1, out3, "third seeded run should match first");
+	}
 }
