@@ -50,4 +50,16 @@ class Transforms_Tests extends utest.Test {
 		Assert.equals("batches", Transforms.get('pluralize')("batch"));
 		Assert.equals("glories", Transforms.get('pluralize')("glory"));
 	}
+
+	public function test_pluralize_th_ending() {
+		Assert.equals("baths", Transforms.get('pluralize')("bath"));
+	}
+
+	public function test_pluralize_ey_ending() {
+		Assert.equals("monkeys", Transforms.get('pluralize')("monkey"));
+	}
+
+	public function test_pluralize_empty_string() {
+		Assert.equals("s", Transforms.get('pluralize')(""));
+	}
 }

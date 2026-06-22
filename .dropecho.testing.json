@@ -1,0 +1,9 @@
+{
+  "root_package": "dropecho.storygen",
+  "instrument": {
+    "coverage": true,
+    "profiler": false,
+    "coverage_reporter": "coverage-lcov-reporter"
+  },
+  "hxml": "test.hxml"
+}

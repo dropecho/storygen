@@ -1,29 +1,45 @@
 -cp src
 -cp test
 
+# Library deps, plus the test stack. `dropecho.testing` auto-discovers every
+# `*Tests.hx` class on the classpath and injects the `--main` entry point
+# itself, so none is set here.
 -lib seedyrng
--lib dropecho.interop 
--lib dropecho.testing 
+-lib dropecho.interop
+-lib dropecho.testing
 -lib utest
+
+-D analyzer-optimize
+-D analyzer-user-var-fusion
+-w -WDeprecated
+
+# Compile the whole library so coverage sees every module, not just what the
+# tests reach.
+--macro include('', true, null, ['src'])
 
 --each
 
-# --next
+# The suite runs on every runnable target below. These mirror the program
+# targets in targets/ — gdscript and docs are skipped (not runnable test
+# programs) and js-esm shares the js runtime, so neither adds test coverage.
+
+# JS (Node)
+--next
 -lib hxnodejs
 -D js-es=6
 -js artifacts/js_test.cjs
 
+# C# — commented out: builds and passes under mono, but the dropecho.testing
+# runner execs the .exe directly, which needs mono registered for .exe (Windows,
+# or a binfmt_misc mono entry on Linux). Uncomment where that is set up.
+# -D unsafe is required: the hxcs std library uses unsafe pointers.
 # --next
-# -lib hxnodejs
-# -lib genes
-# -js artifacts/js_esm_test/test.js
-#
-# --next
-# -D net-ver=40
+# -D unsafe
+# -D net-ver=50
 # -cs artifacts/cs_test
 
+# Python — commented out: storygen's runtime is not Python-clean yet. The
+# `map`/`repeatDelim` null handling (see .agents/todos.md B2/B3) throws under
+# Python where JS tolerates it. Re-enable once those are fixed.
 # --next
-# -python artifacts/python_test
-
-# --next
-# -neko artifacts/neko_test.n
+# -python artifacts/py_test.py

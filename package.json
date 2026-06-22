@@ -1,19 +1,25 @@
 {
   "name": "@dropecho/storygen",
   "version": "0.13.1",
-  "description": "",
+  "description": "A grammar based text expansion, based on tracery.",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/storygen",
+  "type": "module",
+  "files": [
+    "dist/js/**/*"
+  ],
+  "main": "./dist/js/cjs/index.cjs",
+  "types": "./dist/js/esm/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "scripts": {
-    "install": "lix download",
+    "prepare": "lix download",
     "build": "npm run clean && haxe build.hxml && npm run docs:cp_js",
     "docs:cp_js": "cp dist/js/cjs/index.cjs docs/storygen.js",
-    "test": "haxelib run dropecho.testing",
-    "clean": "rm -rf dist && rm -rf artifacts"
+    "test": "lix dropecho.testing",
+    "clean": "rm -rf dist artifacts"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.2",
@@ -23,15 +29,10 @@
     "@semantic-release/github": "^8.0.7",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
+    "lix": "^16.0.2",
     "semantic-release": "^19.0.5",
     "semantic-release-haxelib": "^1.1.0"
   },
-  "type": "module",
-  "types": "dist/js/esm/index.d.ts",
-  "files": [
-    "dist/js/**"
-  ],
-  "main": "./dist/js/cjs/index.cjs",
   "exports": {
     ".": {
       "require": "./dist/js/cjs/index.cjs",
