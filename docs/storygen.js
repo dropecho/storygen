@@ -192,66 +192,162 @@ class UInt {
 		}
 	}
 }
-class dropecho_interop_JSAbstractMapKeyValueIterator {
-	constructor(map) {
-		this._iter = new haxe_iterators_DynamicAccessKeyValueIterator(map);
+class dropecho_interop_AbstractMap {
+}
+dropecho_interop_AbstractMap.__name__ = true;
+class dropecho_interop_map_ObjectValueIterator {
+	constructor(object) {
+		this.index = 0;
+		this.object = object;
+		this.names = Object.keys(object);
 	}
 	hasNext() {
-		let _this = this._iter;
-		return _this.index < _this.keys.length;
+		return this.index < this.names.length;
 	}
 	next() {
-		let _this = this._iter;
-		let key = _this.keys[_this.index++];
-		return { value : _this.access[key], key : key};
+		return this.object[this.names[this.index++]];
 	}
 }
-dropecho_interop_JSAbstractMapKeyValueIterator.__name__ = true;
-class dropecho_interop_AbstractMap {
-	static _new(s) {
-		let this1;
-		if(s != null) {
-			this1 = s;
-		} else {
-			this1 = { };
-		}
-		return this1;
+dropecho_interop_map_ObjectValueIterator.__name__ = true;
+class dropecho_interop_map_ObjectKeyValueIterator {
+	constructor(object) {
+		this.index = 0;
+		this.object = object;
+		this.names = Object.keys(object);
 	}
-	static keyValueIterator(this1) {
-		return new dropecho_interop_JSAbstractMapKeyValueIterator(this1);
+	hasNext() {
+		return this.index < this.names.length;
 	}
-	static fromMap(map) {
-		let abs = dropecho_interop_AbstractMap._new();
-		let _g = map.keyValueIterator();
-		while(_g.hasNext()) {
-			let _g1 = _g.next();
-			abs[Std.string(_g1.key)] = _g1.value;
-		}
-		return abs;
+	next() {
+		let name = this.names[this.index++];
+		return { key : name, value : this.object[name]};
 	}
-	static fromIMap(map) {
-		let abs = dropecho_interop_AbstractMap._new();
-		let _g = map.keyValueIterator();
-		while(_g.hasNext()) {
-			let _g1 = _g.next();
-			abs[Std.string(_g1.key)] = _g1.value;
-		}
-		return abs;
+}
+dropecho_interop_map_ObjectKeyValueIterator.__name__ = true;
+class dropecho_interop_map_NumberKeyIterator {
+	constructor(object) {
+		this.index = 0;
+		this.names = Object.keys(object);
 	}
-	static exists(this1,key) {
-		return Object.prototype.hasOwnProperty.call(this1,Std.string(key));
+	hasNext() {
+		return this.index < this.names.length;
+	}
+	next() {
+		return parseFloat(this.names[this.index++]);
+	}
+}
+dropecho_interop_map_NumberKeyIterator.__name__ = true;
+class dropecho_interop_map_NumberKeyValueIterator {
+	constructor(object) {
+		this.index = 0;
+		this.object = object;
+		this.names = Object.keys(object);
+	}
+	hasNext() {
+		return this.index < this.names.length;
+	}
+	next() {
+		let name = this.names[this.index++];
+		return { key : parseFloat(name), value : this.object[name]};
+	}
+}
+dropecho_interop_map_NumberKeyValueIterator.__name__ = true;
+class dropecho_interop_map_StringKeyMap {
+	static _new(object) {
+		return object != null ? object : { };
 	}
 	static get(this1,key) {
-		return this1[Std.string(key)];
+		let name = typeof(key) == "string" ? key : Std.string(key);
+		if(Object.prototype.hasOwnProperty.call(this1,name)) {
+			return this1[name];
+		}
+		return null;
 	}
 	static set(this1,key,value) {
-		this1[Std.string(key)] = value;
+		let name = typeof(key) == "string" ? key : Std.string(key);
+		if(name == "__proto__") {
+			Object.defineProperty(this1,name,{ value : value, writable : true, enumerable : true, configurable : true});
+		} else {
+			this1[name] = value;
+		}
 		return value;
+	}
+	static exists(this1,key) {
+		return Object.prototype.hasOwnProperty.call(this1,typeof(key) == "string" ? key : Std.string(key));
+	}
+	static remove(this1,key) {
+		return Reflect.deleteField(this1,typeof(key) == "string" ? key : Std.string(key));
 	}
 	static clear(this1) {
 		let _g = 0;
-		let _g1 = Reflect.fields(this1);
-		while(_g < _g1.length) Reflect.deleteField(this1,_g1[_g++]);
+		let _g1 = Object.keys(this1);
+		while(_g < _g1.length) delete(this1[_g1[_g++]]);
+	}
+	static copy(this1) {
+		let copied = { };
+		let _g = 0;
+		let _g1 = Object.keys(this1);
+		while(_g < _g1.length) {
+			let name = _g1[_g];
+			++_g;
+			let key = name;
+			let value = this1[name];
+			let name1 = typeof(key) == "string" ? key : Std.string(key);
+			if(name1 == "__proto__") {
+				Object.defineProperty(copied,name1,{ value : value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name1] = value;
+			}
+		}
+		return copied;
+	}
+	static keys(this1) {
+		return new haxe_iterators_ArrayIterator(Object.keys(this1));
+	}
+	static iterator(this1) {
+		return new dropecho_interop_map_ObjectValueIterator(this1);
+	}
+	static keyValueIterator(this1) {
+		return new dropecho_interop_map_ObjectKeyValueIterator(this1);
+	}
+	static fromMap(map) {
+		let copied = { };
+		let _g = map.keyValueIterator();
+		while(_g.hasNext()) {
+			let _g1 = _g.next();
+			let key = _g1.key;
+			let value = _g1.value;
+			let name = typeof(key) == "string" ? key : Std.string(key);
+			if(name == "__proto__") {
+				Object.defineProperty(copied,name,{ value : value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name] = value;
+			}
+		}
+		return copied;
+	}
+	static fromIMap(map) {
+		let copied = { };
+		let _g = map.keyValueIterator();
+		while(_g.hasNext()) {
+			let _g1 = _g.next();
+			let key = _g1.key;
+			let value = _g1.value;
+			let name = typeof(key) == "string" ? key : Std.string(key);
+			if(name == "__proto__") {
+				Object.defineProperty(copied,name,{ value : value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name] = value;
+			}
+		}
+		return copied;
+	}
+	static nameOf(key) {
+		if(typeof(key) == "string") {
+			return key;
+		} else {
+			return Std.string(key);
+		}
 	}
 }
 class js_Boot {
@@ -388,7 +484,10 @@ class dropecho_storygen_Functions {
 		}
 	}
 	static mapFunc(gen,args) {
-		let symbol = gen.memory[Std.string(args.shift())];
+		let this1 = gen.memory;
+		let key = args.shift();
+		let name = typeof(key) == "string" ? key : Std.string(key);
+		let symbol = Object.prototype.hasOwnProperty.call(this1,name) ? this1[name] : null;
 		if(symbol == null) {
 			symbol = "_";
 		}
@@ -408,7 +507,9 @@ class dropecho_storygen_Functions {
 	}
 	static switchFunc(gen,args) {
 		let symbol = args.shift();
-		let parsed = gen.memory[Std.string(symbol)];
+		let this1 = gen.memory;
+		let name = typeof(symbol) == "string" ? symbol : Std.string(symbol);
+		let parsed = Object.prototype.hasOwnProperty.call(this1,name) ? this1[name] : null;
 		if(parsed == null) {
 			parsed = "_";
 		}
@@ -420,14 +521,14 @@ class dropecho_storygen_Functions {
 		}
 		if(Object.prototype.hasOwnProperty.call(map_h,parsed)) {
 			let token = map_h[parsed];
-			if(Object.prototype.hasOwnProperty.call(gen.grammars,Std.string(token))) {
+			if(Object.prototype.hasOwnProperty.call(gen.grammars,typeof(token) == "string" ? token : Std.string(token))) {
 				return "#" + token + "#";
 			}
 			return "" + token;
 		}
 		if(Object.prototype.hasOwnProperty.call(map_h,"_")) {
 			let token = map_h["_"];
-			if(Object.prototype.hasOwnProperty.call(gen.grammars,Std.string(token))) {
+			if(Object.prototype.hasOwnProperty.call(gen.grammars,typeof(token) == "string" ? token : Std.string(token))) {
 				return "#" + token + "#";
 			}
 			return "" + token;
@@ -454,15 +555,21 @@ dropecho_storygen_GeneratorOutput.__name__ = true;
 class dropecho_storygen_Generator {
 	constructor(grammars) {
 		let map_h = Object.create(null);
-		let abs = dropecho_interop_AbstractMap._new();
+		let copied = { };
 		let _g_keys = Object.keys(map_h);
 		let _g_length = _g_keys.length;
 		let _g_current = 0;
 		while(_g_current < _g_length) {
 			let key = _g_keys[_g_current++];
-			abs[Std.string(key)] = map_h[key];
+			let _g_value = map_h[key];
+			let name = typeof(key) == "string" ? key : Std.string(key);
+			if(name == "__proto__") {
+				Object.defineProperty(copied,name,{ value : _g_value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name] = _g_value;
+			}
 		}
-		this.memory = abs;
+		this.memory = copied;
 		this.random = new seedyrng_Random();
 		this.tokenRegex = new EReg("(#.*?#)","");
 		this.grammars = grammars;
@@ -476,38 +583,70 @@ class dropecho_storygen_Generator {
 	}
 	clearMemory() {
 		let map_h = Object.create(null);
-		let abs = dropecho_interop_AbstractMap._new();
+		let copied = { };
 		let _g_keys = Object.keys(map_h);
 		let _g_length = _g_keys.length;
 		let _g_current = 0;
 		while(_g_current < _g_length) {
 			let key = _g_keys[_g_current++];
-			abs[Std.string(key)] = map_h[key];
+			let _g_value = map_h[key];
+			let name = typeof(key) == "string" ? key : Std.string(key);
+			if(name == "__proto__") {
+				Object.defineProperty(copied,name,{ value : _g_value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name] = _g_value;
+			}
 		}
-		this.memory = abs;
+		this.memory = copied;
 	}
 	mergeGrammar(grammars) {
-		let _g = new dropecho_interop_JSAbstractMapKeyValueIterator(grammars);
-		while(_g.hasNext()) {
-			let _g1 = _g.next();
-			let key = _g1.key;
-			this.grammars[key == null ? "null" : "" + key] = _g1.value;
+		let object = grammars;
+		let _g_index = 0;
+		let _g_names = Object.keys(object);
+		while(_g_index < _g_names.length) {
+			let name = _g_names[_g_index++];
+			let _g = { key : name, value : object[name]};
+			let key = _g.key;
+			let value = _g.value;
+			let this1 = this.grammars;
+			let name1 = typeof(key) == "string" ? key : key == null ? "null" : "" + key;
+			if(name1 == "__proto__") {
+				Object.defineProperty(this1,name1,{ value : value, writable : true, enumerable : true, configurable : true});
+			} else {
+				this1[name1] = value;
+			}
 		}
 	}
 	inMemory(symbol) {
-		return Object.prototype.hasOwnProperty.call(this.memory,symbol == null ? "null" : "" + symbol);
+		return Object.prototype.hasOwnProperty.call(this.memory,typeof(symbol) == "string" ? symbol : symbol == null ? "null" : "" + symbol);
 	}
 	expand(token) {
-		if(token.isMemorized || Object.prototype.hasOwnProperty.call(this.memory,Std.string(token.symbol))) {
+		let tmp;
+		if(!token.isMemorized) {
+			let symbol = token.symbol;
+			tmp = Object.prototype.hasOwnProperty.call(this.memory,typeof(symbol) == "string" ? symbol : Std.string(symbol));
+		} else {
+			tmp = true;
+		}
+		if(tmp) {
 			let sym = token.memSymbol != null ? token.memSymbol : token.symbol;
-			if(Object.prototype.hasOwnProperty.call(this.memory,sym == null ? "null" : "" + sym)) {
-				return this.memory[sym == null ? "null" : "" + sym];
+			if(Object.prototype.hasOwnProperty.call(this.memory,typeof(sym) == "string" ? sym : sym == null ? "null" : "" + sym)) {
+				let this1 = this.memory;
+				let name = typeof(sym) == "string" ? sym : sym == null ? "null" : "" + sym;
+				if(Object.prototype.hasOwnProperty.call(this1,name)) {
+					return this1[name];
+				} else {
+					return null;
+				}
 			}
 		}
 		if(token.isFunction) {
 			return this.callFunction(token);
 		}
-		let grammar = this.grammars[Std.string(token.symbol)];
+		let this1 = this.grammars;
+		let key = token.symbol;
+		let name = typeof(key) == "string" ? key : Std.string(key);
+		let grammar = Object.prototype.hasOwnProperty.call(this1,name) ? this1[name] : null;
 		if(grammar == null) {
 			throw haxe_Exception.thrown("\n\t\t\t\tNo symbol \"" + token.symbol + "\" exists in your grammar.\n\t\t\t\tEnsure the object/map contains an array for this or\n\t\t\t\tthat you have stored this in memory.\n\t\t\t\texample: ``` var grammar = {" + token.symbol + ": [\"choice1\", \"choice2\"]}; ```\n\t\t\t\texample: ``` var grammar = {\"example\": [\"#" + token.symbol + ":some_other#\"]}; ```\n\t\t\t");
 		}
@@ -553,7 +692,14 @@ class dropecho_storygen_Generator {
 				expanded = _gthis.doTransforms(expanded,token);
 			}
 			if(token.isMemorized) {
-				_gthis.memory[Std.string(token.memSymbol)] = expanded;
+				let this1 = _gthis.memory;
+				let key = token.memSymbol;
+				let name = typeof(key) == "string" ? key : Std.string(key);
+				if(name == "__proto__") {
+					Object.defineProperty(this1,name,{ value : expanded, writable : true, enumerable : true, configurable : true});
+				} else {
+					this1[name] = expanded;
+				}
 				if(token.memSymbol.charAt(0) == "_") {
 					tempMemory.push(token.memSymbol);
 				}
@@ -565,7 +711,11 @@ class dropecho_storygen_Generator {
 			}
 		});
 		let _g = 0;
-		while(_g < tempMemory.length) Reflect.deleteField(this.memory,tempMemory[_g++]);
+		while(_g < tempMemory.length) {
+			let t = tempMemory[_g];
+			++_g;
+			Reflect.deleteField(this.memory,typeof(t) == "string" ? t : t == null ? "null" : "" + t);
+		}
 		return string;
 	}
 	run(from,seed) {
@@ -592,20 +742,29 @@ class dropecho_storygen_Generator {
 		let initialSeed = this.getSeed();
 		let output = this.parse(from);
 		let mem_h = Object.create(null);
-		let _g = new dropecho_interop_JSAbstractMapKeyValueIterator(this.memory);
-		while(_g.hasNext()) {
-			let _g1 = _g.next();
-			mem_h[_g1.key] = _g1.value;
+		let this1 = this.memory;
+		let _g_index = 0;
+		let _g_names = Object.keys(this1);
+		while(_g_index < _g_names.length) {
+			let name = _g_names[_g_index++];
+			let _g = { key : name, value : this1[name]};
+			mem_h[_g.key] = _g.value;
 		}
-		let abs = dropecho_interop_AbstractMap._new();
+		let copied = { };
 		let _g_keys = Object.keys(mem_h);
 		let _g_length = _g_keys.length;
 		let _g_current = 0;
 		while(_g_current < _g_length) {
 			let key = _g_keys[_g_current++];
-			abs[Std.string(key)] = mem_h[key];
+			let _g_value = mem_h[key];
+			let name = typeof(key) == "string" ? key : Std.string(key);
+			if(name == "__proto__") {
+				Object.defineProperty(copied,name,{ value : _g_value, writable : true, enumerable : true, configurable : true});
+			} else {
+				copied[name] = _g_value;
+			}
 		}
-		return new dropecho_storygen_GeneratorOutput(initialSeed,output,abs);
+		return new dropecho_storygen_GeneratorOutput(initialSeed,output,copied);
 	}
 	static configFromJson(json) {
 		let json1 = JSON.parse(json);
@@ -1174,14 +1333,6 @@ class haxe_iterators_ArrayIterator {
 	}
 }
 haxe_iterators_ArrayIterator.__name__ = true;
-class haxe_iterators_DynamicAccessKeyValueIterator {
-	constructor(access) {
-		this.access = access;
-		this.keys = Reflect.fields(access);
-		this.index = 0;
-	}
-}
-haxe_iterators_DynamicAccessKeyValueIterator.__name__ = true;
 class seedyrng_Random {
 	constructor(seed,generator) {
 		if(seed == null) {
@@ -1340,6 +1491,7 @@ if( String.fromCodePoint == null ) String.fromCodePoint = function(c) { return c
 	Array.__name__ = true;
 }
 js_Boot.__toStr = ({ }).toString;
+dropecho_interop_map_StringKeyMap.PROTOTYPE_KEY = "__proto__";
 dropecho_storygen_Functions.funcs = (function($this) {
 	var $r;
 	let _g = new haxe_ds_StringMap();
